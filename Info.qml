@@ -1,13 +1,17 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
+import QtQuick.Extras 1.4
+import QtQuick.Controls.Material 2.3
 
 Item {
     id: root
+
     ScrollView
     {
         id: scrollView
         anchors.fill: parent
+      RowLayout {
         ColumnLayout {
           RowLayout {
             ColumnLayout {
@@ -62,9 +66,75 @@ Item {
           Image {
               sourceSize.width: 100
               sourceSize.height: 100
-              anchors.horizontalCenter: center
+              anchors.horizontalCenter: parent.horizontalCenter
               source: "images/pumpBlack.png"
           }
+          RowLayout {
+              spacing: 6
+              ColumnLayout {
+                  Label {
+                      text: "Area"
+                      font.pixelSize: 22
+                  }
+                  Text {
+                      anchors.horizontalCenter: parent.Center
+                      text: qsTr("DC")
+                  }
+              }
+              ColumnLayout {
+                  Label {
+                      text: "In"
+                      font.pixelSize: 22
+                  }
+                  Text {
+                      anchors.horizontalCenter: parent.Center
+                      text: qsTr("DC")
+                  }
+              }
+              ColumnLayout {
+                  Label {
+                      text: "Out"
+                      font.pixelSize: 22
+                  }
+                  Text {
+                      anchors.horizontalCenter: parent.Center
+                      text: qsTr("DC")
+                  }
+              }
+          }
         }
+
+        ColumnLayout {
+           anchors.top: parent.top
+           RowLayout {
+               Text {
+                   text: qsTr("NO")
+               }
+               ProgressBar {
+                   value: 0.5
+               }
+               Text {
+                   text: qsTr("DC")
+               }
+               StatusIndicator {
+                       color: "green"
+                       active: true
+               }
+           }
+           Button {
+//               anchors.horizontalCenter: parent.Center
+               text: qsTr("Start")
+               highlighted: true
+               Material.background: Material.Teal
+           }
+           Button {
+//               anchors.horizontalCenter: parent.Center
+               text: qsTr("Login")
+               highlighted: true
+               Material.background: Material.Green
+           }
+
+        }
+      }
     }
 }
