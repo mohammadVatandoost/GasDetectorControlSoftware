@@ -4,13 +4,17 @@ import QtQuick.Layouts 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Material 2.3
 
-Item {
+Page {
     id: root
 
     ScrollView
     {
         id: scrollView
         anchors.fill: parent
+        Component.onCompleted: {
+            console.log("root.StackView.view");
+            console.log(root.StackView);
+        }
       RowLayout {
         ColumnLayout {
           RowLayout {
@@ -132,6 +136,7 @@ Item {
                text: qsTr("Login")
                highlighted: true
                Material.background: Material.Green
+               onClicked: root.StackView.view.push("qrc:/Login.qml")
            }
 
         }
