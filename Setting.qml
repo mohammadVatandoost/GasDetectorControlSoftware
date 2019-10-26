@@ -18,11 +18,53 @@ Page {
 
         Label {
             id: pageTitle
-            text: "Login"
+            text: "Sensor 1"
             font.pixelSize: 20
             anchors.centerIn: parent
         }
+
+        ToolButton {
+            text: qsTr("Menu")
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.verticalCenter: parent.verticalCenter
+            onClicked: drawer.open()
+        }
     }
+
+    Drawer {
+            id: drawer
+            width: 0.66 * window.width
+            height: window.height
+       ColumnLayout {
+            anchors.fill: parent
+            spacing: 2
+
+            Rectangle {
+                width: parent.width
+                height: 70
+
+                Text {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: qsTr("Sensor 1")
+                    font.pointSize: 20
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: { parent.color = 'red' }
+                }
+
+                Rectangle {
+                        id: borderBottom
+                        width: parent.width
+                        height: 1
+                        anchors.bottom: parent.bottom
+                        color: "black"
+               }
+            }
+       }
+     }
 
     ColumnLayout {
         anchors.horizontalCenter: parent.horizontalCenter
@@ -64,7 +106,7 @@ Page {
             text: qsTr("Login")
             highlighted: true
             Material.background: Material.Green
-            onClicked: root.StackView.view.push("qrc:/Setting.qml")
+            onClicked: root.StackView.view.push("qrc:/ControlPanel.qml")
         }
     }
 

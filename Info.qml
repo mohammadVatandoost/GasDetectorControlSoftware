@@ -12,8 +12,8 @@ Page {
         id: scrollView
         anchors.fill: parent
         Component.onCompleted: {
-            console.log("root.StackView.view");
-            console.log(root.StackView);
+//            console.log("root.StackView.view");
+//            console.log(root.StackView);
         }
       RowLayout {
         ColumnLayout {

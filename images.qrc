@@ -6,5 +6,6 @@
         <file>images/heaterBlack.png</file>
         <file>images/pumpBlue.jpeg</file>
         <file>images/pumpBlack.png</file>
+        <file>Setting.qml</file>
     </qresource>
 </RCC>
