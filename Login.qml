@@ -3,7 +3,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Material 2.3
-//import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls.Styles 1.4
 
 Page {
     id: root
@@ -18,27 +18,54 @@ Page {
 
         Label {
             id: pageTitle
-            text: Login
+            text: "Login"
             font.pixelSize: 20
             anchors.centerIn: parent
         }
     }
 
-//    ColumnLayout {
-//        width: 400
-//        TextField {
-//            style: TextFieldStyle {
-//                textColor: "black"
-//                background: Rectangle {
-//                    radius: 2
-//                    implicitWidth: 100
-//                    implicitHeight: 24
-//                    border.color: "#333"
-//                    border.width: 1
-//                }
-//            }
-//        }
-//    }
+    ColumnLayout {
+        anchors.horizontalCenter: parent.horizontalCenter
+        //        TextField {
+        //           id: textEdit
+        //           width: 400
+        //           leftPadding: 10
+        //           anchors.horizontalCenter: parent.horizontalCenter
+        //           property string placeholderText: "Enter Password"
+
+        //           Text {
+        //               text: textEdit.placeholderText
+        //                color: "#aaa"
+        //                visible: !textEdit.text
+        //           }
+        //        }
+
+        TextEdit {
+            id: textEdit
+            Layout.topMargin: 40
+            Layout.bottomMargin: 20
+            width: 200
+            height: 50
+            font.pointSize: 25
+//            anchors.horizontalCenter: parent.horizontalCenter
+            property string placeholderText: "Enter text here..."
+
+            Text {
+                text: textEdit.placeholderText
+                color: "#aaa"
+                font.pointSize: 25
+                visible: !textEdit.text && !textEdit.activeFocus // <----------- ;-)
+            }
+        }
+
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: qsTr("Login")
+            highlighted: true
+            Material.background: Material.Green
+            onClicked: root.StackView.view.push("qrc:/Login.qml")
+        }
+    }
 
 
 }
