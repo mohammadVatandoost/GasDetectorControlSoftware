@@ -27,11 +27,7 @@ QVariant SensorModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
-    enum {
-      tempureture, res, current, lowPassFilter, R0,
-      RThereshould, operationTime, recoveryTime, recoveryTemp,
-      gasType, type, equation, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive
-    };
+
     // FIXME: Implement me!
     const Sensor item = mList->items().at(index.row());
     switch (role) {
@@ -95,12 +91,12 @@ bool SensorModel::setData(const QModelIndex &index, const QVariant &value, int r
        item.operationTime = value.toUInt();
      case recoveryTemp:
        item.recoveryTemp = value.toFloat();
-     case gasType:
-       item.gasType = value.value<GasKind>();
-     case type:
-       item.type = value.value<ValueType>();
-     case equation:
-       item.equation = value.value<FormulType>();
+//     case gasType:
+//       item.gasType = value.value<GasKind>();
+//     case type:
+//       item.type = value.value<ValueType>();
+//     case equation:
+//       item.equation = value.value<FormulType>();
      case RtoR0OrRtoDeltaR:
        item.RtoR0OrRtoDeltaR = value.toBool();
      case tempActive:

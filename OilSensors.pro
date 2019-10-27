@@ -1,4 +1,10 @@
-QT += quick serialport quickcontrols2
+QT += quick
+QT += serialport
+QT += sql
+QT += qml
+QT += charts
+QT += opengl
+QT += quickcontrols2
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use

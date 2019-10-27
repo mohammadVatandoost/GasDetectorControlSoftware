@@ -2,7 +2,12 @@
 #define BACKEND_H
 
 #include <QObject>
+#include "QDebug"
+#include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QTimer>
 #include <iostream>
+#include "sensorslist.h"
 
 using namespace std;
 
@@ -30,13 +35,20 @@ class Backend : public QObject
     Q_OBJECT
 public:
     explicit Backend(QObject *parent = nullptr);
+    Q_INVOKABLE void setSensorsList(SensorsList *sensorsList);
     QSerialPort *serial;
     QString come_port;
     QTimer *timer;
-
+    bool connectState = false;
+private:
+    SensorsList *mList;
 signals:
 
 public slots:
+private slots:
+    void recieveSerialPort();
+    void timerSlot();
+
 };
 
 #endif // BACKEND_H

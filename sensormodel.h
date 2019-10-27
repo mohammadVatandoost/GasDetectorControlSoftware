@@ -1,7 +1,7 @@
 #ifndef SENSORMODEL_H
 #define SENSORMODEL_H
 
-#include <QObject>
+//#include <QObject>
 #include <QAbstractListModel>
 //#include "sensor.h"
 
@@ -13,26 +13,6 @@ class SensorModel : public QAbstractListModel
     Q_PROPERTY(SensorsList *list READ list WRITE setList )
 public:
     explicit SensorModel(QObject *parent = nullptr);
-//    struct Sensor {
-//        float tempureture = 0;
-//        float res = 0;
-//        uint8_t current = 0;
-//        uint8_t lowPassFilter = 1;
-//        uint16_t R0 = 0; // for alghoritm
-//        uint16_t RThereshould = 0 ;
-//        uint16_t operationTime = 1 ;
-//        uint16_t recoveryTime = 1 ;
-//        float operationTemp = 0;
-//        float recoveryTemp = 0;
-//        float tempuretureTh = 0 ; // for T1 in page 1
-//        GasKind gasType = GasKind::NO;
-//        ValueType type = ValueType::PPM;
-//        FormulType equation = FormulType::first;
-//        bool RtoR0OrRtoDeltaR = true;
-//        bool tempActive = false;
-//        bool heaterActive = false;
-//        bool sensorActive = false;
-//    };
     enum {
       tempureture, res, current, lowPassFilter, R0,
       RThereshould, operationTime, recoveryTime, recoveryTemp,

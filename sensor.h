@@ -22,8 +22,11 @@ struct Sensor {
     float tempuretureTh = 0 ; // for T1 in page 1
     GasKind gasType = GasKind::NO;
     ValueType type = ValueType::PPM;
-    bool RtoR0OrRtoDeltaR = true;
     FormulType equation = FormulType::first;
+    bool RtoR0OrRtoDeltaR = true;
+    bool tempActive = false;
+    bool heaterActive = false;
+    bool sensorActive = false;
 };
 
 
