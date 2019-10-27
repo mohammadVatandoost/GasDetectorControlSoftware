@@ -2,7 +2,14 @@
 
 SensorsList::SensorsList()
 {
-
+  Sensor temp1;temp1.tempActive = true; temp1.heaterActive = true;temp1.sensorActive = true;
+  Sensor temp2;
+  Sensor temp3;
+  Sensor temp4;
+  sensorItems.append(temp1);
+  sensorItems.append(temp2);
+  sensorItems.append(temp3);
+  sensorItems.append(temp4);
 }
 
 bool SensorsList::setSensorItem(int index, Sensor &sensor)

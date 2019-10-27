@@ -3,21 +3,67 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Material 2.3
+import SensorModel 1.0
 
 Page {
     id: root
 
-    ScrollView
-    {
-        id: scrollView
+
+    ColumnLayout {
         anchors.fill: parent
-        Component.onCompleted: {
-//            console.log("root.StackView.view");
-//            console.log(root.StackView);
+
+        ListView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            clip: true
+            id: listView
+            spacing: 10
+            model: SensorModel {
+                list: SensorsList
+            }
+
+            delegate: SensorInfo {
+                Component.onCompleted: {
+                    setTemp(model.tempActive);
+                    setHeater(model.heaterActive);
+                    setSensorActive(model.sensorActive);
+                    setProgressValue(0);
+                }
+            }
+
+            ScrollBar.vertical: ScrollBar {}
         }
 
-        SensorInfo {
+        Pane {
+            id: pane
+            anchors.top: listView.bottom
+            Layout.fillWidth: true
+          RowLayout {
+              width: parent.width
+//            Layout.topMargin: listView.width
+//            anchors.top: listView.bottom
+            Image {
+                sourceSize.width: 100
+                sourceSize.height: 100
+//                anchors.horizontalCenter: parent.horizontalCenter
+                source: "images/pumpBlack.png"
+            }
+            Button {
+//                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Start")
+                highlighted: true
+                Material.background: Material.Teal
+            }
+            Button {
+//                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Login")
+                highlighted: true
+                Material.background: Material.Green
+                onClicked: root.StackView.view.push("qrc:/Login.qml")
+            }
+          }
         }
+
 //      RowLayout {
 //        ColumnLayout {
 //          RowLayout {
@@ -60,12 +106,7 @@ Page {
 //                }
 //            }
 //          }
-//          Image {
-//              sourceSize.width: 100
-//              sourceSize.height: 100
-//              anchors.horizontalCenter: parent.horizontalCenter
-//              source: "images/pumpBlack.png"
-//          }
+
 //          RowLayout {
 //              spacing: 6
 //              ColumnLayout {
@@ -118,19 +159,7 @@ Page {
 //                       active: true
 //               }
 //           }
-//           Button {
-//               anchors.horizontalCenter: parent.horizontalCenter
-//               text: qsTr("Start")
-//               highlighted: true
-//               Material.background: Material.Teal
-//           }
-//           Button {
-//               anchors.horizontalCenter: parent.horizontalCenter
-//               text: qsTr("Login")
-//               highlighted: true
-//               Material.background: Material.Green
-//               onClicked: root.StackView.view.push("qrc:/Login.qml")
-//           }
+
 
 //        }
 //      }

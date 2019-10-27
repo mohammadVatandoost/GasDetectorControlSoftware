@@ -7,6 +7,14 @@ import QtQuick.Controls.Material 2.3
 RowLayout {
     property bool tempActive: false
     property bool heaterActive: false
+    property bool sensorActive: false
+    property double progressValue: 0
+
+    function setTemp(temp) { tempActive = temp;}
+    function setHeater(temp) { heaterActive = temp;}
+    function setSensorActive(temp) { sensorActive = temp;}
+    function setProgressValue(temp) { progressValue = temp;}
+
     Image {
         sourceSize.width: 60
         sourceSize.height: 60
@@ -29,13 +37,13 @@ RowLayout {
         text: qsTr("NO")
     }
     ProgressBar {
-        value: 0.5
+        value: progressValue
     }
     Text {
         text: qsTr("DC")
     }
     StatusIndicator {
             color: "green"
-            active: true
+            active: sensorActive
     }
 }
