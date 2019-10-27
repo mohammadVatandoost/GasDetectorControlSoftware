@@ -2,6 +2,10 @@
 #define BACKEND_H
 
 #include <QObject>
+#include "QDebug"
+#include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QTimer>
 #include <iostream>
 
 using namespace std;
@@ -33,10 +37,14 @@ public:
     QSerialPort *serial;
     QString come_port;
     QTimer *timer;
-
+    bool connectState = false;
 signals:
 
 public slots:
+private slots:
+    void recieveSerialPort(); 
+    void timerSlot();
+    
 };
 
 #endif // BACKEND_H
