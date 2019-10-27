@@ -16,7 +16,8 @@ SOURCES += \
         main.cpp \
     backend.cpp \
     csv.cpp \
-    sensorslist.cpp
+    sensorslist.cpp \
+    sensormodel.cpp
 
 RESOURCES += qml.qrc \
     images.qrc
@@ -36,7 +37,8 @@ HEADERS += \
     backend.h \
     csv.h \
     sensorslist.h \
-    sensor.h
+    sensor.h \
+    sensormodel.h
 
 DISTFILES += \
     images/greenTemp.png

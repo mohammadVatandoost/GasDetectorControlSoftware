@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>Info.qml</file>
         <file>Login.qml</file>
+        <file>SensorInfo.qml</file>
     </qresource>
 </RCC>
