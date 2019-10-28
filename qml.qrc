@@ -6,5 +6,8 @@
         <file>SensorInfo.qml</file>
         <file>NavigationDrawer.qml</file>
         <file>NavigationItem.qml</file>
+        <file>ChartComponent.qml</file>
+        <file>Configs.qml</file>
+        <file>ConfigItem.qml</file>
     </qresource>
 </RCC>
