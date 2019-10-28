@@ -36,23 +36,19 @@ Drawer {
           onSensorSelected : {root.sensorSelect(sensorId);}
         }
         NavigationItem {
-          Component.onCompleted: setSensorId(4)
+          Component.onCompleted: setSensorId(5)
           onSensorSelected : {root.sensorSelect(sensorId);}
         }
         NavigationItem {
-          Component.onCompleted: setSensorId(4)
+          Component.onCompleted: setSensorId(6)
           onSensorSelected : {root.sensorSelect(sensorId);}
         }
         NavigationItem {
-          Component.onCompleted: setSensorId(4)
+          Component.onCompleted: setSensorId(7)
           onSensorSelected : {root.sensorSelect(sensorId);}
         }
         NavigationItem {
-          Component.onCompleted: setSensorId(4)
-          onSensorSelected : {root.sensorSelect(sensorId);}
-        }
-        NavigationItem {
-          Component.onCompleted: setSensorId(4)
+          Component.onCompleted: setSensorId(8)
           onSensorSelected : {root.sensorSelect(sensorId);}
         }
     }
