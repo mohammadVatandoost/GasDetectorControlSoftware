@@ -32,39 +32,10 @@ Page {
         }
     }
 
-    Drawer {
-            id: drawer
-            width: 0.66 * window.width
-            height: window.height
-       ColumnLayout {
-            anchors.fill: parent
-            spacing: 2
-
-            Rectangle {
-                width: parent.width
-                height: 70
-
-                Text {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: qsTr("Sensor 1")
-                    font.pointSize: 20
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: { parent.color = 'red' }
-                }
-
-                Rectangle {
-                        id: borderBottom
-                        width: parent.width
-                        height: 1
-                        anchors.bottom: parent.bottom
-                        color: "black"
-               }
-            }
-       }
-     }
+    NavigationDrawer {
+        id: drawer
+        onSensorSelect : {console.log("sensor id :" + sensorId);}
+    }
 
     ColumnLayout {
         anchors.horizontalCenter: parent.horizontalCenter

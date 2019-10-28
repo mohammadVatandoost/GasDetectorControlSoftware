@@ -4,5 +4,7 @@
         <file>Info.qml</file>
         <file>Login.qml</file>
         <file>SensorInfo.qml</file>
+        <file>NavigationDrawer.qml</file>
+        <file>NavigationItem.qml</file>
     </qresource>
 </RCC>

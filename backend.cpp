@@ -46,6 +46,6 @@ void Backend::timerSlot()
     }
    } else {
        serial->close();
-       connectState = false;qDebug() << "Disconndected : ";
+//       connectState = false;qDebug() << "Disconndected : ";
    }
 }

@@ -48,6 +48,36 @@ Page {
 //                anchors.horizontalCenter: parent.horizontalCenter
                 source: "images/pumpBlack.png"
             }
+            ColumnLayout {
+                Label {
+                    text: "Area"
+                    font.pixelSize: 22
+                }
+                Text {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: qsTr("DC")
+                }
+            }
+            ColumnLayout {
+                Label {
+                    text: "In"
+                    font.pixelSize: 22
+                }
+                Text {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: qsTr("DC")
+                }
+            }
+            ColumnLayout {
+                Label {
+                    text: "Out"
+                    font.pixelSize: 22
+                }
+                Text {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: qsTr("DC")
+                }
+            }
             Button {
 //                anchors.horizontalCenter: parent.horizontalCenter
                 text: qsTr("Start")
@@ -109,36 +139,7 @@ Page {
 
 //          RowLayout {
 //              spacing: 6
-//              ColumnLayout {
-//                  Label {
-//                      text: "Area"
-//                      font.pixelSize: 22
-//                  }
-//                  Text {
-//                      anchors.horizontalCenter: parent.Center
-//                      text: qsTr("DC")
-//                  }
-//              }
-//              ColumnLayout {
-//                  Label {
-//                      text: "In"
-//                      font.pixelSize: 22
-//                  }
-//                  Text {
-//                      anchors.horizontalCenter: parent.Center
-//                      text: qsTr("DC")
-//                  }
-//              }
-//              ColumnLayout {
-//                  Label {
-//                      text: "Out"
-//                      font.pixelSize: 22
-//                  }
-//                  Text {
-//                      anchors.horizontalCenter: parent.Center
-//                      text: qsTr("DC")
-//                  }
-//              }
+
 //          }
 //        }
 
