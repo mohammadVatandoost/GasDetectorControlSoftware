@@ -37,11 +37,6 @@ Page {
         onSensorSelect : {console.log("sensor id :" + sensorId);drawer.close();}
     }
 
-//   Rectangle {
-//       id: rectanglePadding
-//       width: parent.width
-//       height: 10
-//   }
 
    Grid {
        anchors.top: rectanglePadding.bottom
@@ -53,6 +48,9 @@ Page {
 
        Configs {
            onConfigSelected: {
+               popup.setConfigId(configId)
+               popup.setConfigName(configName)
+               popup.setConfigValue(configValue)
                popup.open();
            }
        }
@@ -60,18 +58,18 @@ Page {
 
    Popup {
            id: popup
-           x: 100
-           y: 100
            padding: 10
            width: 400
            height: 300
+           x: Math.round((parent.width - width) / 2)
+           y: Math.round((parent.height - height) / 2)
            modal: true
            focus: true
            closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
            property int configId
-           property string configName
-           property string configValue
+           property string configName: "test"
+           property string configValue: "test"
 
            function setConfigId(temp) {configId = temp;}
            function setConfigName(temp) {configName = temp;}
@@ -79,37 +77,54 @@ Page {
            signal configSet(int configId, string configName, string configValue)
 
            ColumnLayout {
+               anchors.fill: parent
+
                Label {
-                   text: configName
+                   text: qsTr(popup.configName)
                    font.pixelSize: 20
                    font.bold: true
-                   anchors.horizontalCenter: parent.horizontalCenter
+                   Layout.topMargin: 40
+                   Layout.bottomMargin: 20
+                   Layout.alignment: Qt.AlignHCenter
                }
                TextEdit {
                    id: configTextEdit
-                   text: configValue
+                   text: qsTr(popup.configValue)
+                   height: 40
+                   width: 100
+                   font.pixelSize: 18
+                   Layout.alignment: Qt.AlignHCenter
+               }
+               Rectangle {
+                   anchors.top: configTextEdit.bottom
+                   width: parent.width
+                   height: 60
                }
 
                Pane {
                    id: pane
-                   anchors.top: listView.bottom
                    Layout.fillWidth: true
-                 RowLayout {
+
+                  RowLayout {
                      width: parent.width
+                     Layout.alignment: Qt.AlignJustify
                      Button {
                          text: qsTr("Cancel")
                          highlighted: true
                          Material.background: Material.Red
                          onClicked: popup.close()
+                         Layout.alignment: Qt.AlignHCenter
                      }
                      Button {
                          text: qsTr("Submit")
                          highlighted: true
                          Material.background: Material.Green
                          onClicked: {console.log("submited :"+configTextEdit.text);}
+                         Layout.alignment: Qt.AlignHCenter
                      }
 
                  }
+
                }
 
            }
