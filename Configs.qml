@@ -13,7 +13,7 @@ Grid {
     }
 
     function setConfigVaue(configId, configValue) {
-       findItemById(configId).setConfigValue(configValue);
+       findItemById("config"+configId).setConfigValue(configValue);
     }
 
     function setSensorId(temp) {sensorId = temp;}
@@ -30,12 +30,16 @@ Grid {
         config9.setConfigValue(SensorsList.getOPTimeValue(sensorId));
     }
 
+    Component.onCompleted: {
+        updateConfig();
+    }
+
     ConfigItem {
      id: config1
      Component.onCompleted: {
        setConfigId(1);
        setConfigName("Filter");
-       setConfigValue("10");
+//       setConfigValue("10");
      }
 
      onConfigSelected: {root.configSelected(configId, configName, configValue);console.log(configId + ", " + configName + ", "+ configValue);}

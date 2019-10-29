@@ -95,7 +95,7 @@ Page {
         }
 
         Button {
-            anchors.horizontalCenter: parent.horizontalCenter
+            Layout.alignment: Qt.AlignHCenter
             text: qsTr("Login")
             highlighted: true
             Material.background: Material.Green

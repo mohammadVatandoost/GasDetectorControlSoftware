@@ -39,14 +39,13 @@ Page {
             root.sensorId = sensorId;
             console.log("sensor id :" + sensorId);
             configs.setSensorId(sensorId);
-            configs.update();
+            configs.updateConfig();
             drawer.close();
         }
     }
 
 
    Grid {
-       anchors.top: rectanglePadding.bottom
        columns: window.width > 767 ? 2 : 1
        spacing: 2
        topPadding: 10
