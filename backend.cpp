@@ -27,7 +27,12 @@ void Backend::setPumpValue(int configValue)
 //       mList->sensorItems[sensorId]. =   static_cast<uint8_t>(configValue);
 //    } else {
 //        qDebug() << "sensorId not valid :" << sensorId ;
-//    }
+   //    }
+}
+
+int Backend::getPumpValue()
+{
+    return generalData.pumpSpeed;
 }
 
 void Backend::recieveSerialPort()

@@ -19,7 +19,7 @@ Page {
 
         Label {
             id: pageTitle
-            text: "Sensor 1"
+            text: qsTr("Sensor "+root.sensorId)
             font.pixelSize: 20
             anchors.centerIn: parent
         }
@@ -35,7 +35,13 @@ Page {
 
     NavigationDrawer {
         id: drawer
-        onSensorSelect : {root.sensorId = sensorId; console.log("sensor id :" + sensorId);drawer.close();}
+        onSensorSelect : {
+            root.sensorId = sensorId;
+            console.log("sensor id :" + sensorId);
+            configs.setSensorId(sensorId);
+            configs.update();
+            drawer.close();
+        }
     }
 
 

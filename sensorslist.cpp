@@ -85,7 +85,7 @@ void SensorsList::setRecTimeValue(int sensorId, int configValue)
     }
 }
 
-void SensorsList::setRecTempValue(int sensorId, int configValue)
+void SensorsList::setRecTempValue(int sensorId, double configValue)
 {
     if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].recoveryTemp =   static_cast<float>(configValue);
@@ -100,6 +100,87 @@ void SensorsList::setOPTimeValue(int sensorId, int configValue)
        sensorItems[sensorId].operationTime =   static_cast<uint16_t>(configValue);
     } else {
         qDebug() << "sensorId not valid :" << sensorId ;
+    }
+}
+
+int SensorsList::getFilterValue(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId].lowPassFilter;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+int SensorsList::getR0Value(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId].R0;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+int SensorsList::getRThValue(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId].RThereshould;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+double SensorsList::getTempValue(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId].tempureture;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+int SensorsList::getNameValue(int sensorId)
+{
+    // Ask What Name is
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+        return 0;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+int SensorsList::getRecTimeValue(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId].recoveryTime;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+double SensorsList::getRecTempValue(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId].recoveryTemp;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+int SensorsList::getOPTimeValue(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId].operationTime;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
     }
 }
 

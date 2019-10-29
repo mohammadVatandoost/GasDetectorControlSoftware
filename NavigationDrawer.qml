@@ -11,10 +11,6 @@ Drawer {
         width: 0.66 * window.width
         height: window.height
         signal sensorSelect(int sensorId)
-// Pane {
-//    id: pane
-//    Layout.fillWidth: true
-//    Layout.fillHeight: true
 
     ColumnLayout {
         anchors.fill: parent

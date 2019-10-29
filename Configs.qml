@@ -4,6 +4,7 @@ Grid {
     id: root
     columns: 3
     spacing: 10
+    property int sensorId: 1
     signal configSelected(int configId, string configName, string configValue)
     property var idMap: ({ config1: config1, config2: config2, config3: config3, config4: config4,
                             config5: config5, config6: config6, config7: config7, config8: config8, config9: config9})
@@ -13,6 +14,20 @@ Grid {
 
     function setConfigVaue(configId, configValue) {
        findItemById(configId).setConfigValue(configValue);
+    }
+
+    function setSensorId(temp) {sensorId = temp;}
+
+    function updateConfig() {
+        config1.setConfigValue(SensorsList.getFilterValue(sensorId));
+        config2.setConfigValue(SensorsList.getR0Value(sensorId));
+        config3.setConfigValue(SensorsList.getRThValue(sensorId));
+        config4.setConfigValue(BackEnd.getPumpValue());
+        config5.setConfigValue(SensorsList.getTempValue(sensorId));
+        config6.setConfigValue(SensorsList.getNameValue(sensorId));
+        config7.setConfigValue(SensorsList.getRecTimeValue(sensorId));
+        config8.setConfigValue(SensorsList.getRecTempValue(sensorId));
+        config9.setConfigValue(SensorsList.getOPTimeValue(sensorId));
     }
 
     ConfigItem {

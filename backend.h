@@ -41,6 +41,7 @@ public:
     QTimer *timer;
     bool connectState = false;
     Q_INVOKABLE void setPumpValue(int configValue);
+    Q_INVOKABLE int getPumpValue();
     BoardData generalData;
 
 private:
