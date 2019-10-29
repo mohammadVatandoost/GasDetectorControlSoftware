@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Material 2.3
 import QtQuick.Controls.Styles 1.4
+import SensorModel 1.0
 
 Drawer {
         id: root
@@ -19,38 +20,21 @@ Drawer {
         anchors.fill: parent
         spacing: 0
 
-        NavigationItem {
-          Component.onCompleted: setSensorId(1)
-          onSensorSelected : {root.sensorSelect(sensorId);}
+        ListView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            clip: true
+            id: listView
+            spacing: 0
+            model: SensorModel {
+                list: SensorsList
+            }
+
+            delegate: NavigationItem {
+                Component.onCompleted: {setSensorId(index+1);}
+                onSensorSelected : {root.sensorSelect(sensorId);}
+              }
         }
-        NavigationItem {
-          Component.onCompleted: setSensorId(2)
-          onSensorSelected : {root.sensorSelect(sensorId);}
-        }
-        NavigationItem {
-          Component.onCompleted: setSensorId(3)
-          onSensorSelected : {root.sensorSelect(sensorId);}
-        }
-        NavigationItem {
-          Component.onCompleted: setSensorId(4)
-          onSensorSelected : {root.sensorSelect(sensorId);}
-        }
-        NavigationItem {
-          Component.onCompleted: setSensorId(5)
-          onSensorSelected : {root.sensorSelect(sensorId);}
-        }
-        NavigationItem {
-          Component.onCompleted: setSensorId(6)
-          onSensorSelected : {root.sensorSelect(sensorId);}
-        }
-        NavigationItem {
-          Component.onCompleted: setSensorId(7)
-          onSensorSelected : {root.sensorSelect(sensorId);}
-        }
-        NavigationItem {
-          Component.onCompleted: setSensorId(8)
-          onSensorSelected : {root.sensorSelect(sensorId);}
-        }
+
     }
-//  }
 }

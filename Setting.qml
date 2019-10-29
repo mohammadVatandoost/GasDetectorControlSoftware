@@ -7,6 +7,7 @@ import QtQuick.Controls.Styles 1.4
 
 Page {
     id: root
+    property int sensorId: 1
     header: ToolBar {
         ToolButton {
             text: qsTr("Back")
@@ -34,7 +35,7 @@ Page {
 
     NavigationDrawer {
         id: drawer
-        onSensorSelect : {console.log("sensor id :" + sensorId);drawer.close();}
+        onSensorSelect : {root.sensorId = sensorId; console.log("sensor id :" + sensorId);drawer.close();}
     }
 
 
@@ -47,6 +48,7 @@ Page {
        leftPadding: 10
 
        Configs {
+           id: configs
            onConfigSelected: {
                popup.setConfigId(configId)
                popup.setConfigName(configName)
@@ -119,7 +121,31 @@ Page {
                          text: qsTr("Submit")
                          highlighted: true
                          Material.background: Material.Green
-                         onClicked: {console.log("submited :"+configTextEdit.text);}
+                         onClicked: {
+                             console.log("submited :"+configTextEdit.text);
+                             if(popup.configId === 1) {
+                               SensorsList.setFilterValue(root.sensorId, configTextEdit.text);
+                             } else if(popup.configId === 2) {
+                                 SensorsList.setR0Value(root.sensorId, configTextEdit.text);
+                             } else if(popup.configId === 3) {
+                                 SensorsList.setRThValue(root.sensorId, configTextEdit.text);
+                             } else if(popup.configId === 4) {
+                                 BackEnd.setPumpValue(configTextEdit.text);
+                             } else if(popup.configId === 5) {
+                                 SensorsList.setTempValue(root.sensorId, configTextEdit.text);
+                             } else if(popup.configId === 6) {
+                                 SensorsList.setNameValue(root.sensorId, configTextEdit.text);
+                             } else if(popup.configId === 7) {
+                                 SensorsList.setRecTimeValue(root.sensorId, configTextEdit.text);
+                             } else if(popup.configId === 8) {
+                                 SensorsList.setRecTempValue(root.sensorId, configTextEdit.text);
+                             } else if(popup.configId === 9) {
+                                 SensorsList.setOPTimeValue(root.sensorId, configTextEdit.text);
+                             }
+
+                             configs.setConfigVaue(popup.configId, configTextEdit.text);
+                             popup.close();
+                         }
                          Layout.alignment: Qt.AlignHCenter
                      }
 
