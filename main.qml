@@ -7,8 +7,8 @@ import QtQuick.Layouts 1.11
 Window {
     id: window
     visible: true
-    width: 640
-    height: 480
+    width: 768
+    height: 640
 //    title: qsTr("Hello World")
     StackView {
         id: stackView

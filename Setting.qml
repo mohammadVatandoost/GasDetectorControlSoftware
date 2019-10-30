@@ -129,6 +129,113 @@ Page {
            }
        }
       }
+      Pane {
+           id: pane3
+           Layout.fillWidth: true
+
+           RowLayout {
+              width: parent.width
+
+              ColumnLayout {
+
+                  Label {
+                      text: "PPM"
+                      font.pixelSize: 22
+                  }
+
+                  Text {
+                      Layout.alignment: Qt.AlignHCenter
+                      text: qsTr("0")
+                  }
+              }
+
+              ColumnLayout {
+
+                  Label {
+                      text: "RES"
+                      font.pixelSize: 22
+                  }
+
+                  Text {
+                      Layout.alignment: Qt.AlignHCenter
+                      text: qsTr("DC")
+                  }
+              }
+
+              ColumnLayout {
+
+                  Label {
+                      text: "TEMP"
+                      font.pixelSize: 22
+                  }
+
+                  Text {
+                      Layout.alignment: Qt.AlignHCenter
+                      text: qsTr("DC")
+                  }
+              }
+
+          }
+      }
+
+      Pane {
+           id: pane1
+           Layout.fillWidth: true
+           RowLayout {
+               Button {
+                   id: pump
+                   property bool onOff: false
+                   text: qsTr("Pump")
+                   highlighted: true
+                   Material.background: Material.red
+                   onClicked: {
+                       if(onOff) {
+                           onOff = false;
+                           pump.Material.background =  Material.red
+                       } else {
+                           onOff = true;
+                           pump.Material.background =  Material.Green
+                       }
+                   }
+               }
+
+               Button {
+                   id: rec
+                   property bool onOff: false
+                   text: qsTr("Rec")
+                   highlighted: true
+                   Material.background: Material.red
+                   onClicked: {
+                       if(onOff) {
+                           onOff = false;
+                           rec.Material.background =  Material.red
+                       } else {
+                           onOff = true;
+                           rec.Material.background =  Material.Green
+                       }
+                   }
+               }
+
+               Button {
+                   id: heaterStart
+                   property bool onOff: false
+                   text: qsTr("Heater Start")
+                   highlighted: true
+                   Material.background: Material.red
+                   onClicked: {
+                       if(onOff) {
+                           onOff = false;
+                           heaterStart.Material.background =  Material.red
+                       } else {
+                           onOff = true;
+                           heaterStart.Material.background =  Material.Green
+                       }
+                   }
+               }
+
+           }
+      }
+
      }
    }
 
