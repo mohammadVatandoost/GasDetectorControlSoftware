@@ -36,6 +36,38 @@ int Backend::getPumpValue()
     return generalData.pumpSpeed;
 }
 
+char* Backend::makeSensorData(uint8_t sensorId)
+{
+   SensorPacketTr temp;
+   QVector<Sensor> sensors = mList->items();
+   temp.sensorId = sensorId;
+   temp.tempSetPoint = sensors[sensorId].tempureture;
+   char* dataBytes = static_cast<char*>(static_cast<void*>(&temp));
+   return dataBytes;
+
+}
+
+char* Backend::makeGeneralData()
+{
+  BoardPacketTr temp;
+  temp.pumpSpeed = generalData.pumpSpeed;
+}
+
+void Backend::sendPacket(char *data, int size)
+{
+    serial->write(data);
+}
+
+void Backend::getSensorData(QByteArray data)
+{
+
+}
+
+void Backend::getGeneralData(QByteArray data)
+{
+
+}
+
 void Backend::updateChart(QAbstractSeries *chartSeries, int sensorId)
 {
     if (chartSeries) {

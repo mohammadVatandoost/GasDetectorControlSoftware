@@ -38,14 +38,39 @@ Page {
         Pane {
             id: pane
             Layout.fillWidth: true
+            property bool pumpActive: false
+            function refreshData() {
+
+            }
 
           RowLayout {
               width: parent.width
 
-            Image {
-                sourceSize.width: 100
-                sourceSize.height: 100
-                source: "images/pumpBlack.png"
+            ColumnLayout {
+                Label {
+                   Layout.alignment: Qt.AlignHCenter
+                   text: "Pump"
+                   font.pixelSize: 22
+                }
+                Image {
+                  sourceSize.width: 100
+                  sourceSize.height: 100
+                  source: "images/pumpBlack.png"
+                }
+            }
+
+            ColumnLayout {
+
+                Label {
+                    text: "TempArea"
+                    font.pixelSize: 22
+                }
+
+                Text {
+                    id: humidityTempArea
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("DC")
+                }
             }
 
             ColumnLayout {
@@ -56,6 +81,7 @@ Page {
                 }
 
                 Text {
+                    id: humidityArea
                     Layout.alignment: Qt.AlignHCenter
                     text: qsTr("DC")
                 }
@@ -69,6 +95,7 @@ Page {
                 }
 
                 Text {
+                    id: humidityIn
                     Layout.alignment: Qt.AlignHCenter
                     text: qsTr("DC")
                 }
@@ -81,6 +108,7 @@ Page {
                 }
 
                 Text {
+                    id: humidityOut
                     Layout.alignment: Qt.AlignHCenter
                     text: qsTr("DC")
                 }
