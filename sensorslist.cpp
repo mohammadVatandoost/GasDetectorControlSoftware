@@ -103,6 +103,15 @@ void SensorsList::setOPTimeValue(int sensorId, int configValue)
     }
 }
 
+void SensorsList::setGasTypeValue(int sensorId, QString configValue)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+       sensorItems[sensorId-1].gasType =   configValue;
+    } else {
+        qDebug() << "sensorId not valid :" << sensorId ;
+    }
+}
+
 int SensorsList::getFilterValue(int sensorId)
 {
     if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
@@ -181,6 +190,16 @@ int SensorsList::getOPTimeValue(int sensorId)
     } else {
         qDebug() << "Get sensorId not valid :" << sensorId ;
         return 0;
+    }
+}
+
+QString SensorsList::getGasTypeValue(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId-1].gasType;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return "not valid";
     }
 }
 

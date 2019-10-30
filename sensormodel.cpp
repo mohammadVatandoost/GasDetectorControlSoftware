@@ -91,8 +91,8 @@ bool SensorModel::setData(const QModelIndex &index, const QVariant &value, int r
        item.operationTime = value.toUInt();
      case recoveryTemp:
        item.recoveryTemp = value.toFloat();
-//     case gasType:
-//       item.gasType = value.value<GasKind>();
+     case gasType:
+       item.gasType = value.toString();
 //     case type:
 //       item.type = value.value<ValueType>();
 //     case equation:

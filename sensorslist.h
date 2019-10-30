@@ -43,6 +43,7 @@ public:
     Q_INVOKABLE void setRecTimeValue(int sensorId, int configValue);
     Q_INVOKABLE void setRecTempValue(int sensorId, double configValue);
     Q_INVOKABLE void setOPTimeValue(int sensorId, int configValue);
+    Q_INVOKABLE void setGasTypeValue(int sensorId, QString configValue);
 
     Q_INVOKABLE int getFilterValue(int sensorId);
     Q_INVOKABLE int getR0Value(int sensorId);
@@ -52,6 +53,7 @@ public:
     Q_INVOKABLE int getRecTimeValue(int sensorId);
     Q_INVOKABLE double getRecTempValue(int sensorId);
     Q_INVOKABLE int getOPTimeValue(int sensorId);
+    Q_INVOKABLE QString getGasTypeValue(int sensorId);
 signals:
    void preItemAppended();
    void postItemAppended();

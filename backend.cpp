@@ -23,11 +23,6 @@ void Backend::setSensorsList(SensorsList *sensorsList)
 void Backend::setPumpValue(int configValue)
 {
    generalData.pumpSpeed = static_cast<uint16_t>(configValue);
-//    if( (sensorId <= mList->sensorItems.size()) && (-1 < sensorId) ) {
-//       mList->sensorItems[sensorId]. =   static_cast<uint8_t>(configValue);
-//    } else {
-//        qDebug() << "sensorId not valid :" << sensorId ;
-   //    }
 }
 
 int Backend::getPumpValue()

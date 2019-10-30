@@ -1,12 +1,13 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 #include <iostream>
+#include <QString>
 
 using namespace std;
 
 enum FormulType{ first, second, third };
 enum ValueType{ PPM, PDB };
-enum GasKind{ NO, CO, SO2, O2, BTEX, VOC};
+//enum GasKind{ NO, CO, SO2, O2, BTEX, VOC};
 
 struct Sensor {
     float tempureture = 0;
@@ -20,7 +21,7 @@ struct Sensor {
     float operationTemp = 0;
     float recoveryTemp = 0;
     float tempuretureTh = 0 ; // for T1 in page 1
-    GasKind gasType = GasKind::NO;
+    QString gasType = "NO";
     ValueType type = ValueType::PPM;
     FormulType equation = FormulType::first;
     bool RtoR0OrRtoDeltaR = true;

@@ -40,6 +40,7 @@ Page {
             console.log("sensor id :" + sensorId);
             configs.setSensorId(sensorId);
             configs.updateConfig();
+            comboBoxGas.currentIndex = comboBoxGas.getIndex()
             drawer.close();
         }
     }
@@ -51,7 +52,7 @@ Page {
        topPadding: 10
        rightPadding: 10
        leftPadding: 10
-
+     ColumnLayout {
        Configs {
            id: configs
            onConfigSelected: {
@@ -61,6 +62,74 @@ Page {
                popup.open();
            }
        }
+
+      Pane {
+           id: pane
+           Layout.fillWidth: true
+
+        RowLayout {
+           width: parent.width
+
+           ColumnLayout {
+
+               Label {
+                   text: "Area"
+                   font.pixelSize: 22
+               }
+
+               Text {
+                   Layout.alignment: Qt.AlignHCenter
+                   text: qsTr("DC")
+               }
+           }
+
+           ColumnLayout {
+
+               Label {
+                   text: "In"
+                   font.pixelSize: 22
+               }
+
+               Text {
+                   Layout.alignment: Qt.AlignHCenter
+                   text: qsTr("DC")
+               }
+           }
+
+           ColumnLayout {
+
+               Label {
+                   text: "Out"
+                   font.pixelSize: 22
+               }
+
+               Text {
+                   Layout.alignment: Qt.AlignHCenter
+                   text: qsTr("DC")
+               }
+           }
+
+           ComboBox {
+               id: comboBoxGas
+               property var gasTypes: [ "NO", "CO", "SO2", "O2", "BTEX", "VOC" ]
+               function getIndex() {
+                   var gasType = SensorsList.getGasTypeValue(root.sensorId)
+                   for(var i=0; i< gasTypes.length; i++) {
+                       if(gasTypes[i] === gasType) {
+                           return i;
+                       }
+                   }
+                   return 0;
+               }
+
+               width: 200
+               model: gasTypes
+               currentIndex: getIndex()
+               onActivated:SensorsList.setGasTypeValue(root.sensorId, gasTypes[currentIndex])
+           }
+       }
+      }
+     }
    }
 
    Popup {
@@ -109,7 +178,6 @@ Page {
                }
 
                Pane {
-                   id: pane
                    Layout.fillWidth: true
 
                   RowLayout {
