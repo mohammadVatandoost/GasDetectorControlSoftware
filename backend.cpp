@@ -1,4 +1,10 @@
+#include <QtCharts/QXYSeries>
+#include <QtCharts/QAreaSeries>
 #include "backend.h"
+
+Q_DECLARE_METATYPE(QAbstractSeries *)
+Q_DECLARE_METATYPE(QAbstractAxis *)
+Q_DECLARE_METATYPE(QDateTimeAxis *)
 
 Backend::Backend(QObject *parent) : QObject(parent)
 {
@@ -28,6 +34,21 @@ void Backend::setPumpValue(int configValue)
 int Backend::getPumpValue()
 {
     return generalData.pumpSpeed;
+}
+
+void Backend::updateChart(QAbstractSeries *chartSeries, int sensorId)
+{
+    if (chartSeries) {
+        QXYSeries *xySeries = static_cast<QXYSeries *>(chartSeries);
+        QVector<Sensor> sensors = mList->items();
+        if(chartSeries->name() == "Temp") {
+          QVector<QPointF> points = sensors[sensorId-1].tempData;
+          xySeries->replace(points);
+        } else {
+            QVector<QPointF> points = sensors[sensorId-1].resData;
+            xySeries->replace(points);
+        }
+    }
 }
 
 void Backend::recieveSerialPort()

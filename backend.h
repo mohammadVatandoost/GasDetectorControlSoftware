@@ -7,9 +7,14 @@
 #include <QSerialPortInfo>
 #include <QTimer>
 #include <iostream>
+#include <QtCharts/QAbstractSeries>
+#include <QTime>
+#include <QtCharts/QDateTimeAxis>
 #include "sensorslist.h"
 
 using namespace std;
+
+QT_CHARTS_USE_NAMESPACE
 
 struct BoardData {
     float humidityIn = 0;
@@ -49,6 +54,7 @@ private:
 signals:
 
 public slots:
+    void updateChart(QAbstractSeries *chartSeries, int sensorId);
 private slots:
     void recieveSerialPort();
     void timerSlot();

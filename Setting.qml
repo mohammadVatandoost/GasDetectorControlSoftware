@@ -39,11 +39,13 @@ Page {
             root.sensorId = sensorId;
             console.log("sensor id :" + sensorId);
             configs.setSensorId(sensorId);
+            chartS.setSensorId(sensorId);
             configs.updateConfig();
-            comboBoxGas.currentIndex = comboBoxGas.getIndex()
+            comboBoxGas.currentIndex = comboBoxGas.getIndex();
             drawer.close();
         }
     }
+
 
 
    Grid {
@@ -52,6 +54,11 @@ Page {
        topPadding: 10
        rightPadding: 10
        leftPadding: 10
+
+       ChartComponent {
+           id: chartS
+       }
+
      ColumnLayout {
        Configs {
            id: configs
@@ -237,6 +244,7 @@ Page {
       }
 
      }
+
    }
 
    Popup {

@@ -2,6 +2,9 @@
 #define SENSOR_H
 #include <iostream>
 #include <QString>
+#include <QVector>
+#include <QVector2D>
+#include <QPointF>
 
 using namespace std;
 
@@ -28,6 +31,17 @@ struct Sensor {
     bool tempActive = false;
     bool heaterActive = false;
     bool sensorActive = false;
+    QVector<QPointF> tempData;
+    QVector<QPointF> resData;
+
+    void addTempData(double time, double value) {
+        QPointF temp(time,value);
+        tempData.append(temp);
+    }
+    void addResData(double time, double value) {
+        QPointF temp(time,value);
+        resData.append(temp);
+    }
 };
 
 

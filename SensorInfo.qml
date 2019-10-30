@@ -8,12 +8,14 @@ RowLayout {
     property bool tempActive: false
     property bool heaterActive: false
     property bool sensorActive: false
+    property string sensorName: ""
     property double progressValue: 0
 
     function setTemp(temp) { tempActive = temp;}
     function setHeater(temp) { heaterActive = temp;}
     function setSensorActive(temp) { sensorActive = temp;}
     function setProgressValue(temp) { progressValue = temp;}
+    function setSensorName(temp) { sensorName = temp;}
 
     Image {
         sourceSize.width: 60
@@ -22,7 +24,7 @@ RowLayout {
     }
     Text {
         id: temp1
-        text: qsTr("temp1")
+        text: qsTr("temp")
     }
     Image {
         sourceSize.width: 60
@@ -31,10 +33,10 @@ RowLayout {
     }
     Text {
         id: h1
-        text: qsTr("H1")
+        text: qsTr("H")
     }
     Text {
-        text: qsTr("NO")
+        text: qsTr(sensorName)
     }
     ProgressBar {
         value: progressValue

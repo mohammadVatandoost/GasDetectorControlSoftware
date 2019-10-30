@@ -27,6 +27,7 @@ Page {
                     setTemp(model.tempActive);
                     setHeater(model.heaterActive);
                     setSensorActive(model.sensorActive);
+                    setSensorName(model.gasType);
                     setProgressValue(0);
                 }
             }
