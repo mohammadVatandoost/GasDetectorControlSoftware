@@ -36,6 +36,31 @@ int Backend::getPumpValue()
     return generalData.pumpSpeed;
 }
 
+bool Backend::getPumpStatus()
+{
+    return generalData.pumpStatusPower;
+}
+
+int Backend::getHumidityIn()
+{
+    return generalData.humidityIn;
+}
+
+int Backend::getHumidityOut()
+{
+    return generalData.humidityOut;
+}
+
+int Backend::getHumidityArea()
+{
+    return generalData.humidityArea;
+}
+
+double Backend::getTempArea()
+{
+    return generalData.tempuretureArea;
+}
+
 char* Backend::makeSensorData(uint8_t sensorId)
 {
    SensorPacketTr temp;

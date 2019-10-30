@@ -74,10 +74,16 @@ public:
     QSerialPort *serial;
     QString come_port;
     QTimer *timer;
+    BoardData generalData;
     bool connectState = false;
+
     Q_INVOKABLE void setPumpValue(int configValue);
     Q_INVOKABLE int getPumpValue();
-    BoardData generalData;
+    Q_INVOKABLE bool getPumpStatus();
+    Q_INVOKABLE int getHumidityIn();
+    Q_INVOKABLE int getHumidityOut();
+    Q_INVOKABLE int getHumidityArea();
+    Q_INVOKABLE double getTempArea();
 
     char* makeSensorData(uint8_t sensorId);
     char* makeGeneralData();
@@ -89,6 +95,7 @@ public:
 private:
     SensorsList *mList;
 signals:
+    void notifyInfoDataChanged();
 
 public slots:
     void updateChart(QAbstractSeries *chartSeries, int sensorId);
