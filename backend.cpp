@@ -135,4 +135,6 @@ void Backend::timerSlot()
        serial->close();
 //       connectState = false;qDebug() << "Disconndected : ";
    }
+
+   emit notifyInfoDataChanged();
 }

@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QQmlContext>
+#include <QQuickWindow>
 #include <QApplication>
 #include "sensormodel.h"
 #include "sensorslist.h"
@@ -27,6 +28,13 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty(QStringLiteral("SensorsList"), &sensorsList);
     engine.rootContext()->setContextProperty(QStringLiteral("BackEnd"), &backEnd);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    // for connecting qml slot to c++ signal
+    QObject *topLevel = engine.rootObjects().value(0);
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+
+    // connect our QML signal to our C++ slot
+    QObject::connect(&backEnd, SIGNAL(notifyInfoDataChanged()),
+                            window, SLOT(refreshData()));
     if (engine.rootObjects().isEmpty())
         return -1;
 

@@ -42,13 +42,15 @@ Page {
             property string humidityIn: "DC"
             property string humidityOut: "DC"
             property string humidityArea: "DC"
-            property string TempArea: "DC"
+            property string tempArea: "DC"
 
             function refreshData() {
+                console.log("refreshData");
                 pumpActive = BackEnd.getPumpStatus();
                 humidityIn = BackEnd.getHumidityIn();
                 humidityOut = BackEnd.getHumidityOut();
                 humidityArea = BackEnd.getHumidityArea();
+                tempArea = BackEnd.getTempArea()
             }
 
           RowLayout {
@@ -75,9 +77,9 @@ Page {
                 }
 
                 Text {
-                    id: humidityTempArea
+//                    id: humidityTempArea
                     Layout.alignment: Qt.AlignHCenter
-                    text: qsTr(TempArea)
+                    text: qsTr(pane.tempArea)
                 }
             }
 
@@ -89,9 +91,9 @@ Page {
                 }
 
                 Text {
-                    id: humidityArea
+//                    id: humidityArea
                     Layout.alignment: Qt.AlignHCenter
-                    text: qsTr(humidityArea)
+                    text: qsTr(pane.humidityArea)
                 }
             }
 
@@ -103,9 +105,9 @@ Page {
                 }
 
                 Text {
-                    id: humidityIn
+//                    id: humidityIn
                     Layout.alignment: Qt.AlignHCenter
-                    text: qsTr(humidityIn)
+                    text: qsTr(pane.humidityIn)
                 }
             }
             ColumnLayout {
@@ -116,9 +118,9 @@ Page {
                 }
 
                 Text {
-                    id: humidityOut
+//                    id: humidityOut
                     Layout.alignment: Qt.AlignHCenter
-                    text: qsTr(humidityOut)
+                    text: qsTr(pane.humidityOut)
                 }
             }
 
