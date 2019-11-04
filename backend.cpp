@@ -63,7 +63,7 @@ double Backend::getTempArea()
 
 char* Backend::makeSensorData(uint8_t sensorId)
 {
-   SensorPacketTr temp;
+   SensorPacketTx temp;
    QVector<Sensor> sensors = mList->items();
    temp.sensorId = sensorId;
    temp.tempSetPoint = sensors[sensorId].tempureture;
@@ -74,7 +74,7 @@ char* Backend::makeSensorData(uint8_t sensorId)
 
 char* Backend::makeGeneralData()
 {
-  BoardPacketTr temp;
+  BoardPacketTx temp;
   temp.pumpSpeed = generalData.pumpSpeed;
 }
 

@@ -11,6 +11,9 @@ static {
     QT += svg
     QTPLUGIN += qtvirtualkeyboardplugin
 }
+
+LIBS += -ldl
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -27,7 +30,11 @@ SOURCES += \
     backend.cpp \
     csv.cpp \
     sensorslist.cpp \
-    sensormodel.cpp
+    sensormodel.cpp \
+    sqlite3.c \
+    database.cpp \
+    schema.cpp \
+    sensorschema.cpp
 
 RESOURCES += qml.qrc \
     images.qrc
@@ -48,7 +55,12 @@ HEADERS += \
     csv.h \
     sensorslist.h \
     sensor.h \
-    sensormodel.h
+    sensormodel.h \
+    sqlite3.h \
+    sqlite3ext.h \
+    database.h \
+    schema.h \
+    sensorschema.h
 
 DISTFILES += \
     images/greenTemp.png

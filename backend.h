@@ -33,7 +33,7 @@ struct BoardData {
     string time ;
 };
 
-struct SensorPacketTr {
+struct SensorPacketTx {
     uint8_t sensorId;
     uint16_t tempSetPoint;
 };
@@ -45,7 +45,7 @@ struct SensorPacketRx {
     uint32_t Res;
 };
 
-struct BoardPacketTr {
+struct BoardPacketTx {
     uint8_t pumpSpeed;
 };
 
@@ -76,6 +76,7 @@ public:
     QTimer *timer;
     BoardData generalData;
     bool connectState = false;
+    QByteArray dataBuf;
 
     Q_INVOKABLE void setPumpValue(int configValue);
     Q_INVOKABLE int getPumpValue();
