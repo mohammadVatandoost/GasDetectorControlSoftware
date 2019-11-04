@@ -11,6 +11,8 @@
 #include <QTime>
 #include <QtCharts/QDateTimeAxis>
 #include "sensorslist.h"
+#include "database.h"
+#include "sensorschema.h"
 
 using namespace std;
 
@@ -77,6 +79,7 @@ public:
     BoardData generalData;
     bool connectState = false;
     QByteArray dataBuf;
+    DataBase db{"dataBase"};
 
     Q_INVOKABLE void setPumpValue(int configValue);
     Q_INVOKABLE int getPumpValue();
@@ -92,6 +95,7 @@ public:
 
     void getSensorData(QByteArray data);
     void getGeneralData(QByteArray data);
+    void createTable();
 
 private:
     SensorsList *mList;

@@ -8,6 +8,7 @@ Q_DECLARE_METATYPE(QDateTimeAxis *)
 
 Backend::Backend(QObject *parent) : QObject(parent)
 {
+    createTable();
     serial = new QSerialPort(this);
     serial->close();
     serial->setBaudRate(QSerialPort::Baud115200);
@@ -91,6 +92,16 @@ void Backend::getSensorData(QByteArray data)
 void Backend::getGeneralData(QByteArray data)
 {
 
+}
+
+void Backend::createTable()
+{
+    if( db.openConnection() ) {
+        SensorSchema sensorSchema;
+        if(db.createTable(sensorSchema)) {
+            cout<< "table created successfully" << endl;
+        }
+    }
 }
 
 void Backend::updateChart(QAbstractSeries *chartSeries, int sensorId)

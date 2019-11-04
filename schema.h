@@ -12,11 +12,15 @@ public:
     string tableName;
     Schema(string tableName) : tableName(tableName) {}
     vector<string> names;
-    vector<string> types;
+    string sqlCommand;
 
     bool addColumn(string name, string type);
+//    bool addColumn(string name, string type, bool notNull);
+    bool addColumn(string name, string type, string defaultValue);
 
-private:
+//    bool addColumnTest(string name, string type, int notNull);
+//    bool addColumnTest(string name, string type, double defaultValue);
+
     bool checkIsNewColumnName(string name);
 };
 

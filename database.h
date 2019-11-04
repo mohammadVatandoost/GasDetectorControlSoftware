@@ -3,14 +3,21 @@
 
 #include <iostream>
 #include "sqlite3.h"
+#include "schema.h"
 
 using namespace std;
 
 class DataBase
 {
 public:
-    DataBase(string dbName);
     string dbName;
+    sqlite3* DB;
+    bool isOpen = false;
+
+    DataBase(string dbName) : dbName(dbName)  {}
+    static int callback(void *NotUsed, int argc, char **argv, char **azColName);
+    bool openConnection();
+    bool createTable(Schema tableSchema);
 };
 
 #endif // DATABASE_H
