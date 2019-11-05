@@ -39,7 +39,11 @@ int Backend::getPumpValue()
 
 bool Backend::getPumpStatus()
 {
-    return generalData.pumpStatusPower;
+    if(generalData.pumpSpeed == 0) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 int Backend::getHumidityIn()
@@ -75,6 +79,16 @@ void Backend::startSensor(int sensorId)
 void Backend::startAllSensor()
 {
 
+}
+
+bool Backend::getFlowErrorStatus()
+{
+    return generalData.flowErrorStatus;
+}
+
+bool Backend::getElectricalErrorStatus()
+{
+    return generalData.electricalErrorStatus;
 }
 
 char* Backend::makeSensorData(uint8_t sensorId)

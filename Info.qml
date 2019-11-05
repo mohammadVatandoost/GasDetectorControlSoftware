@@ -9,6 +9,26 @@ import SensorModel 1.0
 Page {
     id: root
     property string date_time: new Date().toLocaleString(locale, Locale.ShortFormat)
+    property bool pumpActive: false
+    property string humidityIn: "DC"
+    property string humidityOut: "DC"
+    property string humidityArea: "DC"
+    property string tempArea: "DC"
+    property string presueArea: "DC"
+    property bool flowError: false
+    property bool electricalError: false
+
+    function refreshData() {
+        console.log("refreshData");
+        root.pumpActive = BackEnd.getPumpStatus();
+        root.humidityIn = BackEnd.getHumidityIn();
+        root.humidityOut = BackEnd.getHumidityOut();
+        root.humidityArea = BackEnd.getHumidityArea();
+        root.tempArea = BackEnd.getTempArea()
+        root.presueArea = BackEnd.getTempArea()
+        root.flowError = BackEnd.getFlowErrorStatus()
+        root.electricalError = BackEnd.getElectricalErrorStatus()
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -50,93 +70,84 @@ Page {
         Pane {
             id: pane
             Layout.fillWidth: true
-            property bool pumpActive: false
-            property string humidityIn: "DC"
-            property string humidityOut: "DC"
-            property string humidityArea: "DC"
-            property string tempArea: "DC"
-            property string presueArea: "DC"
 
-            function refreshData() {
-                console.log("refreshData");
-                pumpActive = BackEnd.getPumpStatus();
-                humidityIn = BackEnd.getHumidityIn();
-                humidityOut = BackEnd.getHumidityOut();
-                humidityArea = BackEnd.getHumidityArea();
-                tempArea = BackEnd.getTempArea()
-                presueArea = BackEnd.getTempArea()
+            RowLayout {
+                width: parent.width
+
+                ColumnLayout {
+
+                    Label {
+                        text: "PresureArea"
+                        font.pixelSize: 22
+                    }
+
+                    Text {
+                        Layout.alignment: Qt.AlignHCenter
+                        text: qsTr(root.presueArea)
+                    }
+                }
+
+                ColumnLayout {
+
+                    Label {
+                        text: "TempArea"
+                        font.pixelSize: 22
+                    }
+
+                    Text {
+                        Layout.alignment: Qt.AlignHCenter
+                        text: qsTr(root.tempArea)
+                    }
+                }
+
+                ColumnLayout {
+
+                    Label {
+                        text: "Area"
+                        font.pixelSize: 22
+                    }
+
+                    Text {
+    //                    id: humidityArea
+                        Layout.alignment: Qt.AlignHCenter
+                        text: qsTr(root.humidityArea)
+                    }
+                }
+
+                ColumnLayout {
+
+                    Label {
+                        text: "In"
+                        font.pixelSize: 22
+                    }
+
+                    Text {
+    //                    id: humidityIn
+                        Layout.alignment: Qt.AlignHCenter
+                        text: qsTr(root.humidityIn)
+                    }
+                }
+                ColumnLayout {
+
+                    Label {
+                        text: "Out"
+                        font.pixelSize: 22
+                    }
+
+                    Text {
+    //                    id: humidityOut
+                        Layout.alignment: Qt.AlignHCenter
+                        text: qsTr(root.humidityOut)
+                    }
+                }
             }
 
-         RowLayout {
-             width: parent.width
+        }
 
-             ColumnLayout {
+        Pane {
+            id: pane2
+            Layout.fillWidth: true
 
-                 Label {
-                     text: "PresureArea"
-                     font.pixelSize: 22
-                 }
-
-                 Text {
-                     Layout.alignment: Qt.AlignHCenter
-                     text: qsTr(pane.presueArea)
-                 }
-             }
-
-             ColumnLayout {
-
-                 Label {
-                     text: "TempArea"
-                     font.pixelSize: 22
-                 }
-
-                 Text {
-                     Layout.alignment: Qt.AlignHCenter
-                     text: qsTr(pane.tempArea)
-                 }
-             }
-
-             ColumnLayout {
-
-                 Label {
-                     text: "Area"
-                     font.pixelSize: 22
-                 }
-
-                 Text {
- //                    id: humidityArea
-                     Layout.alignment: Qt.AlignHCenter
-                     text: qsTr(pane.humidityArea)
-                 }
-             }
-
-             ColumnLayout {
-
-                 Label {
-                     text: "In"
-                     font.pixelSize: 22
-                 }
-
-                 Text {
- //                    id: humidityIn
-                     Layout.alignment: Qt.AlignHCenter
-                     text: qsTr(pane.humidityIn)
-                 }
-             }
-             ColumnLayout {
-
-                 Label {
-                     text: "Out"
-                     font.pixelSize: 22
-                 }
-
-                 Text {
- //                    id: humidityOut
-                     Layout.alignment: Qt.AlignHCenter
-                     text: qsTr(pane.humidityOut)
-                 }
-             }
-         }
 
           RowLayout {
               width: parent.width
@@ -150,9 +161,33 @@ Page {
                 Image {
                   sourceSize.width: 100
                   sourceSize.height: 100
-                  source: pane.pumpActive ? "images/pumpBlue.jpeg" : "images/pumpBlack.png"
+                  source: root.pumpActive ? "images/pumpBlue.jpeg" : "images/pumpBlack.png"
                 }
-            }     
+            }
+            ColumnLayout {
+                Label {
+                   Layout.alignment: Qt.AlignHCenter
+                   text: "Flow Error"
+                   font.pixelSize: 22
+                }
+                StatusIndicator {
+                    Layout.alignment: Qt.AlignHCenter
+                    color: "red"
+                    active: root.flowError
+                }
+            }
+            ColumnLayout {
+                Label {
+                   Layout.alignment: Qt.AlignHCenter
+                   text: "Electrical Error"
+                   font.pixelSize: 22
+                }
+                StatusIndicator {
+                    Layout.alignment: Qt.AlignHCenter
+                    color: "red"
+                    active: root.electricalError
+                }
+            }
 
             Button {
                 text: qsTr("Start")

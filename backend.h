@@ -1,4 +1,4 @@
-#ifndef BACKEND_H
+﻿#ifndef BACKEND_H
 #define BACKEND_H
 
 #include <QObject>
@@ -25,8 +25,8 @@ struct BoardData {
     uint16_t pumpSpeed = 0 ;
     uint8_t batteryCharge = 100;
     bool powerCharge = false;
-    bool pumpStatusPower = true;
-    bool pumpStatusAirFlow = true;
+    bool flowErrorStatus = false;
+    bool electricalErrorStatus = false;
     float presureSenesor = 0;
     float tempuretureArea = 0;
     float tempuretureBoard = 0;
@@ -58,8 +58,8 @@ struct BoardPacketRx {
     uint16_t pumpSpeed;
     uint16_t tempArea;
     uint16_t tempBoard;
-    uint8_t pumpStatusPower; // boolean
-    uint8_t pumpStatusAirFlow; // boolean
+    uint8_t flowErrorStatus; // boolean
+    uint8_t electricalErrorStatus; // boolean
     uint8_t powerCharge;
     uint8_t batteryCharge;
     uint16_t pressureSensor;
@@ -91,6 +91,8 @@ public:
     Q_INVOKABLE double getPresureArea();
     Q_INVOKABLE void startSensor(int sensorId);
     Q_INVOKABLE void startAllSensor();
+    Q_INVOKABLE bool getFlowErrorStatus();
+    Q_INVOKABLE bool getElectricalErrorStatus();
 
     char* makeSensorData(uint8_t sensorId);
     char* makeGeneralData();
