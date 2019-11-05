@@ -27,6 +27,9 @@
 class SensorSchema : public Schema
 {
 public:
+    string sqlInsert = "";
+    string columnNames = "";
+    string columnValues = "";
     // TEXT, NUMERIC, INTEGER, REAL, BLOBi
     SensorSchema() : Schema("Sensor") {
         addColumn("tempureture", "REAL", static_cast<string>("0") );
@@ -49,10 +52,9 @@ public:
         addColumn("sensorActive", "INTEGER", static_cast<string>("0") ); // boolean zero and one
 
         cout << "Schema command :" << sqlCommand <<endl;
-
-//        addColumnTest("sensorActive", "INTEGER", 1);
-//        addColumnTest("sensorActive", "INTEGER", 1.5);
     }
+
+    void setColumn(string columnName, string columnValue);
 };
 
 #endif // SENSORSCHEMA_H

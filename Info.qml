@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQml 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import QtQuick.Extras 1.4
@@ -7,14 +8,24 @@ import SensorModel 1.0
 
 Page {
     id: root
-
+    property string date_time: new Date().toLocaleString(locale, Locale.ShortFormat)
 
     ColumnLayout {
         anchors.fill: parent
 
+        Text {
+            id: time
+            text: qsTr(root.date_time)
+            font.pixelSize: 22
+            Layout.alignment: Qt.AlignHCenter
+            Layout.topMargin: 5
+        }
+
         ListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.topMargin: 5
+
             clip: true
             id: listView
             spacing: 10
@@ -29,6 +40,7 @@ Page {
                     setSensorActive(model.sensorActive);
                     setSensorName(model.gasType);
                     setProgressValue(0);
+                    setSensorId(index+1)
                 }
             }
 
@@ -128,6 +140,7 @@ Page {
                 text: qsTr("Start")
                 highlighted: true
                 Material.background: Material.Teal
+                onClicked: BackEnd.startAllSensor()
             }
 
             Button {
@@ -142,4 +155,11 @@ Page {
         }
 
     }
+
+    Timer {
+            interval: 45000; running: true; repeat: true
+            onTriggered: {
+                root.date_time = new Date().toLocaleString(locale, Locale.ShortFormat)
+            }
+     }
 }

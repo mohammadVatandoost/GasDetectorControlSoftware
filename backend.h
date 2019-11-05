@@ -88,6 +88,8 @@ public:
     Q_INVOKABLE int getHumidityOut();
     Q_INVOKABLE int getHumidityArea();
     Q_INVOKABLE double getTempArea();
+    Q_INVOKABLE void startSensor(int sensorId);
+    Q_INVOKABLE void startAllSensor();
 
     char* makeSensorData(uint8_t sensorId);
     char* makeGeneralData();

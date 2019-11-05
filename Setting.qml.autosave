@@ -345,4 +345,10 @@ Page {
            }
     }
 
+   Timer {
+           interval: 45000; running: true; repeat: true
+           onTriggered: {
+               root.date_time = new Date().toLocaleString(locale, Locale.ShortFormat)
+           }
+    }
 }

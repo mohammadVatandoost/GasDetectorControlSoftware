@@ -62,6 +62,16 @@ double Backend::getTempArea()
     return generalData.tempuretureArea;
 }
 
+void Backend::startSensor(int sensorId)
+{
+
+}
+
+void Backend::startAllSensor()
+{
+
+}
+
 char* Backend::makeSensorData(uint8_t sensorId)
 {
    SensorPacketTx temp;

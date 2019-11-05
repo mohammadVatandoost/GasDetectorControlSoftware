@@ -5,17 +5,22 @@ import QtQuick.Extras 1.4
 import QtQuick.Controls.Material 2.3
 
 RowLayout {
+    id: root
+    width: parent.width
+
     property bool tempActive: false
     property bool heaterActive: false
     property bool sensorActive: false
     property string sensorName: ""
     property double progressValue: 0
+    property int sensorId: 1
 
     function setTemp(temp) { tempActive = temp;}
     function setHeater(temp) { heaterActive = temp;}
     function setSensorActive(temp) { sensorActive = temp;}
     function setProgressValue(temp) { progressValue = temp;}
     function setSensorName(temp) { sensorName = temp;}
+    function setSensorId(temp) {sensorId = temp;}
 
     Image {
         sourceSize.width: 60
@@ -39,7 +44,28 @@ RowLayout {
         text: qsTr(sensorName)
     }
     ProgressBar {
+        id: control
         value: progressValue
+        padding: 2
+
+        background: Rectangle {
+            implicitWidth: 300
+            implicitHeight: 15
+            color: "#e6e6e6"
+            radius: 3
+        }
+
+        contentItem: Item {
+            implicitWidth: 300
+            implicitHeight: 4
+
+            Rectangle {
+                width: control.visualPosition * parent.width
+                height: parent.height
+                radius: 2
+                color: "#17a81a"
+            }
+        }
     }
     Text {
         text: qsTr("DC")
@@ -47,5 +73,11 @@ RowLayout {
     StatusIndicator {
             color: "green"
             active: sensorActive
+    }
+    Button {
+        text: qsTr("Start")
+        highlighted: true
+        Material.background: Material.Teal
+        onClicked: BackEnd.startSensor(sensorId)
     }
 }
