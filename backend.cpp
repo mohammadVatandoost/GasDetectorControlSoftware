@@ -62,6 +62,11 @@ double Backend::getTempArea()
     return generalData.tempuretureArea;
 }
 
+double Backend::getPresureArea()
+{
+    return generalData.presureSenesor;
+}
+
 void Backend::startSensor(int sensorId)
 {
 

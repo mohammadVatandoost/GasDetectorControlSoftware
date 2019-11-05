@@ -9,5 +9,6 @@
         <file>ChartComponent.qml</file>
         <file>Configs.qml</file>
         <file>ConfigItem.qml</file>
+        <file>SplashScreen.qml</file>
     </qresource>
 </RCC>

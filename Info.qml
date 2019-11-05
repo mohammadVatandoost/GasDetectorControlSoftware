@@ -55,6 +55,7 @@ Page {
             property string humidityOut: "DC"
             property string humidityArea: "DC"
             property string tempArea: "DC"
+            property string presueArea: "DC"
 
             function refreshData() {
                 console.log("refreshData");
@@ -63,7 +64,79 @@ Page {
                 humidityOut = BackEnd.getHumidityOut();
                 humidityArea = BackEnd.getHumidityArea();
                 tempArea = BackEnd.getTempArea()
+                presueArea = BackEnd.getTempArea()
             }
+
+         RowLayout {
+             width: parent.width
+
+             ColumnLayout {
+
+                 Label {
+                     text: "PresureArea"
+                     font.pixelSize: 22
+                 }
+
+                 Text {
+                     Layout.alignment: Qt.AlignHCenter
+                     text: qsTr(pane.presueArea)
+                 }
+             }
+
+             ColumnLayout {
+
+                 Label {
+                     text: "TempArea"
+                     font.pixelSize: 22
+                 }
+
+                 Text {
+                     Layout.alignment: Qt.AlignHCenter
+                     text: qsTr(pane.tempArea)
+                 }
+             }
+
+             ColumnLayout {
+
+                 Label {
+                     text: "Area"
+                     font.pixelSize: 22
+                 }
+
+                 Text {
+ //                    id: humidityArea
+                     Layout.alignment: Qt.AlignHCenter
+                     text: qsTr(pane.humidityArea)
+                 }
+             }
+
+             ColumnLayout {
+
+                 Label {
+                     text: "In"
+                     font.pixelSize: 22
+                 }
+
+                 Text {
+ //                    id: humidityIn
+                     Layout.alignment: Qt.AlignHCenter
+                     text: qsTr(pane.humidityIn)
+                 }
+             }
+             ColumnLayout {
+
+                 Label {
+                     text: "Out"
+                     font.pixelSize: 22
+                 }
+
+                 Text {
+ //                    id: humidityOut
+                     Layout.alignment: Qt.AlignHCenter
+                     text: qsTr(pane.humidityOut)
+                 }
+             }
+         }
 
           RowLayout {
               width: parent.width
@@ -79,62 +152,7 @@ Page {
                   sourceSize.height: 100
                   source: pane.pumpActive ? "images/pumpBlue.jpeg" : "images/pumpBlack.png"
                 }
-            }
-
-            ColumnLayout {
-
-                Label {
-                    text: "TempArea"
-                    font.pixelSize: 22
-                }
-
-                Text {
-//                    id: humidityTempArea
-                    Layout.alignment: Qt.AlignHCenter
-                    text: qsTr(pane.tempArea)
-                }
-            }
-
-            ColumnLayout {
-
-                Label {
-                    text: "Area"
-                    font.pixelSize: 22
-                }
-
-                Text {
-//                    id: humidityArea
-                    Layout.alignment: Qt.AlignHCenter
-                    text: qsTr(pane.humidityArea)
-                }
-            }
-
-            ColumnLayout {
-
-                Label {
-                    text: "In"
-                    font.pixelSize: 22
-                }
-
-                Text {
-//                    id: humidityIn
-                    Layout.alignment: Qt.AlignHCenter
-                    text: qsTr(pane.humidityIn)
-                }
-            }
-            ColumnLayout {
-
-                Label {
-                    text: "Out"
-                    font.pixelSize: 22
-                }
-
-                Text {
-//                    id: humidityOut
-                    Layout.alignment: Qt.AlignHCenter
-                    text: qsTr(pane.humidityOut)
-                }
-            }
+            }     
 
             Button {
                 text: qsTr("Start")
