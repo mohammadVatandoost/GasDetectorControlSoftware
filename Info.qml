@@ -15,8 +15,10 @@ Page {
     property string humidityArea: "DC"
     property string tempArea: "DC"
     property string presueArea: "DC"
+    property string batteryCharge: "50%"
     property bool flowError: false
     property bool electricalError: false
+    property bool charging: false
 
     function refreshData() {
         console.log("refreshData");
@@ -28,6 +30,8 @@ Page {
         root.presueArea = BackEnd.getTempArea()
         root.flowError = BackEnd.getFlowErrorStatus()
         root.electricalError = BackEnd.getElectricalErrorStatus()
+        root.batteryCharge = BackEnd.getBatteryCharge()
+        root.charging = BackEnd.getChargingStatus()
     }
 
     ColumnLayout {
@@ -108,25 +112,35 @@ Page {
                     }
 
                     Text {
-    //                    id: humidityArea
                         Layout.alignment: Qt.AlignHCenter
                         text: qsTr(root.humidityArea)
                     }
                 }
 
                 ColumnLayout {
+                    Label {
+                        text: "Battery Charge"
+                        font.pixelSize: 22
+                    }
 
+                    Text {
+                        Layout.alignment: Qt.AlignHCenter
+                        text: qsTr(root.batteryCharge)
+                    }
+                }
+
+                ColumnLayout {
                     Label {
                         text: "In"
                         font.pixelSize: 22
                     }
 
                     Text {
-    //                    id: humidityIn
                         Layout.alignment: Qt.AlignHCenter
                         text: qsTr(root.humidityIn)
                     }
                 }
+
                 ColumnLayout {
 
                     Label {
@@ -186,6 +200,18 @@ Page {
                     Layout.alignment: Qt.AlignHCenter
                     color: "red"
                     active: root.electricalError
+                }
+            }
+            ColumnLayout {
+                Label {
+                   Layout.alignment: Qt.AlignHCenter
+                   text: "Charging"
+                   font.pixelSize: 22
+                }
+                StatusIndicator {
+                    Layout.alignment: Qt.AlignHCenter
+                    color: "green"
+                    active: root.charging
                 }
             }
 

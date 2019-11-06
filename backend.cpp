@@ -91,6 +91,16 @@ bool Backend::getElectricalErrorStatus()
     return generalData.electricalErrorStatus;
 }
 
+bool Backend::getChargingStatus()
+{
+    return generalData.chargingStatus;
+}
+
+QString Backend::getBatteryCharge()
+{
+    return QString::number(generalData.batteryCharge)+"%";
+}
+
 char* Backend::makeSensorData(uint8_t sensorId)
 {
    SensorPacketTx temp;

@@ -61,8 +61,14 @@ Page {
        }
 
      ColumnLayout {
+
+       Equation {
+         id: equation
+       }
+
        Configs {
            id: configs
+           Layout.topMargin: 15
            onConfigSelected: {
                popup.setConfigId(configId)
                popup.setConfigName(configName)

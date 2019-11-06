@@ -24,7 +24,7 @@ struct BoardData {
     uint8_t humidityArea = 0 ;
     uint16_t pumpSpeed = 0 ;
     uint8_t batteryCharge = 100;
-    bool powerCharge = false;
+    bool chargingStatus = false;
     bool flowErrorStatus = false;
     bool electricalErrorStatus = false;
     float presureSenesor = 0;
@@ -93,6 +93,8 @@ public:
     Q_INVOKABLE void startAllSensor();
     Q_INVOKABLE bool getFlowErrorStatus();
     Q_INVOKABLE bool getElectricalErrorStatus();
+    Q_INVOKABLE bool getChargingStatus();
+    Q_INVOKABLE QString getBatteryCharge();
 
     char* makeSensorData(uint8_t sensorId);
     char* makeGeneralData();

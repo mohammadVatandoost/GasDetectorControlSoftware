@@ -22,7 +22,6 @@
 //    bool tempActive = false;
 //    bool heaterActive = false;
 //    bool sensorActive = false;
-
 // it must mention public, default is private
 class SensorSchema : public Schema
 {
@@ -30,6 +29,8 @@ public:
     string sqlInsert = "";
     string columnNames = "";
     string columnValues = "";
+
+
     // TEXT, NUMERIC, INTEGER, REAL, BLOBi
     SensorSchema() : Schema("Sensor") {
         addColumn("tempureture", "REAL", static_cast<string>("0") );
@@ -54,7 +55,7 @@ public:
         cout << "Schema command :" << sqlCommand <<endl;
     }
 
-    void setColumn(string columnName, string columnValue);
+//    string setColumn();
 };
 
 #endif // SENSORSCHEMA_H
