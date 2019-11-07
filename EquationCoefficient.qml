@@ -15,12 +15,13 @@ Pane {
         Text {
             text: qsTr(root.power)
             font.pixelSize: 18
-            Layout.leftMargin: 30
+            Layout.leftMargin: coefficientText.width
             Layout.topMargin: 0
             Layout.bottomMargin: 0
 
         }
         Text {
+            id: coefficientText
             text: qsTr(coefficient + " X")
             font.pixelSize: 22
             Layout.topMargin: -10

@@ -26,7 +26,7 @@ struct Sensor {
     float tempuretureTh = 0 ; // for T1 in page 1
     QString gasType = "NO";
     QString pressureType = "PPM";
-    FormulType equation = FormulType::first;
+    uint8_t equation = 0;
     bool RtoR0OrRtoDeltaR = true;
     bool tempActive = false;
     bool heaterActive = false;

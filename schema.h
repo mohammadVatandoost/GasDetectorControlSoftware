@@ -22,6 +22,7 @@ public:
 //    bool addColumnTest(string name, string type, double defaultValue);
 
     bool checkIsNewColumnName(string name);
+
 };
 
 #endif // SCHEMA_H

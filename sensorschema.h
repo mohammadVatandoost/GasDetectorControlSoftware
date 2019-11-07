@@ -2,26 +2,9 @@
 #define SENSORSCHEMA_H
 
 #include "schema.h"
+#include "myutitlity.h"
 
-//struct Sensor {
-//    float tempureture = 0;
-//    float res = 0;
-//    uint8_t current = 0;
-//    uint8_t lowPassFilter = 1;
-//    uint16_t R0 = 0; // for alghoritm
-//    uint16_t RThereshould = 0 ;
-//    uint16_t operationTime = 1 ;
-//    uint16_t recoveryTime = 1 ;
-//    float operationTemp = 0;
-//    float recoveryTemp = 0;
-//    float tempuretureTh = 0 ; // for T1 in page 1
-//    QString gasType = "NO";
-//    ValueType type = ValueType::PPM;
-//    FormulType equation = FormulType::first;
-//    bool RtoR0OrRtoDeltaR = true;
-//    bool tempActive = false;
-//    bool heaterActive = false;
-//    bool sensorActive = false;
+
 // it must mention public, default is private
 class SensorSchema : public Schema
 {
@@ -30,6 +13,24 @@ public:
     string columnNames = "";
     string columnValues = "";
 
+    float tempureture = 0;
+    float res = 0;
+    uint8_t current = 0;
+    uint8_t lowPassFilter = 1;
+    uint16_t R0 = 0; // for alghoritm
+    uint16_t RThereshould = 0 ;
+    uint16_t operationTime = 1 ;
+    uint16_t recoveryTime = 1 ;
+    float operationTemp = 0;
+    float recoveryTemp = 0;
+    float tempuretureTh = 0 ; // for T1 in page 1
+    string gasType = "NO";
+    string pressureType = "PPM";
+    uint8_t equation = 0;
+    bool RtoR0OrRtoDeltaR = true;
+    bool tempActive = false;
+    bool heaterActive = false;
+    bool sensorActive = false;
 
     // TEXT, NUMERIC, INTEGER, REAL, BLOBi
     SensorSchema() : Schema("Sensor") {
@@ -45,7 +46,7 @@ public:
         addColumn("recoveryTemp", "REAL", static_cast<string>("0") );
         addColumn("tempuretureTh", "REAL", static_cast<string>("0") );
         addColumn("gasType", "TEXT", static_cast<string>("NO") );
-        addColumn("type", "TEXT", static_cast<string>("PPM") );
+        addColumn("pressureType", "TEXT", static_cast<string>("PPM") );
         addColumn("equation", "INTEGER", static_cast<string>("1") );
         addColumn("RtoR0OrRtoDeltaR", "INTEGER", static_cast<string>("0") ); // boolean zero and one
         addColumn("tempActive", "INTEGER", static_cast<string>("0") ); // boolean zero and one
@@ -55,7 +56,7 @@ public:
         cout << "Schema command :" << sqlCommand <<endl;
     }
 
-//    string setColumn();
+    string getSqlInsertCommand();
 };
 
 #endif // SENSORSCHEMA_H

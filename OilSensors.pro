@@ -62,7 +62,8 @@ HEADERS += \
     sqlite3ext.h \
     database.h \
     schema.h \
-    sensorschema.h
+    sensorschema.h \
+    myutitlity.h
 
 DISTFILES += \
     images/greenTemp.png

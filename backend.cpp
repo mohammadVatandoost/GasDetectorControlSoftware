@@ -139,6 +139,9 @@ void Backend::createTable()
         SensorSchema sensorSchema;
         if(db.createTable(sensorSchema)) {
             cout<< "table created successfully" << endl;
+            if(db.insert(sensorSchema.getSqlInsertCommand())) {
+                cout<< "sensor inserted successfully" << endl;
+            }
         }
     }
 }
