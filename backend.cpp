@@ -141,6 +141,10 @@ void Backend::createTable()
             cout<< "table created successfully" << endl;
             if(db.insert(sensorSchema.getSqlInsertCommand())) {
                 cout<< "sensor inserted successfully" << endl;
+                sensorSchema.tempureture = 10.5;
+                if(db.insert(sensorSchema.getSqlUpdateCommand(1))) {
+                    cout<< "sensor updated successfully" << endl;
+                }
             }
         }
     }

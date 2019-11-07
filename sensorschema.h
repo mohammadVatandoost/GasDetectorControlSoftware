@@ -57,6 +57,7 @@ public:
     }
 
     string getSqlInsertCommand();
+    string getSqlUpdateCommand(uint8_t sensorId);
 };
 
 #endif // SENSORSCHEMA_H

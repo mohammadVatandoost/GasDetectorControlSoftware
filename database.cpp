@@ -67,5 +67,24 @@ bool DataBase::insert(string sql_command)
          cout <<  " table inserted successfully" << endl;
          return true;
       }
+}
 
+bool DataBase::update(string sql_command)
+{
+    int exit = 0;
+
+    if(!isOpen) {return false;}
+
+    char *zErrMsg = 0;
+    cout<<endl<<"insert : " << sql_command << endl;
+    exit = sqlite3_exec(DB, sql_command.c_str(), callback, 0, &zErrMsg);
+
+      if( exit != SQLITE_OK ){
+         cerr << "SQL error: " << zErrMsg << endl;
+         sqlite3_free(zErrMsg);
+         return false;
+      } else {
+         cout <<  " table update successfully" << endl;
+         return true;
+      }
 }

@@ -18,7 +18,8 @@ public:
     static int callback(void *NotUsed, int argc, char **argv, char **azColName);
     bool openConnection();
     bool createTable(Schema tableSchema);
-    bool insert(string tableSchema);
+    bool insert(string sql_command);
+    bool update(string sql_command);
 };
 
 #endif // DATABASE_H
