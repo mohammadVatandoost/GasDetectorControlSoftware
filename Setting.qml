@@ -64,6 +64,17 @@ Page {
 
        Equation {
          id: equation
+         Component.onCompleted: {
+             console.log("Equation :")
+             console.log(SensorsList.getEquationCoefficient(sensorId))
+             console.log(SensorsList.getEquationPowers(sensorId))
+             setPowers(SensorsList.getEquationPowers(sensorId))
+             setCoefficients(SensorsList.getEquationCoefficient(sensorId))
+             refresh()
+         }
+         onConfigSelected: {
+             equationPopup.open();
+         }
        }
 
        Configs {
@@ -152,9 +163,27 @@ Page {
 
               ColumnLayout {
 
-                  Label {
-                      text: "PPM"
-                      font.pixelSize: 22
+//                  Label {
+//                      text: "PPM"
+//                      font.pixelSize: 22
+//                  }
+                  ComboBox {
+                      id: comboBoxPressure
+                      property var pressureTypes: [ "PPM", "%", "PPB"]
+                      function getIndex() {
+                          var pressureType = SensorsList.getPressureTypeValue(root.sensorId)
+                          for(var i=0; i< gasTypes.length; i++) {
+                              if(pressureTypes[i] === pressureType) {
+                                  return i;
+                              }
+                          }
+                          return 0;
+                      }
+
+                      width: 200
+                      model: pressureTypes
+                      currentIndex: getIndex()
+                      onActivated:SensorsList.setPressureTypeValue(root.sensorId, pressureTypes[currentIndex])
                   }
 
                   Text {
@@ -350,6 +379,15 @@ Page {
 
            }
     }
+
+   EquationInsert {
+       id: equationPopup
+       Component.onCompleted: {
+           setPowers(SensorsList.getEquationPowers(sensorId))
+           setCoefficients(SensorsList.getEquationCoefficient(sensorId))
+           refresh()
+       }
+   }
 
    Timer {
            interval: 45000; running: true; repeat: true

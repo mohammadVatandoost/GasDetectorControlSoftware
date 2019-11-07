@@ -36,6 +36,8 @@ SOURCES += \
     schema.cpp \
     sensorschema.cpp
 
+LIBS += /usr/lib/libgtest.a
+
 RESOURCES += qml.qrc \
     images.qrc
 
@@ -64,3 +66,5 @@ HEADERS += \
 
 DISTFILES += \
     images/greenTemp.png
+
+

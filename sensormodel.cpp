@@ -51,8 +51,8 @@ QVariant SensorModel::data(const QModelIndex &index, int role) const
        return QVariant(item.recoveryTemp);
     case gasType:
        return QVariant(item.gasType);
-    case type:
-       return QVariant(item.type);
+    case pressureType:
+       return QVariant(item.pressureType);
     case equation:
        return QVariant(item.equation);
     case RtoR0OrRtoDeltaR:
@@ -131,7 +131,7 @@ QHash<int, QByteArray> SensorModel::roleNames() const
   names[operationTime] = "operationTime" ;
   names[recoveryTemp] = "recoveryTemp" ;
   names[gasType] = "gasType";
-  names[type] = "type" ;
+  names[pressureType] = "pressureType" ;
   names[equation] = "equation" ;
   names[RtoR0OrRtoDeltaR] = "RtoR0OrRtoDeltaR" ;
   names[tempActive] = "tempActive" ;

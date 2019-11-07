@@ -3,6 +3,8 @@
 SensorsList::SensorsList()
 {
   Sensor temp1;temp1.tempActive = true; temp1.heaterActive = true;temp1.sensorActive = true;temp1.lowPassFilter = 5;
+  temp1.equationCoefficient.append(4);temp1.equationCoefficient.append(7);temp1.equationCoefficient.append(9);
+  temp1.equationPower.append(6);temp1.equationPower.append(3);temp1.equationPower.append(1);
   Sensor temp2;
   Sensor temp3;
   Sensor temp4;
@@ -112,6 +114,15 @@ void SensorsList::setGasTypeValue(int sensorId, QString configValue)
     }
 }
 
+void SensorsList::setPressureTypeValue(int sensorId, QString configValue)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+       sensorItems[sensorId-1].pressureType =  configValue;
+    } else {
+        qDebug() << "sensorId not valid :" << sensorId ;
+    }
+}
+
 int SensorsList::getFilterValue(int sensorId)
 {
     if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
@@ -200,6 +211,38 @@ QString SensorsList::getGasTypeValue(int sensorId)
     } else {
         qDebug() << "Get sensorId not valid :" << sensorId ;
         return "not valid";
+    }
+}
+
+QString SensorsList::getPressureTypeValue(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId-1].pressureType;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return "not valid";
+    }
+}
+
+QVector<double> SensorsList::getEquationCoefficient(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId-1].equationCoefficient;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        QVector<double> temp;
+        return temp;
+    }
+}
+
+QVector<double> SensorsList::getEquationPowers(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId-1].equationPower;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        QVector<double> temp;
+        return temp;
     }
 }
 
