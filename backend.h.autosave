@@ -102,8 +102,8 @@ public:
     Q_INVOKABLE bool getChargingStatus();
     Q_INVOKABLE QString getBatteryCharge();
 
-    char* makeSensorData(uint8_t sensorId);
-    char* makeGeneralData();
+    void sendSensorData(uint8_t sensorId);
+    void sendGeneralData();
     void sendPacket(char* data, int size);
 
     void getSensorData(QByteArray data);

@@ -101,21 +101,23 @@ QString Backend::getBatteryCharge()
     return QString::number(generalData.batteryCharge)+"%";
 }
 
-char* Backend::makeSensorData(uint8_t sensorId)
+void Backend::sendSensorData(uint8_t sensorId)
 {
    SensorPacketTx temp;
    QVector<Sensor> sensors = mList->items();
    temp.sensorId = sensorId;
    temp.tempSetPoint = sensors[sensorId].tempureture;
    char* dataBytes = static_cast<char*>(static_cast<void*>(&temp));
-   return dataBytes;
+   serial->write(dataBytes);
 
 }
 
-char* Backend::makeGeneralData()
+void Backend::sendGeneralData()
 {
   BoardPacketTx temp;
   temp.pumpSpeed = generalData.pumpSpeed;
+  char* dataBytes = static_cast<char*>(static_cast<void*>(&temp));
+  serial->write(dataBytes);
 }
 
 void Backend::sendPacket(char *data, int size)
@@ -125,7 +127,7 @@ void Backend::sendPacket(char *data, int size)
 
 void Backend::getSensorData(QByteArray data)
 {
-   if() { 
+   if(data.size() == sizeof(struct SensorPacketRx)) { 
     SensorPacketRx *m = reinterpret_cast<SensorPacketRx*>(data.data());
     if(m->sendsorId < mList->items().size()) {
       mList->items()[m->sendsorId].tempureture = m->temp; 
@@ -135,20 +137,30 @@ void Backend::getSensorData(QByteArray data)
         cout<< "getSensorData :"<< m->sendsorId << " is wrong sensorId" << endl;
     } 
    } else {
-       cout<< 
+       cout<< "getSensorData "<< data.size() << " must be "<<sizeof(struct SensorPacketRx);
    }
 }
 
 void Backend::getGeneralData(QByteArray data)
 {
+  if(data.size() == sizeof(struct BoardPacketRx)) {            
     BoardPacketRx *m = reinterpret_cast<BoardPacketRx*>(data.data());
-    if(m->sendsorId < mList->items().size()) {
-      mList->items()[m->sendsorId].tempureture = m->; 
-      mList->items()[m->sendsorId].current = m->current;
-      mList->items()[m->sendsorId].res = m->res;
-    } else {
-        cout<< "getSensorData :"<< m->sendsorId << " is wrong sensorId" << endl;
-    }
+    generalData.humidityIn = m->humidityIn;
+    generalData.humidityArea = m->humidityArea;
+    generalData.humidityOut = m->humidityOut;
+    generalData.batteryCharge = m->batteryCharge;
+    generalData.electricalErrorStatus = m->electricalErrorStatus;
+    generalData.flowErrorStatus = m->flowErrorStatus;
+    generalData.fan1 = m->fan1;
+    generalData.fan2 = m->fan2;
+    generalData.chargingStatus = m->powerCharge;
+    generalData.presureSenesor = m->pressureSensor;
+    generalData.pumpSpeed = m->pumpSpeed;
+    generalData.tempuretureArea = m->tempArea;
+    generalData.tempuretureBoard = m->tempBoard;
+  } else {
+      cout<< "getGeneralData "<< data.size() << " must be "<<sizeof(struct BoardPacketRx);
+  } 
 }
 
 void Backend::decodePacket(QByteArray data)
