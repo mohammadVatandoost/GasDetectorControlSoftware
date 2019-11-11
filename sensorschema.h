@@ -3,7 +3,7 @@
 
 #include "schema.h"
 #include "myutitlity.h"
-
+#include "sensor.h"
 
 // it must mention public, default is private
 class SensorSchema : public Schema
@@ -58,6 +58,7 @@ public:
 
     string getSqlInsertCommand();
     string getSqlUpdateCommand(uint8_t sensorId);
+    string getSqlFindById(uint8_t sensorId);
 };
 
 #endif // SENSORSCHEMA_H

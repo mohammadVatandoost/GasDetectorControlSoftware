@@ -14,6 +14,11 @@
 #include "database.h"
 #include "sensorschema.h"
 
+#define SensorDataPacketCode 1
+#define PumpSpeedPacketCode 2
+
+#pragma pack(push, 1)
+
 using namespace std;
 
 QT_CHARTS_USE_NAMESPACE
@@ -44,7 +49,7 @@ struct SensorPacketRx {
     uint8_t sendsorId;
     uint16_t temp;
     uint8_t current;
-    uint32_t Res;
+    uint32_t res;
 };
 
 struct BoardPacketTx {
@@ -79,6 +84,7 @@ public:
     BoardData generalData;
     bool connectState = false;
     QByteArray dataBuf;
+    uint8_t recieveState = 0;
     DataBase db{"dataBase"};
 
     Q_INVOKABLE void setPumpValue(int configValue);
@@ -96,12 +102,13 @@ public:
     Q_INVOKABLE bool getChargingStatus();
     Q_INVOKABLE QString getBatteryCharge();
 
-    char* makeSensorData(uint8_t sensorId);
-    char* makeGeneralData();
+    void sendSensorData(uint8_t sensorId);
+    void sendGeneralData();
     void sendPacket(char* data, int size);
 
     void getSensorData(QByteArray data);
     void getGeneralData(QByteArray data);
+    void decodePacket(QByteArray data);
     void createTable();
 
 private:

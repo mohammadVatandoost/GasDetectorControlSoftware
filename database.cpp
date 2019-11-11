@@ -76,7 +76,7 @@ bool DataBase::update(string sql_command)
     if(!isOpen) {return false;}
 
     char *zErrMsg = 0;
-    cout<<endl<<"insert : " << sql_command << endl;
+    cout<<endl<<"update : " << sql_command << endl;
     exit = sqlite3_exec(DB, sql_command.c_str(), callback, 0, &zErrMsg);
 
       if( exit != SQLITE_OK ){
@@ -87,4 +87,83 @@ bool DataBase::update(string sql_command)
          cout <<  " table update successfully" << endl;
          return true;
       }
+}
+
+Sensor DataBase::findById(string sql_command)
+{
+    int exit = 0;
+    char q[999];
+    sqlite3_stmt* stmt;
+    int row = 0;
+    int bytes;
+    const unsigned char* text;
+    Sensor temp;
+
+    if(!isOpen) { cout<<"findById connection is not open";  return temp;}
+
+    sqlite3_prepare(DB, sql_command.c_str(), sizeof q, &stmt, NULL);
+
+    bool done = false;
+
+        while (!done) {
+            printf("In select while\n");
+            switch (sqlite3_step (stmt)) {
+              case SQLITE_ROW:
+                cout<< "column counter :" << sqlite3_column_count(stmt) << endl;
+                cout<< "id :" << sqlite3_column_double(stmt, 0) << endl;
+                cout<< "tempureture :" << sqlite3_column_double(stmt, 1) << endl;
+                cout<< "res :" << sqlite3_column_double(stmt, 2) << endl;
+                cout<< "current :" << sqlite3_column_int(stmt, 3) << endl;
+                cout<< "lowPassFilter :" << sqlite3_column_int(stmt, 4) << endl;
+                cout<< "R0 :" << sqlite3_column_int(stmt, 5) << endl;
+                cout<< "RThereshould :" << sqlite3_column_int(stmt, 6) << endl;
+                cout<< "operationTime :" << sqlite3_column_int(stmt, 7) << endl;
+                cout<< "recoveryTime :" << sqlite3_column_int(stmt, 8) << endl;
+                cout<< "operationTemp :" << sqlite3_column_double(stmt, 9) << endl;
+                cout<< "recoveryTemp :" << sqlite3_column_double(stmt, 10) << endl;
+                cout<< "tempuretureTh :" << sqlite3_column_double(stmt, 11) << endl;
+                cout<< "gasType :" << sqlite3_column_text(stmt, 12) << endl;
+                cout<< "pressureType :" << sqlite3_column_text(stmt, 13) << endl;
+                cout<< "equation :" << sqlite3_column_int(stmt, 14) << endl;
+                cout<< "RtoR0OrRtoDeltaR :" << sqlite3_column_int(stmt, 15) << endl;
+                cout<< "tempActive :" << sqlite3_column_int(stmt, 16) << endl;
+                cout<< "heaterActive :" << sqlite3_column_int(stmt, 17) << endl;
+                cout<< "sensorActive :" << sqlite3_column_int(stmt, 18) << endl;
+                temp.tempureture = static_cast<float>(sqlite3_column_double(stmt, 1)) ;
+                temp.res = static_cast<float>(sqlite3_column_double(stmt, 2)) ;
+                temp.current = static_cast<uint8_t>(sqlite3_column_int(stmt, 3)) ;
+                temp.lowPassFilter = static_cast<uint8_t>(sqlite3_column_int(stmt, 4)) ;
+                temp.R0 = static_cast<uint16_t>(sqlite3_column_int(stmt, 5)) ;
+                temp.RThereshould = static_cast<uint16_t>(sqlite3_column_int(stmt, 6)) ;
+                temp.operationTime = static_cast<uint16_t>(sqlite3_column_int(stmt, 7)) ;
+                temp.recoveryTime = static_cast<uint16_t>(sqlite3_column_int(stmt, 8)) ;
+                temp.operationTemp = static_cast<float>(sqlite3_column_double(stmt, 9)) ;
+                temp.recoveryTemp = static_cast<float>(sqlite3_column_double(stmt, 10)) ;
+                temp.tempuretureTh = static_cast<float>(sqlite3_column_double(stmt, 11)) ;
+                temp.gasType = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 12))  ;
+                temp.pressureType = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 13)) ;
+                temp.equation = static_cast<uint8_t>(sqlite3_column_int(stmt, 14)) ;
+                temp.RtoR0OrRtoDeltaR = static_cast<uint8_t>(sqlite3_column_int(stmt, 15)) ;
+                temp.tempActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 16)) ;
+                temp.heaterActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 17)) ;
+                temp.sensorActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 18)) ;
+//                bytes = sqlite3_column_bytes(stmt, 0);
+//                text  = sqlite3_column_text(stmt, 1);
+//                printf ("count %d: %s (%d bytes)\n", row, text, bytes);
+                row++;
+                break;
+
+              case SQLITE_DONE:
+                 done = true;
+                 break;
+
+              default:
+                fprintf(stderr, "Failed.\n");
+                return temp;
+            }
+        }
+
+        sqlite3_finalize(stmt);
+
+        return temp;
 }

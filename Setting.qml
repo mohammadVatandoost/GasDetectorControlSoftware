@@ -51,6 +51,7 @@ Page {
 
    Grid {
        columns: window.width > 767 ? 2 : 1
+       width: parent.width
        spacing: 2
        topPadding: 10
        rightPadding: 10
@@ -58,10 +59,11 @@ Page {
 
        ChartComponent {
            id: chartS
+           width: window.width > 1023 ? parent.width*2/3 : parent.width/2
        }
 
      ColumnLayout {
-
+       width: window.width > 1023 ? parent.width/3 : parent.width/2
        Equation {
          id: equation
          Component.onCompleted: {

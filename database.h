@@ -4,6 +4,7 @@
 #include <iostream>
 #include "sqlite3.h"
 #include "schema.h"
+#include "sensor.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ public:
     bool createTable(Schema tableSchema);
     bool insert(string sql_command);
     bool update(string sql_command);
+    Sensor findById(string sql_command);
 };
 
 #endif // DATABASE_H

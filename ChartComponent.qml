@@ -4,7 +4,7 @@ import QtCharts 2.0
 
 ChartView {
 //    title: "Y"
-    width: 400
+//    width: 400
     height: window.height*0.9
     antialiasing: true
     id: root

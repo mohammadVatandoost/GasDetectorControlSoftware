@@ -32,3 +32,11 @@ string SensorSchema::getSqlUpdateCommand(uint8_t sensorId)
     cout << "getSqlUpdateCommand :"<< temp;
     return temp;
 }
+
+string SensorSchema::getSqlFindById(uint8_t sensorId)
+{
+   MyUtitlity u;
+   string temp = "SELECT * FROM Sensor WHERE id="+u.numberToString(unsigned(sensorId));
+   cout << "getSqlFindById :"<< temp;
+   return temp;
+}
