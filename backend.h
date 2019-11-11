@@ -84,8 +84,9 @@ public:
     BoardData generalData;
     bool connectState = false;
     QByteArray dataBuf;
-    uint8_t recieveState = 0;
+    uint16_t recieveState = 0;
     DataBase db{"dataBase"};
+    uint16_t packetSize = 0;
 
     Q_INVOKABLE void setPumpValue(int configValue);
     Q_INVOKABLE int getPumpValue();

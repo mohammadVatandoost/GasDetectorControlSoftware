@@ -30,23 +30,23 @@ Popup {
         signal configSet(int configId, string configName, string configValue)
 
         function refresh(){
-              for(var i=0; i<coefficients.length; i++) {
-                   console.log("equetion for");console.log(coefficients[i]);console.log(powers[i])
-                   var component = Qt.createComponent("EquationCoefficient.qml");
-                   var object = component.createObject(equation)
-                   if(coefficients[i] < 0) {
-                       object.setCoefficient("-"+ coefficients[i])
-                       object.setPower( powers[i])
-                   } else {
-                       if(i==0) {
-                           object.setCoefficient(coefficients[i])
-                           object.setPower( powers[i])
-                       } else {
-                           object.setCoefficient("+"+ coefficients[i])
-                           object.setPower( powers[i])
-                       }
-                   }
-              }
+//              for(var i=0; i<coefficients.length; i++) {
+//                   console.log("equetion for");console.log(coefficients[i]);console.log(powers[i])
+//                   var component = Qt.createComponent("EquationCoefficient.qml");
+//                   var object = component.createObject(equation)
+//                   if(coefficients[i] < 0) {
+//                       object.setCoefficient("-"+ coefficients[i])
+//                       object.setPower( powers[i])
+//                   } else {
+//                       if(i==0) {
+//                           object.setCoefficient(coefficients[i])
+//                           object.setPower( powers[i])
+//                       } else {
+//                           object.setCoefficient("+"+ coefficients[i])
+//                           object.setPower( powers[i])
+//                       }
+//                   }
+//              }
          }
 
         Component.onCompleted: {
@@ -56,16 +56,89 @@ Popup {
         ColumnLayout {
             anchors.fill: parent
 
-            Pane {
-                implicitHeight: 100
-                implicitWidth: parent.width*0.8
-                anchors.horizontalCenter: parent.horizontalCenter
-                Material.elevation: 6
+//            Pane {
+//                implicitHeight: 100
+//                implicitWidth: parent.width*0.8
+//                anchors.horizontalCenter: parent.horizontalCenter
+//                Material.elevation: 6
 
-                RowLayout {
-                  id: equation
-                }
-            }
+//                RowLayout {
+//                  id: equation
+//                }
+//            }
+
+            Pane {
+                 implicitHeight: 100
+                 implicitWidth: parent.width*0.8
+                 anchors.horizontalCenter: parent.horizontalCenter
+                 Material.elevation: 6
+
+                 RowLayout {
+                     RadioButton { text: qsTr("");  checked: true }
+                     EquationCoefficient {
+                         Component.onCompleted: {
+                             setCoefficient("A");
+                             setPower("4");
+                             setVariable("X");
+                         }
+                     }
+                     EquationCoefficient {
+                         Component.onCompleted: {
+                             setCoefficient("+ B");
+                             setPower("3");
+                             setVariable("X");
+                         }
+                     }
+                     EquationCoefficient {
+                         Component.onCompleted: {
+                             setCoefficient("+ C");
+                             setPower("2");
+                             setVariable("X");
+                         }
+                     }
+                     EquationCoefficient {
+                         Component.onCompleted: {
+                             setCoefficient("+ D");
+                             setPower("1");
+                             setVariable("X");
+                         }
+                     }
+                     EquationCoefficient {
+                         Component.onCompleted: {
+                             setCoefficient("+ E");
+                             setPower("");
+                             setVariable("");
+                         }
+                     }
+                 }
+             }
+
+            Pane {
+                 implicitHeight: 100
+                 implicitWidth: parent.width*0.8
+                 anchors.horizontalCenter: parent.horizontalCenter
+                 Material.elevation: 6
+
+                 RowLayout {
+                     RadioButton { text: qsTr("");  checked: true }
+                     EquationCoefficient {
+                         Component.onCompleted: {
+                             setCoefficient("A");
+                             setPower("B");
+                             setVariable("e");
+                         }
+                     }
+                     EquationCoefficient {
+                         Component.onCompleted: {
+                             setCoefficient("+ C");
+                             setPower("D");
+                             setVariable("e");
+                         }
+                     }
+                 }
+             }
+
+
 
             Pane {
                 implicitHeight: 100
@@ -76,38 +149,45 @@ Popup {
                 RowLayout {
                     width: parent.width
                     height: 100
-                    TextEdit {
-                        width: 110
-                        height: 20
-                        font.pixelSize: 12
-                        focus: true
-                    }
-                    TextEdit {
-                        width: 110
-                        height: 20
-                        font.pixelSize: 12
-                        focus: true
-                    }
-                    Button {
-                        text: qsTr("Add")
-                        highlighted: true
-                        Material.background: Material.Green
-                        onClicked: {
-                            popup.close();
+                    ColumnLayout {
+                        Label {
+                            text: "A"
+                            font.pixelSize: 22
+                            Layout.alignment: Qt.AlignHCenter
                         }
+                       TextInputBorder {}
                     }
-                }
-                RowLayout {
-                    width: parent.width
-                    height: 100
-                    Button {
-                        text: qsTr("Remove")
-                        highlighted: true
-                        Material.background: Material.Red
-                        onClicked: {
-                            popup.close();
+                    ColumnLayout {
+                        Label {
+                            text: "B"
+                            font.pixelSize: 22
+                            Layout.alignment: Qt.AlignHCenter
                         }
-//                        Layout.alignment: Qt.AlignHCenter
+                       TextInputBorder {}
+                    }
+                    ColumnLayout {
+                        Label {
+                            text: "C"
+                            font.pixelSize: 22
+                            Layout.alignment: Qt.AlignHCenter
+                        }
+                       TextInputBorder {}
+                    }
+                    ColumnLayout {
+                        Label {
+                            text: "D"
+                            font.pixelSize: 22
+                            Layout.alignment: Qt.AlignHCenter
+                        }
+                       TextInputBorder {}
+                    }
+                    ColumnLayout {
+                        Label {
+                            text: "E"
+                            font.pixelSize: 22
+                            Layout.alignment: Qt.AlignHCenter
+                        }
+                       TextInputBorder {}
                     }
                 }
             }

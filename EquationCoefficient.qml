@@ -9,8 +9,10 @@ Pane {
     id: root
     property string coefficient: "+5"
     property string power: "5"
+    property string variable: "X"
     function setCoefficient(temp) {coefficient = temp;}
     function setPower(temp) {power = temp;}
+    function setVariable(temp) {variable = temp;}
     ColumnLayout {
         Text {
             text: qsTr(root.power)
@@ -22,7 +24,7 @@ Pane {
         }
         Text {
             id: coefficientText
-            text: qsTr(coefficient + " X")
+            text: qsTr(coefficient + " "+ variable)
             font.pixelSize: 22
             Layout.topMargin: -10
             Layout.bottomMargin: 0

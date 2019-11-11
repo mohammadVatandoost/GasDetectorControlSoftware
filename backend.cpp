@@ -226,15 +226,30 @@ void Backend::recieveSerialPort()
         if(data[i] == '*' && recieveState == 0) {
             recieveState = recieveState + 1;
             decodePacket(dataBuf);
-        } else if(data[i] == '@' && recieveState == 1) {
-            recieveState = 0;
+        } else if( recieveState == 1) {
+            if(data[i] == '@') {
+              recieveState = recieveState + 1;
+            } else {
+                recieveState = 0;
+            }
             dataBuf.clear();
-        } else if(recieveState == 0) {
-           dataBuf.append(data[i]);
+        } else if(recieveState == 2) {
+            uint8_t packetCode = static_cast<uint8_t>(data[i]);
+            if(packetCode == SensorDataPacketCode) {
+                packetSize =  sizeof(struct SensorPacketRx);
+            } else if(packetCode == PumpSpeedPacketCode) {
+                packetSize =  sizeof(struct BoardPacketRx);
+            }
+            recieveState = recieveState + 1;
+        } else {
+          if( packetSize + 3 !=  recieveState) {
+              dataBuf.append(data[i]);
+              recieveState = recieveState + 1;
+          } else {
+             recieveState = 0;
+          }
         }
     }
-
-
 }
 
 void Backend::timerSlot()

@@ -9,5 +9,6 @@
         <file>Setting.qml</file>
         <file>Equation.qml</file>
         <file>EquationCoefficient.qml</file>
+        <file>TextInputBorder.qml</file>
     </qresource>
 </RCC>
