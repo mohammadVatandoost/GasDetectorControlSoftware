@@ -32,6 +32,9 @@ Popup {
         function setConfigId(temp) {configId = temp;}
         function setConfigName(temp) {configName = temp;}
         function setConfigValue(temp) {configValue = temp;}
+        function setVariables(a1, b1, c1, d1, e1) {
+            a=a1; b=b1; c=c1; d=d1; e=e1;
+        }
         signal configSet(int configId, string configName, string configValue)
 
         function refresh(){
@@ -90,7 +93,7 @@ Popup {
                          ButtonGroup.group: radioGroup
                          onClicked: {
                              console.log("equation 1")
-                             econtainer.visible = false;
+                             econtainer.visible = true;
                          }
                      }
                      EquationCoefficient {
@@ -144,7 +147,7 @@ Popup {
                          ButtonGroup.group: radioGroup
                          onClicked: {
                              console.log("equation 2")
-                             econtainer.visible = true;
+                             econtainer.visible = false;
                          }
                      }
                      EquationCoefficient {

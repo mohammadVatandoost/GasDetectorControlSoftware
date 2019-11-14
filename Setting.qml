@@ -387,7 +387,7 @@ Page {
        Component.onCompleted: {
            setPowers(SensorsList.getEquationPowers(sensorId))
            setCoefficients(SensorsList.getEquationCoefficient(sensorId))
-           refresh()
+//           refresh()
        }
    }
 
