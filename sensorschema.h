@@ -27,6 +27,11 @@ public:
     string gasType = "NO";
     string pressureType = "PPM";
     uint8_t equation = 0;
+    float equationA = 1;
+    float equationB = 2;
+    float equationC = 2;
+    float equationD = 2;
+    float equationE = 2;
     bool RtoR0OrRtoDeltaR = true;
     bool tempActive = false;
     bool heaterActive = false;
@@ -48,6 +53,11 @@ public:
         addColumn("gasType", "TEXT", static_cast<string>("NO") );
         addColumn("pressureType", "TEXT", static_cast<string>("PPM") );
         addColumn("equation", "INTEGER", static_cast<string>("1") );
+        addColumn("equationA", "REAL", static_cast<string>("1") );
+        addColumn("equationB", "REAL", static_cast<string>("1") );
+        addColumn("equationC", "REAL", static_cast<string>("1") );
+        addColumn("equationD", "REAL", static_cast<string>("1") );
+        addColumn("equationE", "REAL", static_cast<string>("1") );
         addColumn("RtoR0OrRtoDeltaR", "INTEGER", static_cast<string>("0") ); // boolean zero and one
         addColumn("tempActive", "INTEGER", static_cast<string>("0") ); // boolean zero and one
         addColumn("heaterActive", "INTEGER", static_cast<string>("0") ); // boolean zero and one

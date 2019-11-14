@@ -7,7 +7,7 @@ Page {
     Image {
       sourceSize.width: 400
       sourceSize.height: 400
-      source: "images/pumpBlue.jpeg"
+      source: "images/oilCompany.png"
       anchors.centerIn: parent
       anchors.verticalCenter: parent.verticalCenter
     }

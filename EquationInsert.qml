@@ -16,8 +16,9 @@ Popup {
         modal: true
         focus: true
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-
+        property int sensorId: 0
         property int configId
+        property int equationType: 0
         property string configName: "test"
         property string configValue: "test"
         property var coefficients: []
@@ -32,6 +33,9 @@ Popup {
         function setConfigId(temp) {configId = temp;}
         function setConfigName(temp) {configName = temp;}
         function setConfigValue(temp) {configValue = temp;}
+        function setVariables(sId, eType, a1, b1, c1, d1, e1) {
+            a=a1; b=b1; c=c1; d=d1; e=e1; equationType=eType; sensorId = sId;
+        }
         signal configSet(int configId, string configName, string configValue)
 
         function refresh(){
@@ -40,6 +44,12 @@ Popup {
             ctextinput.text = c;
             dtextinput.text = d;
             etextinput.text = e;
+            if(equationType == 0) {
+                equation0RadioBtn.checked = true;
+            } else if(equationType == 1) {
+                equation1RadioBtn.checked = true;
+            }
+
 //              for(var i=0; i<coefficients.length; i++) {
 //                   console.log("equetion for");console.log(coefficients[i]);console.log(powers[i])
 //                   var component = Qt.createComponent("EquationCoefficient.qml");
@@ -85,12 +95,14 @@ Popup {
 
                  RowLayout {
                      RadioButton {
+                         id: equation0RadioBtn
                          text: qsTr("");
                          checked: true
                          ButtonGroup.group: radioGroup
                          onClicked: {
                              console.log("equation 1")
-                             econtainer.visible = false;
+                             econtainer.visible = true;
+                             popup.equationType = 0;
                          }
                      }
                      EquationCoefficient {
@@ -139,12 +151,14 @@ Popup {
 
                  RowLayout {
                      RadioButton {
+                         id: equation1RadioBtn
                          text: qsTr("");
                          checked: false
                          ButtonGroup.group: radioGroup
                          onClicked: {
                              console.log("equation 2")
-                             econtainer.visible = true;
+                             econtainer.visible = false;
+                             popup.equationType = 1;
                          }
                      }
                      EquationCoefficient {
@@ -237,6 +251,12 @@ Popup {
                       highlighted: true
                       Material.background: Material.Green
                       onClicked: {
+                          SensorsList.setEquationType(sensorId, equationType);
+                          SensorsList.setEquationA(sensorId, a);
+                          SensorsList.setEquationB(sensorId, b);
+                          SensorsList.setEquationC(sensorId, c);
+                          SensorsList.setEquationD(sensorId, d);
+                          SensorsList.setEquationE(sensorId, e);
                           popup.close();
                       }
                       Layout.alignment: Qt.AlignHCenter

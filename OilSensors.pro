@@ -66,6 +66,7 @@ HEADERS += \
     myutitlity.h
 
 DISTFILES += \
-    images/greenTemp.png
+    images/greenTemp.png \
+    images/oilCompany.png
 
 

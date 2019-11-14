@@ -10,5 +10,6 @@
         <file>Equation.qml</file>
         <file>EquationCoefficient.qml</file>
         <file>TextInputBorder.qml</file>
+        <file>images/oilCompany.png</file>
     </qresource>
 </RCC>

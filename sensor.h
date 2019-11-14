@@ -26,15 +26,19 @@ struct Sensor {
     float tempuretureTh = 0 ; // for T1 in page 1
     QString gasType = "NO";
     QString pressureType = "PPM";
-    uint8_t equation = 0;
+    uint8_t equation = 0;  
+    float equationA = 1;
+    float equationB = 2;
+    float equationC = 2;
+    float equationD = 2;
+    float equationE = 2;
     bool RtoR0OrRtoDeltaR = true;
     bool tempActive = false;
     bool heaterActive = false;
     bool sensorActive = false;
     QVector<QPointF> tempData;
     QVector<QPointF> resData;
-    QVector<double> equationCoefficient;
-    QVector<double> equationPower;
+
 
     void addTempData(double time, double value) {
         QPointF temp(time,value);

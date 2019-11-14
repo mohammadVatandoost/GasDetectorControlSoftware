@@ -3,8 +3,6 @@
 SensorsList::SensorsList()
 {
   Sensor temp1;temp1.tempActive = true; temp1.heaterActive = true;temp1.sensorActive = true;temp1.lowPassFilter = 5;
-  temp1.equationCoefficient.append(4);temp1.equationCoefficient.append(7);temp1.equationCoefficient.append(9);
-  temp1.equationPower.append(6);temp1.equationPower.append(3);temp1.equationPower.append(1);
   Sensor temp2;
   Sensor temp3;
   Sensor temp4;
@@ -123,6 +121,60 @@ void SensorsList::setPressureTypeValue(int sensorId, QString configValue)
     }
 }
 
+void SensorsList::setEquationType(int sensorId, int configValue)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+       sensorItems[sensorId-1].equation =  static_cast<uint8_t>(configValue) ;
+    } else {
+        qDebug() << "sensorId not valid :" << sensorId ;
+    }
+}
+
+void SensorsList::setEquationA(int sensorId, QString configValue)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+       sensorItems[sensorId-1].equationA =  configValue.toFloat();
+    } else {
+        qDebug() << "sensorId not valid :" << sensorId ;
+    }
+}
+
+void SensorsList::setEquationB(int sensorId, QString configValue)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+       sensorItems[sensorId-1].equationB =  configValue.toFloat();
+    } else {
+        qDebug() << "sensorId not valid :" << sensorId ;
+    }
+}
+
+void SensorsList::setEquationC(int sensorId, QString configValue)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+       sensorItems[sensorId-1].equationC =  configValue.toFloat();
+    } else {
+        qDebug() << "sensorId not valid :" << sensorId ;
+    }
+}
+
+void SensorsList::setEquationD(int sensorId, QString configValue)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+       sensorItems[sensorId-1].equationD =  configValue.toFloat();
+    } else {
+        qDebug() << "sensorId not valid :" << sensorId ;
+    }
+}
+
+void SensorsList::setEquationE(int sensorId, QString configValue)
+{
+    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+       sensorItems[sensorId-1].equationE =  configValue.toFloat();
+    } else {
+        qDebug() << "sensorId not valid :" << sensorId ;
+    }
+}
+
 int SensorsList::getFilterValue(int sensorId)
 {
     if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
@@ -204,6 +256,66 @@ int SensorsList::getOPTimeValue(int sensorId)
     }
 }
 
+int SensorsList::getEquationType(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (0 < sensorId) ) {
+        return sensorItems[sensorId-1].equation;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+QString SensorsList::getEquationA(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (0 < sensorId) ) {
+        return QString::number(sensorItems[sensorId-1].equationA);
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+QString SensorsList::getEquationB(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (0 < sensorId) ) {
+        return QString::number(sensorItems[sensorId-1].equationB);
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+QString SensorsList::getEquationC(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (0 < sensorId) ) {
+        return QString::number(sensorItems[sensorId-1].equationC);
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+QString SensorsList::getEquationD(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (0 < sensorId) ) {
+        return QString::number(sensorItems[sensorId-1].equationD);
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+QString SensorsList::getEquationE(int sensorId)
+{
+    if( (sensorId <= sensorItems.size()) && (0 < sensorId) ) {
+        return QString::number(sensorItems[sensorId-1].equationE);
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
 QString SensorsList::getGasTypeValue(int sensorId)
 {
     if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
@@ -224,27 +336,27 @@ QString SensorsList::getPressureTypeValue(int sensorId)
     }
 }
 
-QVector<double> SensorsList::getEquationCoefficient(int sensorId)
-{
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
-        return sensorItems[sensorId-1].equationCoefficient;
-    } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
-        QVector<double> temp;
-        return temp;
-    }
-}
+//QVector<double> SensorsList::getEquationCoefficient(int sensorId)
+//{
+//    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+//        return sensorItems[sensorId-1].equationCoefficient;
+//    } else {
+//        qDebug() << "Get sensorId not valid :" << sensorId ;
+//        QVector<double> temp;
+//        return temp;
+//    }
+//}
 
-QVector<double> SensorsList::getEquationPowers(int sensorId)
-{
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
-        return sensorItems[sensorId-1].equationPower;
-    } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
-        QVector<double> temp;
-        return temp;
-    }
-}
+//QVector<double> SensorsList::getEquationPowers(int sensorId)
+//{
+//    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+//        return sensorItems[sensorId-1].equationPower;
+//    } else {
+//        qDebug() << "Get sensorId not valid :" << sensorId ;
+//        QVector<double> temp;
+//        return temp;
+//    }
+//}
 
 void SensorsList::appendItem()
 {

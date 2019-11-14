@@ -45,6 +45,12 @@ public:
     Q_INVOKABLE void setOPTimeValue(int sensorId, int configValue);
     Q_INVOKABLE void setGasTypeValue(int sensorId, QString configValue);
     Q_INVOKABLE void setPressureTypeValue(int sensorId, QString configValue);
+    Q_INVOKABLE void setEquationType(int sensorId, int configValue);
+    Q_INVOKABLE void setEquationA(int sensorId, QString configValue);
+    Q_INVOKABLE void setEquationB(int sensorId, QString configValue);
+    Q_INVOKABLE void setEquationC(int sensorId, QString configValue);
+    Q_INVOKABLE void setEquationD(int sensorId, QString configValue);
+    Q_INVOKABLE void setEquationE(int sensorId, QString configValue);
 
     Q_INVOKABLE int getFilterValue(int sensorId);
     Q_INVOKABLE int getR0Value(int sensorId);
@@ -54,10 +60,16 @@ public:
     Q_INVOKABLE int getRecTimeValue(int sensorId);
     Q_INVOKABLE double getRecTempValue(int sensorId);
     Q_INVOKABLE int getOPTimeValue(int sensorId);
+    Q_INVOKABLE int getEquationType(int sensorId);
+    Q_INVOKABLE QString getEquationA(int sensorId);
+    Q_INVOKABLE QString getEquationB(int sensorId);
+    Q_INVOKABLE QString getEquationC(int sensorId);
+    Q_INVOKABLE QString getEquationD(int sensorId);
+    Q_INVOKABLE QString getEquationE(int sensorId);
     Q_INVOKABLE QString getGasTypeValue(int sensorId);
     Q_INVOKABLE QString getPressureTypeValue(int sensorId);
-    Q_INVOKABLE QVector<double> getEquationCoefficient(int sensorId);
-    Q_INVOKABLE QVector<double> getEquationPowers(int sensorId);
+//    Q_INVOKABLE QVector<double> getEquationCoefficient(int sensorId);
+//    Q_INVOKABLE QVector<double> getEquationPowers(int sensorId);
 signals:
    void preItemAppended();
    void postItemAppended();

@@ -68,10 +68,7 @@ Page {
          id: equation
          Component.onCompleted: {
              console.log("Equation :")
-             console.log(SensorsList.getEquationCoefficient(sensorId))
-             console.log(SensorsList.getEquationPowers(sensorId))
-             setPowers(SensorsList.getEquationPowers(sensorId))
-             setCoefficients(SensorsList.getEquationCoefficient(sensorId))
+
              refresh()
          }
          onConfigSelected: {
@@ -385,8 +382,10 @@ Page {
    EquationInsert {
        id: equationPopup
        Component.onCompleted: {
-           setPowers(SensorsList.getEquationPowers(sensorId))
-           setCoefficients(SensorsList.getEquationCoefficient(sensorId))
+           setVariables(root.sensorId, SensorsList.getEquationType(root.sensorId), SensorsList.getEquationA(root.sensorId), SensorsList.getEquationB(root.sensorId),
+                        SensorsList.getEquationC(root.sensorId), SensorsList.getEquationD(root.sensorId), SensorsList.getEquationE(root.sensorId))
+//           setPowers(SensorsList.getEquationPowers(sensorId))
+//           setCoefficients(SensorsList.getEquationCoefficient(sensorId))
 //           refresh()
        }
    }

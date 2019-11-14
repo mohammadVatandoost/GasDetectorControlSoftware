@@ -237,8 +237,12 @@ void Backend::recieveSerialPort()
             uint8_t packetCode = static_cast<uint8_t>(data[i]);
             if(packetCode == SensorDataPacketCode) {
                 packetSize =  sizeof(struct SensorPacketRx);
+                dataBuf.append(data[i]);
             } else if(packetCode == PumpSpeedPacketCode) {
                 packetSize =  sizeof(struct BoardPacketRx);
+                dataBuf.append(data[i]);
+            } else {
+                packetSize = 0;
             }
             recieveState = recieveState + 1;
         } else {
