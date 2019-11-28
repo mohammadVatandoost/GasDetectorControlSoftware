@@ -20,6 +20,8 @@ Backend::Backend(QObject *parent) : QObject(parent)
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timerSlot()));
     timer->start(1000);
+
+    generalData = jsonStoring.getBoardData();
 }
 
 void Backend::setSensorsList(SensorsList *sensorsList)
@@ -73,7 +75,17 @@ double Backend::getPresureArea()
 
 void Backend::startSensor(int sensorId)
 {
-
+   mList->items()[sensorId].alghoritmRunning = !mList->items()[sensorId].alghoritmRunning;
+   if(mList->items()[sensorId].alghoritmRunning) {
+      sendPumpSpeedZero = false;
+   } else {
+       for(int i=0; i<mList->items().size(); i++) {
+           if(mList->items()[i].alghoritmRunning) {
+               return;
+           }
+       }
+       sendPumpSpeedZero = true;
+   }
 }
 
 void Backend::startAllSensor()
@@ -103,21 +115,67 @@ QString Backend::getBatteryCharge()
 
 void Backend::sendSensorData(uint8_t sensorId)
 {
+//    cout<< "sendSensprData "<<sensorId << endl;
    SensorPacketTx temp;
-   QVector<Sensor> sensors = mList->items();
+//   QVector<Sensor> sensors = mList->items();
    temp.sensorId = sensorId;
-   temp.tempSetPoint = sensors[sensorId].tempureture;
+   if(mList->items()[sensorId].alghoritmRunning) {
+     temp.tempSetPoint = mList->items()[sensorId].tempureture;
+   } else if(mList->items()[sensorId].heaterStart) {
+       temp.tempSetPoint = mList->items()[sensorId].tempureture;
+       cout<<sensorId <<" heaterStart "<<endl;
+   } else if(mList->items()[sensorId].recStart) {
+       temp.tempSetPoint = mList->items()[sensorId].recoveryTemp;
+        cout<<sensorId <<" recovery start " << temp.tempSetPoint  <<endl;
+   } else {
+      temp.tempSetPoint = 0;
+   }
+//   temp.tempSetPoint = 305;
+   uint32_t sum= 0;
    char* dataBytes = static_cast<char*>(static_cast<void*>(&temp));
-   serial->write(dataBytes);
+   for(int i=1; i<sizeof(struct SensorPacketTx); i++) {
+       sum = sum + ((uint8_t)dataBytes[i]);
+   }
+   dataBytes[sizeof(struct SensorPacketTx)] = (uint8_t)sum%256;
+//   cout<< "sendSensorData:" <<sensorId << " , " << unsigned(dataBytes[sizeof(struct SensorPacketTx)-2])<<" , " << unsigned(dataBytes[sizeof(struct SensorPacketTx)]) << " , "<<sum%256<<endl;
+   QString packet = "*@" ;
+   QByteArray tx_data; tx_data.append(packet);
+   serial->write(tx_data);
+   serial->write(dataBytes, sizeof(struct SensorPacketTx)+1);
+}
 
+void Backend::sendSensorDataHeater(int sensorId)
+{
+    mList->sensorItems[sensorId].heaterActive = true;
+    mList->sensorItems[sensorId].recStart = false;
+}
+
+void Backend::sendSensorDataRec(int sensorId)
+{
+    mList->sensorItems[sensorId].heaterActive = false;
+    mList->sensorItems[sensorId].recStart = true;
 }
 
 void Backend::sendGeneralData()
 {
+  cout<<"sendGeneralData :"<<endl;
   BoardPacketTx temp;
-  temp.pumpSpeed = generalData.pumpSpeed;
+  if(sendPumpSpeedZero) {
+    temp.pumpSpeed = 0;
+  } else {
+    temp.pumpSpeed = generalData.pumpSpeed;
+  }
+
+  uint32_t sum= 0;
   char* dataBytes = static_cast<char*>(static_cast<void*>(&temp));
-  serial->write(dataBytes);
+  for(int i=1; i<sizeof(struct BoardPacketTx); i++) {
+      sum = sum + ((uint8_t)dataBytes[i]);
+  }
+  dataBytes[sizeof(struct BoardPacketTx)] = (uint8_t)sum%256;
+  QString packet = "*@" ;
+  QByteArray tx_data; tx_data.append(packet);
+  serial->write(tx_data);
+  serial->write(dataBytes, sizeof(struct BoardPacketTx)+1);
 }
 
 void Backend::sendPacket(char *data, int size)
@@ -127,15 +185,17 @@ void Backend::sendPacket(char *data, int size)
 
 void Backend::getSensorData(QByteArray data)
 {
+//    cout<< "getSensorData"<<endl;
    if(data.size() == sizeof(struct SensorPacketRx)) {
     SensorPacketRx *m = reinterpret_cast<SensorPacketRx*>(data.data());
-    if(m->sendsorId < mList->items().size()) {
-      mList->items()[m->sendsorId].tempureture = m->temp;
-      mList->items()[m->sendsorId].current = m->current;
-      mList->items()[m->sendsorId].res = m->res;
+    if(mList->isNewId(m->sensorId)) {
+       Sensor temp = getSeneorDataFromDB(m->sensorId);
+       temp.current =  m->current; temp.tempureture = m->temp; temp.res = m->res;
+       mList->addSensor(temp);
     } else {
-        cout<< "getSensorData :"<< m->sendsorId << " is wrong sensorId" << endl;
+        mList->setSensorData(m);
     }
+
    } else {
        cout<< "getSensorData "<< data.size() << " must be "<<sizeof(struct SensorPacketRx);
    }
@@ -143,6 +203,7 @@ void Backend::getSensorData(QByteArray data)
 
 void Backend::getGeneralData(QByteArray data)
 {
+//    cout<< "getGeneralData"<<endl;
   if(data.size() == sizeof(struct BoardPacketRx)) {
     BoardPacketRx *m = reinterpret_cast<BoardPacketRx*>(data.data());
     generalData.humidityIn = m->humidityIn;
@@ -158,6 +219,7 @@ void Backend::getGeneralData(QByteArray data)
     generalData.pumpSpeed = m->pumpSpeed;
     generalData.tempuretureArea = m->tempArea;
     generalData.tempuretureBoard = m->tempBoard;
+//    jsonStoring.storeBoardData(generalData);
   } else {
       cout<< "getGeneralData "<< data.size() << " must be "<<sizeof(struct BoardPacketRx);
   }
@@ -165,21 +227,27 @@ void Backend::getGeneralData(QByteArray data)
 
 void Backend::decodePacket(QByteArray data)
 {
+//    cout<< endl << "decodePacket data.size():" << data.size() << " ," ;
     if(data.size() > 2){
+//        cout<< ", packetCode :" << unsigned(static_cast<uint8_t>(data[0])) << endl ;
         uint32_t sum=0;
-        for(int i=0; i<data.size()-1; i++) {
-            sum = sum + data[i];
+        for(int i=1; i<data.size()-1; i++) {
+//            cout<< unsigned(data[i]&0xFF) << ",";
+            sum = sum + ((uint8_t)data[i]);
         }
-        if( sum % 256 == static_cast<uint8_t>(data[data.size()-1])) {
-          uint8_t packetCode = data[0];
+//        cout<<endl;
+        if( sum % 256 == ((uint8_t)data[data.size()-1]) ) {
+//          cout<< "checksum is correct"<<endl;
+          uint8_t packetCode = ((uint8_t)data[0]);
+          data.remove(data.size()-1,1);
           data.remove(0,1);
-          if(packetCode == SensorDataPacketCode) {
+          if(packetCode == SensorDataPacketCodeRx) {
               getSensorData(data);
-          } else if (packetCode == PumpSpeedPacketCode) {
+          } else if (packetCode == BoardDataPacketCodeRx) {
              getGeneralData(data);
           }
         } else {
-            cout << unsigned(data[data.size()-1]) << " checsum is wrong " << sum % 256;
+            cout << unsigned(static_cast<uint8_t>(data[0])) <<", " << unsigned(static_cast<uint8_t>(data[data.size()-1])) << " checsum is wrong " << sum%256  << endl;
         }
     }
 }
@@ -190,39 +258,49 @@ void Backend::createTable()
         SensorSchema sensorSchema;
         if(db.createTable(sensorSchema)) {
             cout<< "table created successfully" << endl;
-            if(db.insert(sensorSchema.getSqlInsertCommand())) {
-                cout<< "sensor inserted successfully" << endl;
-                sensorSchema.tempureture = 10.5;
-                if(db.update(sensorSchema.getSqlUpdateCommand(1))) {
-                    cout<< "sensor updated successfully" << endl;
-                   Sensor temp = db.findById(sensorSchema.getSqlFindById(1));
-                   cout<< "sensor finded successfu successfully :" << temp.recoveryTemp << endl;
-                }
-            }
         }
     }
 }
 
+Sensor Backend::getSeneorDataFromDB(int sId)
+{
+    if(!db.isOpen) {
+       db.openConnection();
+    }
+    SensorSchema sensorSchema;
+    Sensor temp  ;
+    if(!db.findById(sensorSchema.getSqlFindById(sId), &temp)) {
+        cout<<"getSeneorDataFromDB "<<sId << " not finded"<<endl;
+    } else {
+       cout<<"getSeneorDataFromDB "<<sId << " finded"<<endl;
+    }
+    return temp;
+}
+
 void Backend::updateChart(QAbstractSeries *chartSeries, int sensorId)
 {
+  if(sensorId < mList->items().size() && -1 < sensorId) {
     if (chartSeries) {
         QXYSeries *xySeries = static_cast<QXYSeries *>(chartSeries);
         QVector<Sensor> sensors = mList->items();
         if(chartSeries->name() == "Temp") {
-          QVector<QPointF> points = sensors[sensorId-1].tempData;
+          QVector<QPointF> points = sensors[sensorId].tempData;
           xySeries->replace(points);
         } else {
-            QVector<QPointF> points = sensors[sensorId-1].resData;
+            QVector<QPointF> points = sensors[sensorId].resData;
             xySeries->replace(points);
         }
     }
+  }
 }
 
 void Backend::recieveSerialPort()
 {
     QByteArray data;
     data = serial->readAll();
+//    cout<< "recieveSerialPort:";
     for(int i=0; i< data.size(); i++) {
+//        cout<< data[i] << "|"<< ((uint16_t)data[i]) << ",";
         if(data[i] == '*' && recieveState == 0) {
             recieveState = recieveState + 1;
             decodePacket(dataBuf);
@@ -235,25 +313,31 @@ void Backend::recieveSerialPort()
             dataBuf.clear();
         } else if(recieveState == 2) {
             uint8_t packetCode = static_cast<uint8_t>(data[i]);
-            if(packetCode == SensorDataPacketCode) {
+            if(packetCode == SensorDataPacketCodeRx) {
                 packetSize =  sizeof(struct SensorPacketRx);
                 dataBuf.append(data[i]);
-            } else if(packetCode == PumpSpeedPacketCode) {
+                recieveState = recieveState + 1;
+            } else if(packetCode == BoardDataPacketCodeRx) {
                 packetSize =  sizeof(struct BoardPacketRx);
                 dataBuf.append(data[i]);
+                recieveState = recieveState + 1;
             } else {
                 packetSize = 0;
+                recieveState = 0;
+                dataBuf.clear();
             }
+//            cout <<"packetCode :"<< unsigned(packetCode) << ", packetSize :" << packetSize<<endl  ;
+
+        } else if(recieveState > 2){
+            dataBuf.append(data[i]);
             recieveState = recieveState + 1;
-        } else {
-          if( packetSize + 3 !=  recieveState) {
-              dataBuf.append(data[i]);
-              recieveState = recieveState + 1;
-          } else {
-             recieveState = 0;
-          }
+//            cout<< "rs:"<<recieveState << ":" <<data[i] <<",";
+            if( packetSize + 3 < recieveState) {
+               recieveState = 0;
+            }
         }
     }
+//    cout<<endl;
 }
 
 void Backend::timerSlot()
@@ -270,6 +354,11 @@ void Backend::timerSlot()
         } else {
             connectState = false; qDebug() << "Not conndected : ";
             serial->close();
+        }
+    } else {
+        sendGeneralData();
+        for(int i=0; i<mList->sensorItems.size(); i++) {
+            sendSensorData(i);
         }
     }
    } else {

@@ -75,9 +75,9 @@ RowLayout {
             active: sensorActive
     }
     Button {
-        text: qsTr("Start")
+        text: alghoritmRunning ? qsTr("Stop") : qsTr("Start")
         highlighted: true
-        Material.background: Material.Teal
+        Material.background: alghoritmRunning ? Material.Light : Material.Teal
         onClicked: BackEnd.startSensor(sensorId)
     }
 }

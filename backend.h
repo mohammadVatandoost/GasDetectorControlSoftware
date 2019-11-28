@@ -10,67 +10,26 @@
 #include <QtCharts/QAbstractSeries>
 #include <QTime>
 #include <QtCharts/QDateTimeAxis>
+#include <thread>
+//#include
 #include "sensorslist.h"
 #include "database.h"
 #include "sensorschema.h"
+#include "packet.h"
+#include "jsonstoring.h"
 
-#define SensorDataPacketCode 1
-#define PumpSpeedPacketCode 2
 
+
+#define tempNotValid 4000
+#define heaterNotValid 0
+
+// test this
 #pragma pack(push, 1)
 
 using namespace std;
 
 QT_CHARTS_USE_NAMESPACE
 
-struct BoardData {
-    uint8_t humidityIn = 0;
-    uint8_t humidityOut = 0;
-    uint8_t humidityArea = 0 ;
-    uint16_t pumpSpeed = 0 ;
-    uint8_t batteryCharge = 100;
-    bool chargingStatus = false;
-    bool flowErrorStatus = false;
-    bool electricalErrorStatus = false;
-    float presureSenesor = 0;
-    float tempuretureArea = 0;
-    float tempuretureBoard = 0;
-    bool fan1 = false;
-    bool fan2 = false;
-    string time ;
-};
-
-struct SensorPacketTx {
-    uint8_t sensorId;
-    uint16_t tempSetPoint;
-};
-
-struct SensorPacketRx {
-    uint8_t sendsorId;
-    uint16_t temp;
-    uint8_t current;
-    uint32_t res;
-};
-
-struct BoardPacketTx {
-    uint8_t pumpSpeed;
-};
-
-struct BoardPacketRx {
-    uint8_t humidityIn;
-    uint8_t humidityOut;
-    uint8_t humidityArea;
-    uint16_t pumpSpeed;
-    uint16_t tempArea;
-    uint16_t tempBoard;
-    uint8_t flowErrorStatus; // boolean
-    uint8_t electricalErrorStatus; // boolean
-    uint8_t powerCharge;
-    uint8_t batteryCharge;
-    uint16_t pressureSensor;
-    uint8_t fan1; // boolean
-    uint8_t fan2; // boolean
-};
 
 class Backend : public QObject
 {
@@ -82,11 +41,13 @@ public:
     QString come_port;
     QTimer *timer;
     BoardData generalData;
+    bool sendPumpSpeedZero = true;
     bool connectState = false;
     QByteArray dataBuf;
     uint16_t recieveState = 0;
     DataBase db{"dataBase"};
     uint16_t packetSize = 0;
+    JsonStoring jsonStoring;
 
     Q_INVOKABLE void setPumpValue(int configValue);
     Q_INVOKABLE int getPumpValue();
@@ -104,6 +65,8 @@ public:
     Q_INVOKABLE QString getBatteryCharge();
 
     void sendSensorData(uint8_t sensorId);
+    Q_INVOKABLE void sendSensorDataHeater(int sensorId);
+    Q_INVOKABLE void sendSensorDataRec(int sensorId);
     void sendGeneralData();
     void sendPacket(char* data, int size);
 
@@ -111,6 +74,7 @@ public:
     void getGeneralData(QByteArray data);
     void decodePacket(QByteArray data);
     void createTable();
+    Sensor getSeneorDataFromDB(int sId);
 
 private:
     SensorsList *mList;

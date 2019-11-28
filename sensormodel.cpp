@@ -63,6 +63,8 @@ QVariant SensorModel::data(const QModelIndex &index, int role) const
        return QVariant::fromValue(item.heaterActive);
     case sensorActive:
        return QVariant::fromValue(item.sensorActive);
+    case alghoritmRunning:
+       return QVariant::fromValue(item.alghoritmRunning);
     }
 
     return QVariant();
@@ -105,6 +107,8 @@ bool SensorModel::setData(const QModelIndex &index, const QVariant &value, int r
        item.heaterActive = value.toBool();
      case sensorActive:
        item.sensorActive = value.toBool();
+    case alghoritmRunning:
+      item.alghoritmRunning = value.toBool();
     }
 
     if(mList->setSensorItem(index.row(), item)) {
@@ -137,6 +141,7 @@ QHash<int, QByteArray> SensorModel::roleNames() const
   names[tempActive] = "tempActive" ;
   names[heaterActive] = "heaterActive" ;
   names[sensorActive] = "sensorActive" ;
+  names[alghoritmRunning] = "alghoritmRunning" ;
   return names;
 }
 

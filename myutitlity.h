@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <sstream>      // std::stringstream
+#include <QPointF>
+#include <QVector>
+#include "csv.h"
 
 using namespace std;
 
@@ -41,6 +44,16 @@ public:
     }
 };
 
-
+void saveSensorDataToCSVFile(QVector<QPointF> dataList, int sensorNumber, QString tempOrRes) {
+    QVector<QStringList> dataStringList;
+    for(int j = 0; j<dataList.length(); j++) {
+        QStringList listRow;
+        listRow.append( QString::number(dataList[j].x()));
+        listRow.append( QString::number(dataList[j].y()));
+        dataStringList.append(listRow);
+    }
+    appendDataToCSV(dataStringList, "./Data/sensor"+QString::number(sensorNumber)+tempOrRes+".csv"); //"_"+QString::number(minuteBuff)+
+    dataList.clear();
+}
 
 #endif // MYUTITLITY_H

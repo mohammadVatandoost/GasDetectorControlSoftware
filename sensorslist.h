@@ -4,8 +4,10 @@
 #include <QObject>
 #include <QVector>
 #include <QDebug>
+#include <QDate>
+#include <QDir>
 #include "sensor.h"
-
+#include "packet.h"
 //struct Sensor {
 //    float tempureture = 0;
 //    float res = 0;
@@ -32,9 +34,12 @@ class SensorsList : public QObject
 public:
     SensorsList();
     bool setSensorItem(int index,Sensor &sensor);
+    bool isNewId(uint8_t id);
     QVector<Sensor> items();
     QVector<Sensor> sensorItems;
     void addSensor(Sensor newSensor);
+    void setSensorData(SensorPacketRx *data);
+
     Q_INVOKABLE void setFilterValue(int sensorId, int configValue);
     Q_INVOKABLE void setR0Value(int sensorId, int configValue);
     Q_INVOKABLE void setRThValue(int sensorId, int configValue);
@@ -61,6 +66,9 @@ public:
     Q_INVOKABLE double getRecTempValue(int sensorId);
     Q_INVOKABLE int getOPTimeValue(int sensorId);
     Q_INVOKABLE int getEquationType(int sensorId);
+    Q_INVOKABLE double getRes(int sensorId);
+    Q_INVOKABLE double getTemp(int sensorId);
+    Q_INVOKABLE QString getCurrent(int sensorId);
     Q_INVOKABLE QString getEquationA(int sensorId);
     Q_INVOKABLE QString getEquationB(int sensorId);
     Q_INVOKABLE QString getEquationC(int sensorId);

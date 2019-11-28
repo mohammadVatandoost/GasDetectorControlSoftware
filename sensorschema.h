@@ -63,7 +63,7 @@ public:
         addColumn("heaterActive", "INTEGER", static_cast<string>("0") ); // boolean zero and one
         addColumn("sensorActive", "INTEGER", static_cast<string>("0") ); // boolean zero and one
 
-        cout << "Schema command :" << sqlCommand <<endl;
+//        cout << "Schema command :" << sqlCommand <<endl;
     }
 
     string getSqlInsertCommand();

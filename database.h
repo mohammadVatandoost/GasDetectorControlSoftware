@@ -21,7 +21,7 @@ public:
     bool createTable(Schema tableSchema);
     bool insert(string sql_command);
     bool update(string sql_command);
-    Sensor findById(string sql_command);
+    bool findById(string sql_command, Sensor *temp);
 };
 
 #endif // DATABASE_H

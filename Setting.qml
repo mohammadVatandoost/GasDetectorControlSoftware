@@ -4,10 +4,11 @@ import QtQuick.Layouts 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Material 2.3
 import QtQuick.Controls.Styles 1.4
+import QtQuick.VirtualKeyboard 2.2
 
 Page {
     id: root
-    property int sensorId: 1
+    property int sensorId: 0
     property string date_time: new Date().toLocaleString(locale, Locale.ShortFormat)
     header: ToolBar {
         ToolButton {
@@ -68,8 +69,10 @@ Page {
          id: equation
          Component.onCompleted: {
              console.log("Equation :")
-
-             refresh()
+             setVariables(root.sensorId, SensorsList.getEquationType(root.sensorId), SensorsList.getEquationA(root.sensorId),
+                          SensorsList.getEquationB(root.sensorId),
+                          SensorsList.getEquationC(root.sensorId), SensorsList.getEquationD(root.sensorId), SensorsList.getEquationE(root.sensorId))
+             refresh();
          }
          onConfigSelected: {
              equationPopup.open();
@@ -171,7 +174,7 @@ Page {
                       property var pressureTypes: [ "PPM", "%", "PPB"]
                       function getIndex() {
                           var pressureType = SensorsList.getPressureTypeValue(root.sensorId)
-                          for(var i=0; i< gasTypes.length; i++) {
+                          for(var i=0; i< pressureTypes.length; i++) {
                               if(pressureTypes[i] === pressureType) {
                                   return i;
                               }
@@ -199,8 +202,9 @@ Page {
                   }
 
                   Text {
+                      id: res
                       Layout.alignment: Qt.AlignHCenter
-                      text: qsTr("DC")
+                      text: qsTr(SensorsList.getRes(sensorId) + "")
                   }
               }
 
@@ -212,8 +216,9 @@ Page {
                   }
 
                   Text {
+                      id: temp
                       Layout.alignment: Qt.AlignHCenter
-                      text: qsTr("DC")
+                      text: qsTr(SensorsList.getCurrent(sensorId))
                   }
               }
 
@@ -253,7 +258,10 @@ Page {
                            rec.Material.background =  Material.red
                        } else {
                            onOff = true;
+                           heaterStart.onOff = false;
                            rec.Material.background =  Material.Green
+                           heaterStart.Material.background =  Material.red
+                           BackEnd.sendSensorDataRec(root.sensorId)
                        }
                    }
                }
@@ -270,7 +278,10 @@ Page {
                            heaterStart.Material.background =  Material.red
                        } else {
                            onOff = true;
+                           rec.onOff = false;
                            heaterStart.Material.background =  Material.Green
+                           rec.Material.background =  Material.red
+                           BackEnd.sendSensorDataHeater(root.sensorId)
                        }
                    }
                }
@@ -388,12 +399,32 @@ Page {
 //           setCoefficients(SensorsList.getEquationCoefficient(sensorId))
 //           refresh()
        }
+       onUpdated: {
+           console.log("upated id:"+root.sensorId)
+           console.log(SensorsList.getEquationType(root.sensorId)+","+SensorsList.getEquationA(root.sensorId))
+           console.log(SensorsList.getEquationB(root.sensorId)+","+SensorsList.getEquationC(root.sensorId))
+           console.log(SensorsList.getEquationD(root.sensorId)+","+SensorsList.getEquationE(root.sensorId))
+           equation.setVariables(root.sensorId, SensorsList.getEquationType(root.sensorId), SensorsList.getEquationA(root.sensorId),
+                        SensorsList.getEquationB(root.sensorId),
+                        SensorsList.getEquationC(root.sensorId), SensorsList.getEquationD(root.sensorId), SensorsList.getEquationE(root.sensorId))
+           equation.refresh();
+       }
    }
 
    Timer {
            interval: 45000; running: true; repeat: true
            onTriggered: {
                root.date_time = new Date().toLocaleString(locale, Locale.ShortFormat)
+           }
+    }
+   Timer {
+           interval: 1000; running: true; repeat: true
+           onTriggered: {
+               res.text = SensorsList.getRes(sensorId).toFixed(2) ;
+               temp.text = SensorsList.getTemp(sensorId).toFixed(2);
+//               console.log("trigerred "+sensorId);
+//               console.log(SensorsList.getTemp(sensorId) );
+//               console.log(SensorsList.getRes(sensorId) );
            }
     }
 }

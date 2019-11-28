@@ -33,7 +33,7 @@ string SensorSchema::getSqlUpdateCommand(uint8_t sensorId)
             ", RtoR0OrRtoDeltaR="+u.numberToString(equationE)+
             ", RtoR0OrRtoDeltaR="+u.numberToString(RtoR0OrRtoDeltaR)+", tempActive="+u.numberToString(tempActive)+
             ", heaterActive="+u.numberToString(heaterActive)+", sensorActive="+u.numberToString(sensorActive)+" WHERE id = "+u.numberToString(unsigned(sensorId));
-    cout << "getSqlUpdateCommand :"<< temp;
+//    cout << "getSqlUpdateCommand :"<< temp;
     return temp;
 }
 
@@ -41,6 +41,6 @@ string SensorSchema::getSqlFindById(uint8_t sensorId)
 {
    MyUtitlity u;
    string temp = "SELECT * FROM Sensor WHERE id="+u.numberToString(unsigned(sensorId));
-   cout << "getSqlFindById :"<< temp;
+//   cout << "getSqlFindById :"<< temp;
    return temp;
 }

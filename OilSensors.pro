@@ -34,7 +34,8 @@ SOURCES += \
     sqlite3.c \
     database.cpp \
     schema.cpp \
-    sensorschema.cpp
+    sensorschema.cpp \
+    jsonstoring.cpp
 
 LIBS += /usr/lib/libgtest.a
 
@@ -63,7 +64,9 @@ HEADERS += \
     database.h \
     schema.h \
     sensorschema.h \
-    myutitlity.h
+    myutitlity.h \
+    jsonstoring.h \
+    packet.h
 
 DISTFILES += \
     images/greenTemp.png \

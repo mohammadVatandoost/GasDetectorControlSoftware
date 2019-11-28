@@ -27,7 +27,7 @@ bool Schema::addColumn(string name, string type)
 
 bool Schema::addColumn(string name, string type, string defaultValue)
 {
-    cout<< "addColumn with defaultValue"<<endl;
+//    cout<< "addColumn with defaultValue"<<endl;
     if(checkIsNewColumnName(name)) {
         if(names.size() == 0) {
            sqlCommand = name + " " + type + " DEFAULT " + defaultValue;

@@ -16,7 +16,7 @@ public:
     enum {
       tempureture, res, current, lowPassFilter, R0,
       RThereshould, operationTime, recoveryTime, recoveryTemp,
-      gasType, pressureType, equation, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive
+      gasType, pressureType, equation, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive, alghoritmRunning
     };
     // Header: int routerNumber = 123;
 //    int sensorNumber = 345;

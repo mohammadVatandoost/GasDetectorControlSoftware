@@ -1,9 +1,15 @@
 import QtQuick 2.4
+import QtQuick.VirtualKeyboard 2.2
 
 Item {
     id: root
     property int fontSize: 18
     property string text: "Type here..."
+    signal textChangedS(string text )
+    function getText() {
+        return input.text
+    }
+
     implicitHeight: input.font.pixelSize*1.5
     implicitWidth: 60
     Rectangle{
@@ -21,6 +27,7 @@ Item {
             font.pointSize: fontSize
             selectByMouse: true
             layer.enabled: true
+            onTextChanged: {textChangedS(text)}
         }
     }
 }

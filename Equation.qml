@@ -8,7 +8,7 @@ import QtQuick.Controls.Styles 1.4
 Pane {
     id: root
     implicitHeight: 100
-    implicitWidth: parent.width*0.8
+    implicitWidth: parent.width*0.9
     Material.elevation: 6
 
     property int configId
@@ -22,13 +22,29 @@ Pane {
     property string d: ""
     property string e: ""
     function setVariables(sId, eType, a1, b1, c1, d1, e1) {
-        a=a1; b=b1; c=c1; d=d1; e=e1; equationType=eType; sensorId = sId;
+        root.a=a1; root.b=b1; root.c=c1; root.d=d1; root.e=e1; root.equationType=eType; root.sensorId = sId;
     }
     function setCoefficients(temp) {coefficients = temp;}
     function setPowers(temp) {powers = temp;}
     signal configSelected()
 
     function refresh(){
+        console.log("Equation referesh");
+        if(root.equationType == 0) {
+            console.log("equation 0");
+            console.log(root.a+","+root.b+","+root.c+","+root.d+","+root.e);
+            equation0.visible = true;
+            equation1.visible = false;
+            c0a.setCoefficient(root.a); c0b.setCoefficient("+ "+root.b);
+            c0c.setCoefficient("+ "+root.c); c0d.setCoefficient("+ "+root.d);
+            c0e.setCoefficient("+ "+root.e);
+        } else if(root.equationType == 1) {
+            equation1.visible = true;
+            equation0.visible = false;
+            c1ab.setCoefficient(root.a); c1ab.setPower(root.b);
+            c1cd.setCoefficient(root.c); c1cd.setPower(root.d);
+        }
+
 //          for(var i=0; i<coefficients.length; i++) {
 //               console.log("equetion for");console.log(coefficients[i]);console.log(powers[i])
 //               var component = Qt.createComponent("EquationCoefficient.qml");
@@ -54,7 +70,9 @@ Pane {
 
     RowLayout {
         id: equation0
+        spacing: 0
         EquationCoefficient {
+            id: c0a
             Component.onCompleted: {
                 setCoefficient(root.a);
                 setPower("4");
@@ -62,6 +80,7 @@ Pane {
             }
         }
         EquationCoefficient {
+            id: c0b
             Component.onCompleted: {
                 setCoefficient("+ "+root.b);
                 setPower("3");
@@ -69,6 +88,7 @@ Pane {
             }
         }
         EquationCoefficient {
+            id: c0c
             Component.onCompleted: {
                 setCoefficient("+ "+root.c);
                 setPower("2");
@@ -76,6 +96,7 @@ Pane {
             }
         }
         EquationCoefficient {
+            id: c0d
             Component.onCompleted: {
                 setCoefficient("+ "+root.d);
                 setPower("1");
@@ -83,6 +104,7 @@ Pane {
             }
         }
         EquationCoefficient {
+            id: c0e
             Component.onCompleted: {
                 setCoefficient("+ "+root.e);
                 setPower("");
@@ -94,6 +116,7 @@ Pane {
     RowLayout {
         id: equation1
         EquationCoefficient {
+            id: c1ab
             Component.onCompleted: {
                 setCoefficient(root.a);
                 setPower(root.b);
@@ -101,6 +124,7 @@ Pane {
             }
         }
         EquationCoefficient {
+            id: c1cd
             Component.onCompleted: {
                 setCoefficient("+ "+root.c);
                 setPower(root.d);

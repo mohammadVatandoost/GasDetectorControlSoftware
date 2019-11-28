@@ -16,6 +16,7 @@ Popup {
         modal: true
         focus: true
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        signal updated()
         property int sensorId: 0
         property int configId
         property int equationType: 0
@@ -195,7 +196,12 @@ Popup {
                             font.pixelSize: 22
                             Layout.alignment: Qt.AlignHCenter
                         }
-                       TextInputBorder {id: atextinput}
+                       TextInputBorder {
+                           id: atextinput
+                           onTextChangedS: {
+                               popup.a = text;
+                           }
+                       }
                     }
                     ColumnLayout {
                         Label {
@@ -203,7 +209,12 @@ Popup {
                             font.pixelSize: 22
                             Layout.alignment: Qt.AlignHCenter
                         }
-                       TextInputBorder {id: btextinput}
+                       TextInputBorder {
+                           id: btextinput
+                           onTextChangedS: {
+                               popup.b = text;
+                           }
+                       }
                     }
                     ColumnLayout {
                         Label {
@@ -211,7 +222,12 @@ Popup {
                             font.pixelSize: 22
                             Layout.alignment: Qt.AlignHCenter
                         }
-                       TextInputBorder {id: ctextinput}
+                       TextInputBorder {
+                           id: ctextinput
+                           onTextChangedS: {
+                               popup.c = text;
+                           }
+                       }
                     }
                     ColumnLayout {
                         Label {
@@ -219,7 +235,12 @@ Popup {
                             font.pixelSize: 22
                             Layout.alignment: Qt.AlignHCenter
                         }
-                       TextInputBorder {id: dtextinput}
+                       TextInputBorder {
+                           id: dtextinput
+                           onTextChangedS: {
+                               popup.d = text;
+                           }
+                       }
                     }
                     ColumnLayout {
                         id: econtainer
@@ -228,7 +249,12 @@ Popup {
                             font.pixelSize: 22
                             Layout.alignment: Qt.AlignHCenter
                         }
-                       TextInputBorder {id: etextinput}
+                       TextInputBorder {
+                           id: etextinput
+                           onTextChangedS: {
+                               popup.e = text;
+                           }
+                       }
                     }
                 }
             }
@@ -251,12 +277,28 @@ Popup {
                       highlighted: true
                       Material.background: Material.Green
                       onClicked: {
-                          SensorsList.setEquationType(sensorId, equationType);
-                          SensorsList.setEquationA(sensorId, a);
-                          SensorsList.setEquationB(sensorId, b);
-                          SensorsList.setEquationC(sensorId, c);
-                          SensorsList.setEquationD(sensorId, d);
-                          SensorsList.setEquationE(sensorId, e);
+                          popup.a = atextinput.getText();
+                          popup.b = btextinput.getText();
+                          popup.c = ctextinput.getText();
+                          popup.d = dtextinput.getText();
+                          popup.e = etextinput.getText();
+                          console.log("pop up id:"+popup.sensorId)
+                          console.log(popup.a+","+popup.b+","+popup.c+","+popup.d+","+popup.e)
+                          if(equation0RadioBtn.checked) {
+                              console.log("equation type 0")
+                              popup.equationType = 0;
+                          } else if(equation1RadioBtn.checked) {
+                              console.log("equation type 1")
+                              popup.equationType = 1;
+                          }
+
+                          SensorsList.setEquationType(popup.sensorId, popup.equationType);
+                          SensorsList.setEquationA(popup.sensorId, popup.a);
+                          SensorsList.setEquationB(popup.sensorId, popup.b);
+                          SensorsList.setEquationC(popup.sensorId, popup.c);
+                          SensorsList.setEquationD(popup.sensorId, popup.d);
+                          SensorsList.setEquationE(popup.sensorId, popup.e);
+                          popup.updated();
                           popup.close();
                       }
                       Layout.alignment: Qt.AlignHCenter
