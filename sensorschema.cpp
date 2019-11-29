@@ -9,7 +9,7 @@
 string SensorSchema::getSqlInsertCommand()
 {
     MyUtitlity u;
-    string temp = "INSERT INTO Sensor(tempureture, res, current, lowPassFilter, R0, RThereshould, operationTime, recoveryTime, operationTemp, recoveryTemp, tempuretureTh, gasType, pressureType, equation, equationA, equationB, equationC, equationD, equationE, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive) VALUES("+u.numberToString(tempureture)+","+u.numberToString(res)+","+u.numberToString(unsigned(current))
+    string temp = "INSERT INTO Sensor(tempSetPoint, res, current, lowPassFilter, R0, RThereshould, operationTime, recoveryTime, operationTemp, recoveryTemp, tempuretureTh, gasType, pressureType, equation, equationA, equationB, equationC, equationD, equationE, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive) VALUES("+u.numberToString(tempSetPoint)+","+u.numberToString(res)+","+u.numberToString(unsigned(current))
             +","+u.numberToString(unsigned(lowPassFilter))+","+u.numberToString(R0)+","+u.numberToString(RThereshould)+","+u.numberToString(operationTime)
             +","+u.numberToString(recoveryTime)+","+u.numberToString(operationTemp)+","+u.numberToString(recoveryTemp)+","+u.numberToString(tempuretureTh)
             +", \""+gasType+"\", \""+pressureType+"\","+u.numberToString(unsigned(equation))+","+u.numberToString(equationA)+","+u.numberToString(equationB)
@@ -22,7 +22,7 @@ string SensorSchema::getSqlUpdateCommand(uint8_t sensorId)
 {
     MyUtitlity u;
     //`UPDATE EEWConfig SET accTreshold = "`+accTreshold+`", highPass = "`+highPass+`", lowPass = "`+lowPass+`", longPoint = "`+longPoint+`", shortPoint = "`+shortPoint+`", staLtaTreshold = "`+staLtaTreshold+`", winLength = "`+winLength+`", a1 = "`+a1+`", a2 ="`+a2+`", a3="`+a3+`", a4="`+a4+`" WHERE id = 1` ;
-    string temp = "UPDATE Sensor SET tempureture="+u.numberToString(tempureture)+", res="+u.numberToString(res)+
+    string temp = "UPDATE Sensor SET tempSetPoint="+u.numberToString(tempSetPoint)+", res="+u.numberToString(res)+
             ", current="+u.numberToString(unsigned(current))+", lowPassFilter="+u.numberToString(unsigned(lowPassFilter))+
             ", R0="+u.numberToString(R0)+", RThereshould="+u.numberToString(RThereshould)+", operationTime="+u.numberToString(operationTime)+
             ", recoveryTime="+u.numberToString(recoveryTime)+", operationTemp="+u.numberToString(operationTemp)+

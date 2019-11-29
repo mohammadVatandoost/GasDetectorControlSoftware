@@ -29,6 +29,32 @@ void Backend::setSensorsList(SensorsList *sensorsList)
     mList = sensorsList;
 }
 
+bool Backend::checkAlgohoritmFirstCondition(int sensorId)
+{
+    if(generalData.flowErrorStatus && generalData.electricalErrorStatus) {
+       mList->items()[sensorId].alghoritmRunning = false;
+       mList->items()[sensorId].firstCondition = false;
+    }
+    Sensor sensor = mList->items()[sensorId];
+    if(sensor.tempLastData == HeaterNotActive) {
+         mList->items()[sensorId].alghoritmRunning = false;
+         mList->items()[sensorId].firstCondition = false;
+    }
+    if( ( (sensor.tempSetPoint-sensor.tempuretureTh) < sensor.tempLastData ) &&
+            (sensor.tempLastData < (sensor.tempSetPoint+sensor.tempuretureTh) ) &&
+            !mList->items()[sensorId].firstCondition  ) {
+         mList->items()[sensorId].timeCounter = 0;
+        mList->items()[sensorId].firstCondition = true;
+    }
+
+    return true;
+}
+
+uint16_t Backend::filterRes(int sensorId)
+{
+
+}
+
 void Backend::setPumpValue(int configValue)
 {
    generalData.pumpSpeed = static_cast<uint16_t>(configValue);
@@ -79,6 +105,7 @@ void Backend::startSensor(int sensorId)
    if(mList->items()[sensorId].alghoritmRunning) {
       sendPumpSpeedZero = false;
    } else {
+       mList->items()[sensorId].firstCondition = false;
        for(int i=0; i<mList->items().size(); i++) {
            if(mList->items()[i].alghoritmRunning) {
                return;
@@ -120,13 +147,14 @@ void Backend::sendSensorData(uint8_t sensorId)
 //   QVector<Sensor> sensors = mList->items();
    temp.sensorId = sensorId;
    if(mList->items()[sensorId].alghoritmRunning) {
-     temp.tempSetPoint = mList->items()[sensorId].tempureture;
+     temp.tempSetPoint = mList->items()[sensorId].tempSetPoint;
+     checkAlgohoritmFirstCondition(sensorId);
    } else if(mList->items()[sensorId].heaterStart) {
-       temp.tempSetPoint = mList->items()[sensorId].tempureture;
-       cout<<sensorId <<" heaterStart "<<endl;
+       temp.tempSetPoint = mList->items()[sensorId].tempSetPoint;
+//       cout<<sensorId <<" heaterStart "<<endl;
    } else if(mList->items()[sensorId].recStart) {
        temp.tempSetPoint = mList->items()[sensorId].recoveryTemp;
-        cout<<sensorId <<" recovery start " << temp.tempSetPoint  <<endl;
+//        cout<<sensorId <<" recovery start " << temp.tempSetPoint  <<endl;
    } else {
       temp.tempSetPoint = 0;
    }
@@ -190,7 +218,10 @@ void Backend::getSensorData(QByteArray data)
     SensorPacketRx *m = reinterpret_cast<SensorPacketRx*>(data.data());
     if(mList->isNewId(m->sensorId)) {
        Sensor temp = getSeneorDataFromDB(m->sensorId);
-       temp.current =  m->current; temp.tempureture = m->temp; temp.res = m->res;
+       temp.sensorId = m->sensorId;
+       temp.current =  m->current;
+       temp.tempLastData = m->temp;
+       temp.res = m->res;
        mList->addSensor(temp);
     } else {
         mList->setSensorData(m);

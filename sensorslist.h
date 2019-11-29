@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QDate>
 #include <QDir>
+#include <math.h>
 #include "sensor.h"
 #include "packet.h"
 //struct Sensor {
@@ -39,6 +40,9 @@ public:
     QVector<Sensor> sensorItems;
     void addSensor(Sensor newSensor);
     void setSensorData(SensorPacketRx *data);
+
+    // for alghoritm
+    void calculatePPM(int sensorId);
 
     Q_INVOKABLE void setFilterValue(int sensorId, int configValue);
     Q_INVOKABLE void setR0Value(int sensorId, int configValue);

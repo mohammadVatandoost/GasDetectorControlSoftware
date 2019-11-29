@@ -14,9 +14,10 @@ class SensorModel : public QAbstractListModel
 public:
     explicit SensorModel(QObject *parent = nullptr);
     enum {
-      tempureture, res, current, lowPassFilter, R0,
+      tempSetPoint, res, current, lowPassFilter, R0,
       RThereshould, operationTime, recoveryTime, recoveryTemp,
-      gasType, pressureType, equation, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive, alghoritmRunning
+      gasType, pressureType, equation, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive, alghoritmRunning,
+      pressure
     };
     // Header: int routerNumber = 123;
 //    int sensorNumber = 345;

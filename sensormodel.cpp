@@ -31,8 +31,8 @@ QVariant SensorModel::data(const QModelIndex &index, int role) const
     // FIXME: Implement me!
     const Sensor item = mList->items().at(index.row());
     switch (role) {
-     case tempureture:
-        return QVariant(item.tempureture);
+     case tempSetPoint:
+        return QVariant(item.tempSetPoint);
      case res:
         return QVariant(item.res);
     case current:
@@ -65,6 +65,8 @@ QVariant SensorModel::data(const QModelIndex &index, int role) const
        return QVariant::fromValue(item.sensorActive);
     case alghoritmRunning:
        return QVariant::fromValue(item.alghoritmRunning);
+    case pressure:
+       return QVariant::fromValue(item.pressure);
     }
 
     return QVariant();
@@ -77,8 +79,8 @@ bool SensorModel::setData(const QModelIndex &index, const QVariant &value, int r
 
     Sensor item = mList->items().at(index.row());
     switch (role) {
-     case tempureture:
-        item.tempureture = value.toFloat();
+     case tempSetPoint:
+        item.tempSetPoint = value.toFloat();
      case res:
        item.res = value.toInt();
      case current:
@@ -109,6 +111,8 @@ bool SensorModel::setData(const QModelIndex &index, const QVariant &value, int r
        item.sensorActive = value.toBool();
     case alghoritmRunning:
       item.alghoritmRunning = value.toBool();
+    case pressure:
+      item.pressure = value.toString();
     }
 
     if(mList->setSensorItem(index.row(), item)) {
@@ -126,7 +130,7 @@ bool SensorModel::setData(const QModelIndex &index, const QVariant &value, int r
 QHash<int, QByteArray> SensorModel::roleNames() const
 {
   QHash<int, QByteArray> names;
-  names[tempureture] = "tempureture";
+  names[tempSetPoint] = "tempSetPoint";
   names[res] = "res" ;
   names[current] = "current" ;
   names[lowPassFilter] = "lowPassFilter" ;
@@ -142,6 +146,7 @@ QHash<int, QByteArray> SensorModel::roleNames() const
   names[heaterActive] = "heaterActive" ;
   names[sensorActive] = "sensorActive" ;
   names[alghoritmRunning] = "alghoritmRunning" ;
+  names[pressure] = "pressure" ;
   return names;
 }
 

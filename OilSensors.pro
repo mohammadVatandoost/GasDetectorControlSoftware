@@ -64,9 +64,9 @@ HEADERS += \
     database.h \
     schema.h \
     sensorschema.h \
-    myutitlity.h \
     jsonstoring.h \
-    packet.h
+    packet.h \
+    myutitlity.h
 
 DISTFILES += \
     images/greenTemp.png \

@@ -5,9 +5,9 @@
 #include <QVector>
 #include <QVector2D>
 #include <QPointF>
-#include <myutitlity.h>
+#include "myutitlity.h"
 
-#define saveToFile  5
+#define saveToFile  1000
 
 using namespace std;
 
@@ -16,7 +16,8 @@ enum ValueType{ PPM, PDB };
 //enum GasKind{ NO, CO, SO2, O2, BTEX, VOC};
 
 struct Sensor {
-    float tempureture = 0;
+    float tempSetPoint = 0;
+    float tempLastData = 0;
     float res = 0;
     uint8_t current = 0;
     uint8_t lowPassFilter = 1;
@@ -29,6 +30,7 @@ struct Sensor {
     float tempuretureTh = 0 ; // for T1 in page 1
     QString gasType = "NO";
     QString pressureType = "PPM";
+    QString pressure = "DC";
     uint8_t equation = 0;
     float equationA = 1;
     float equationB = 2;
@@ -39,13 +41,16 @@ struct Sensor {
     bool tempActive = false;
     bool heaterActive = false;
     bool sensorActive = false;
-    bool alghoritmRunning = false;
     bool heaterStart = false;
     bool recStart = false;
     int sensorId;
     QVector<QPointF> tempData;
     QVector<QPointF> resData;
-
+    // for alghoritm
+    bool alghoritmRunning = false;
+    bool firstCondition = false; // for tempuretureTh range
+    bool secondCondition = false;
+    uint16_t timeCounter = 0;
 
     void addTempData(double time, double value) {
         QPointF temp(time,value);
@@ -55,6 +60,7 @@ struct Sensor {
             saveSensorDataToCSVFile(&tempData, sensorId, "temp", saveToFile);
         }
     }
+
     void addResData(double time, double value) {
         QPointF temp(time,value);
         resData.append(temp);
@@ -64,6 +70,7 @@ struct Sensor {
         }
     }
 };
+
 
 
 #endif // SENSOR_H

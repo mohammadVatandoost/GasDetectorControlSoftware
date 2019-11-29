@@ -12,6 +12,7 @@ RowLayout {
     property bool heaterActive: false
     property bool sensorActive: false
     property string sensorName: ""
+    property string sensorPressure: "DC"
     property double progressValue: 0
     property int sensorId: 1
 
@@ -21,6 +22,7 @@ RowLayout {
     function setProgressValue(temp) { progressValue = temp;}
     function setSensorName(temp) { sensorName = temp;}
     function setSensorId(temp) {sensorId = temp;}
+    function setSensorPressure(temp) {sensorPressure = temp;}
 
     Image {
         sourceSize.width: 60
@@ -68,7 +70,7 @@ RowLayout {
         }
     }
     Text {
-        text: qsTr("DC")
+        text: qsTr(root.sensorPressure)
     }
     StatusIndicator {
             color: "green"

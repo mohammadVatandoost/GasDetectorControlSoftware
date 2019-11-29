@@ -50,13 +50,38 @@ void SensorsList::addSensor(Sensor newSensor)
 
 void SensorsList::setSensorData(SensorPacketRx *data)
 {
-    sensorItems[data->sensorId].tempureture =   (float)((float)data->temp/100);
+    sensorItems[data->sensorId].tempLastData =   (float)((float)data->temp/100);
     sensorItems[data->sensorId].current = data->current;
     sensorItems[data->sensorId].res = (float)((float)data->res/100);
     double tempDateTime = QDateTime::currentMSecsSinceEpoch();
     sensorItems[data->sensorId].addResData(tempDateTime, sensorItems[data->sensorId].res);
-    sensorItems[data->sensorId].addTempData(tempDateTime, sensorItems[data->sensorId].tempureture);
+    sensorItems[data->sensorId].addTempData(tempDateTime, sensorItems[data->sensorId].tempLastData);
+    if(sensorItems[data->sensorId].secondCondition) {
+        calculatePPM(data->sensorId);
+    } else {
+      sensorItems[data->sensorId].pressure = "DC";
+    }
+}
 
+void SensorsList::calculatePPM(int sensorId)
+{
+    Sensor sensor = sensorItems[sensorId];
+    float X = sensor.res;
+    if(sensor.equation == 0) {
+       float sum = sensor.equationE;
+       sum = sum + (sensor.equationD*X);
+       X = X*sensor.res;
+       sum = sum + (sensor.equationC*X);
+       X = X*sensor.res;
+       sum = sum + (sensor.equationB*X);
+       X = X*sensor.res;
+       sum = sum + (sensor.equationA*X);
+      sensorItems[sensorId].pressure = QString::number(sum);
+    } else {
+        float sum =  exp(sensor.equationD)*sensor.equationC;
+        sum = sum + (exp(sensor.equationB)*sensor.equationA);
+        sensorItems[sensorId].pressure = QString::number(sum);
+    }
 }
 
 void SensorsList::setFilterValue(int sensorId, int configValue)
@@ -89,7 +114,7 @@ void SensorsList::setRThValue(int sensorId, int configValue)
 void SensorsList::setTempValue(int sensorId, double configValue)
 {
     if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
-       sensorItems[sensorId-1].tempureture =   static_cast<float>(configValue);
+       sensorItems[sensorId-1].tempSetPoint =   static_cast<float>(configValue);
     } else {
         qDebug() << "sensorId not valid :" << sensorId ;
     }
@@ -232,7 +257,7 @@ int SensorsList::getRThValue(int sensorId)
 double SensorsList::getTempValue(int sensorId)
 {
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
-        return sensorItems[sensorId].tempureture;
+        return sensorItems[sensorId].tempSetPoint;
     } else {
         qDebug() << "Get sensorId not valid :" << sensorId ;
         return 0;
@@ -303,7 +328,7 @@ double SensorsList::getRes(int sensorId)
 double SensorsList::getTemp(int sensorId)
 {
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
-        return sensorItems[sensorId].tempureture;
+        return sensorItems[sensorId].tempLastData;
     } else {
         qDebug() << "Get sensorId not valid :" << sensorId ;
         return 0;
@@ -313,7 +338,7 @@ double SensorsList::getTemp(int sensorId)
 QString SensorsList::getCurrent(int sensorId)
 {
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
-        return QString::number(sensorItems[sensorId].tempureture);
+        return QString::number(sensorItems[sensorId].current);
     } else {
         qDebug() << "Get sensorId not valid :" << sensorId ;
         return 0;

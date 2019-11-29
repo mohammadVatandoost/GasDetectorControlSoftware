@@ -128,7 +128,7 @@ bool DataBase::findById(string sql_command, Sensor *temp)
 //                cout<< "tempActive :" << sqlite3_column_int(stmt, 16) << endl;
 //                cout<< "heaterActive :" << sqlite3_column_int(stmt, 17) << endl;
 //                cout<< "sensorActive :" << sqlite3_column_int(stmt, 18) << endl;
-                temp->tempureture = static_cast<float>(sqlite3_column_double(stmt, 1)) ;
+                temp->tempSetPoint = static_cast<float>(sqlite3_column_double(stmt, 1)) ;
                 temp->res = static_cast<float>(sqlite3_column_double(stmt, 2)) ;
                 temp->current = static_cast<uint8_t>(sqlite3_column_int(stmt, 3)) ;
                 temp->lowPassFilter = static_cast<uint8_t>(sqlite3_column_int(stmt, 4)) ;
@@ -146,6 +146,7 @@ bool DataBase::findById(string sql_command, Sensor *temp)
                 temp->tempActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 16)) ;
                 temp->heaterActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 17)) ;
                 temp->sensorActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 18)) ;
+
 //                bytes = sqlite3_column_bytes(stmt, 0);
 //                text  = sqlite3_column_text(stmt, 1);
 //                printf ("count %d: %s (%d bytes)\n", row, text, bytes);

@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#define HeaterNotActive 40010
+
 #define SensorDataPacketCodeRx 1
 #define BoardDataPacketCodeRx 2
 #define SensorSetPointPacketCodeTx 3

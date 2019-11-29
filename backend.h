@@ -11,6 +11,7 @@
 #include <QTime>
 #include <QtCharts/QDateTimeAxis>
 #include <thread>
+
 //#include
 #include "sensorslist.h"
 #include "database.h"
@@ -48,6 +49,11 @@ public:
     DataBase db{"dataBase"};
     uint16_t packetSize = 0;
     JsonStoring jsonStoring;
+    // for alghoritm
+    Q_INVOKABLE void startSensor(int sensorId);
+    Q_INVOKABLE void startAllSensor();
+    bool checkAlgohoritmFirstCondition(int sensorId);
+    uint16_t filterRes(int sensorId);
 
     Q_INVOKABLE void setPumpValue(int configValue);
     Q_INVOKABLE int getPumpValue();
@@ -57,8 +63,6 @@ public:
     Q_INVOKABLE int getHumidityArea();
     Q_INVOKABLE double getTempArea();
     Q_INVOKABLE double getPresureArea();
-    Q_INVOKABLE void startSensor(int sensorId);
-    Q_INVOKABLE void startAllSensor();
     Q_INVOKABLE bool getFlowErrorStatus();
     Q_INVOKABLE bool getElectricalErrorStatus();
     Q_INVOKABLE bool getChargingStatus();

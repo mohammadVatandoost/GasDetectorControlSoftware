@@ -13,7 +13,7 @@ public:
     string columnNames = "";
     string columnValues = "";
 
-    float tempureture = 0;
+    float tempSetPoint = 0;
     float res = 0;
     uint8_t current = 0;
     uint8_t lowPassFilter = 1;
@@ -39,7 +39,7 @@ public:
 
     // TEXT, NUMERIC, INTEGER, REAL, BLOBi
     SensorSchema() : Schema("Sensor") {
-        addColumn("tempureture", "REAL", static_cast<string>("0") );
+        addColumn("tempSetPoint", "REAL", static_cast<string>("0") );
         addColumn("res", "REAL", static_cast<string>("0") );
         addColumn("current", "INTEGER", static_cast<string>("0") );
         addColumn("lowPassFilter", "INTEGER", static_cast<string>("1") );

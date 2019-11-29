@@ -5,6 +5,7 @@
 #include <sstream>      // std::stringstream
 #include <QPointF>
 #include <QVector>
+#include <QDate>
 #include "csv.h"
 
 using namespace std;
@@ -44,16 +45,17 @@ public:
     }
 };
 
-void saveSensorDataToCSVFile(QVector<QPointF> dataList, int sensorNumber, QString tempOrRes) {
+inline void saveSensorDataToCSVFile(QVector<QPointF> *dataList, int sensorNumber, QString tempOrRes, int n) {
     QVector<QStringList> dataStringList;
-    for(int j = 0; j<dataList.length(); j++) {
+    for(int j = 0; j<n; j++) {
         QStringList listRow;
-        listRow.append( QString::number(dataList[j].x()));
-        listRow.append( QString::number(dataList[j].y()));
+        listRow.append( QString::number(dataList->at(j).x()));
+        listRow.append( QString::number(dataList->at(j).y()));
         dataStringList.append(listRow);
     }
-    appendDataToCSV(dataStringList, "./Data/sensor"+QString::number(sensorNumber)+tempOrRes+".csv"); //"_"+QString::number(minuteBuff)+
-    dataList.clear();
+    dataList->remove(0, n);
+    appendDataToCSV(dataStringList, "./Data/sensor"+QString::number(sensorNumber)+"_"+tempOrRes+"_"+QDate::currentDate().toString()+".csv"); //"_"+QString::number(minuteBuff)+
 }
+
 
 #endif // MYUTITLITY_H
