@@ -41,10 +41,8 @@ bool Backend::checkAlgohoritmFirstCondition(int sensorId)
          mList->items()[sensorId].firstCondition = false;
     }
     if( ( (sensor.tempSetPoint-sensor.tempuretureTh) < sensor.tempLastData ) &&
-            (sensor.tempLastData < (sensor.tempSetPoint+sensor.tempuretureTh) ) &&
-            !mList->items()[sensorId].firstCondition  ) {
-         mList->items()[sensorId].timeCounter = 0;
-        mList->items()[sensorId].firstCondition = true;
+            (sensor.tempLastData < (sensor.tempSetPoint+sensor.tempuretureTh) ) ) {
+
     }
 
     return true;
@@ -57,8 +55,16 @@ uint16_t Backend::filterRes(int sensorId)
 
 float Backend::calculateRavg(int sensorId)
 {
-//    int tRtol = mList->items()[sensorId].
-    return 0;
+    int tRtol = mList->items()[sensorId].Rtol;
+    double sum = 0;
+    if(tRtol < mList->items()[sensorId].resData.size()) {
+        tRtol = mList->items()[sensorId].resData.size();
+    }
+    for(int i=0; i<tRtol;i++) {
+       sum =  mList->items()[sensorId].resData[i].y() + sum ;
+    }
+
+    return (sum/tRtol);
 }
 
 void Backend::setPumpValue(int configValue)

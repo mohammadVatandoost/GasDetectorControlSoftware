@@ -41,10 +41,15 @@ bool Backend::checkAlgohoritmFirstCondition(int sensorId)
          mList->items()[sensorId].firstCondition = false;
     }
     if( ( (sensor.tempSetPoint-sensor.tempuretureTh) < sensor.tempLastData ) &&
-            (sensor.tempLastData < (sensor.tempSetPoint+sensor.tempuretureTh) ) &&
-            !mList->items()[sensorId].firstCondition  ) {
-         mList->items()[sensorId].timeCounter = 0;
-        mList->items()[sensorId].firstCondition = true;
+            (sensor.tempLastData < (sensor.tempSetPoint+sensor.tempuretureTh) ) && 
+            (!sensor.firstCondition)  ) {
+        int *rMax = 0;
+        int *rMin = 0;
+        double Ravg = calculateRavg(sensorId, rMax, rMin);
+        if( (*rMax - *rMin) < (mList->items()[sensorId].R0 * Ravg ) ) {
+            mList->items()[sensorId].timeCounter = 0;
+            mList->items()[sensorId].firstCondition = true;
+        }
     }
 
     return true;
@@ -55,15 +60,40 @@ uint16_t Backend::filterRes(int sensorId)
     return 0;
 }
 
-float Backend::calculateRavg(int sensorId)
+float Backend::calculateRavg(int sensorId, int *rMax, int *rMin)
 {
     int tRtol = mList->items()[sensorId].Rtol;
     double sum = 0;
-    if(tRtol < mList->items()[sensorId])
-    for(int i=0; i<tRtol;i++) {
-        
+    if(tRtol < mList->items()[sensorId].resData.size()) {
+        tRtol = mList->items()[sensorId].resData.size();
     }
-    return 0;
+    *rMax = mList->items()[sensorId].resData[mList->items()[sensorId].resData.size()-1].y();
+    rMin = rMax;
+    for(int i=0; i<tRtol;i++) {
+        double temp = mList->items()[sensorId].resData[i].y();
+        if(temp < *rMin) {
+            *rMin = temp;
+        } else if( temp > *rMax) {
+            *rMax = temp ;
+        }
+       sum = temp  + sum ;
+    }
+
+    return (sum/tRtol);
+}
+
+void Backend::alghoritmStop(int sensorId)
+{
+    mList->items()[sensorId].alghoritmRunning = false;
+    mList->items()[sensorId].firstCondition = false;
+    mList->items()[sensorId].secondCondition = false;
+    mList->items()[sensorId].timeCounter = 0;
+    for(int i=0; i<mList->items().size(); i++) {
+        if(mList->items()[i].alghoritmRunning) {
+            return;
+        }
+    }
+    sendPumpSpeedZero = true;
 }
 
 void Backend::setPumpValue(int configValue)
@@ -158,7 +188,13 @@ void Backend::sendSensorData(uint8_t sensorId)
 //   QVector<Sensor> sensors = mList->items();
    temp.sensorId = sensorId;
    if(mList->items()[sensorId].alghoritmRunning) {
-     temp.tempSetPoint = mList->items()[sensorId].tempSetPoint;
+       if(mList->sensorItems[i].secondCondition) {
+           temp.tempSetPoint = mList->items()[sensorId].recoveryTemp;
+       } else if(mList->sensorItems[sensorId].firstCondition) {
+           temp.tempSetPoint = mList->items()[sensorId].operationTemp;
+       } else {
+           temp.tempSetPoint = mList->items()[sensorId].tempSetPoint;
+       }   
      checkAlgohoritmFirstCondition(sensorId);
    } else if(mList->items()[sensorId].heaterStart) {
        temp.tempSetPoint = mList->items()[sensorId].tempSetPoint;
@@ -400,6 +436,17 @@ void Backend::timerSlot()
     } else {
         sendGeneralData();
         for(int i=0; i<mList->sensorItems.size(); i++) {
+            if(mList->sensorItems[i].firstCondition) {
+                mList->sensorItems[i].timeCounter++;
+                if(mList->sensorItems[i].secondCondition) {
+                    if(mList->sensorItems[i].timeCounter >= mList->sensorItems[i].operationTime) {
+                        alghoritmStop(i);
+                    }
+                } else if(mList->sensorItems[i].timeCounter >= mList->sensorItems[i].recoveryTime) {
+                    mList->sensorItems[i].secondCondition = true;
+                    mList->sensorItems[i].timeCounter = 0;
+                }
+            }
             sendSensorData(i);
         }
     }
