@@ -102,10 +102,10 @@ void SensorsList::setR0Value(int sensorId, int configValue)
     }
 }
 
-void SensorsList::setRThValue(int sensorId, int configValue)
+void SensorsList::setRtolValue(int sensorId, int configValue)
 {
     if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
-       sensorItems[sensorId-1].RThereshould =   static_cast<uint16_t>(configValue);
+       sensorItems[sensorId-1].Rtol =   static_cast<uint16_t>(configValue);
     } else {
         qDebug() << "sensorId not valid :" << sensorId ;
     }
@@ -244,10 +244,10 @@ int SensorsList::getR0Value(int sensorId)
     }
 }
 
-int SensorsList::getRThValue(int sensorId)
+int SensorsList::getRtolValue(int sensorId)
 {
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
-        return sensorItems[sensorId].RThereshould;
+        return sensorItems[sensorId].Rtol;
     } else {
         qDebug() << "Get sensorId not valid :" << sensorId ;
         return 0;

@@ -41,8 +41,8 @@ QVariant SensorModel::data(const QModelIndex &index, int role) const
        return QVariant(item.lowPassFilter);
     case R0:
        return QVariant(item.R0);
-    case RThereshould:
-       return QVariant(item.RThereshould);
+    case Rtol:
+       return QVariant(item.Rtol);
     case operationTime:
        return QVariant(item.operationTime);
     case recoveryTime:
@@ -89,8 +89,8 @@ bool SensorModel::setData(const QModelIndex &index, const QVariant &value, int r
        item.lowPassFilter = value.toUInt();
      case R0:
        item.R0 = value.toUInt();
-     case RThereshould:
-       item.RThereshould = value.toUInt();
+     case Rtol:
+       item.Rtol = value.toUInt();
      case operationTime:
        item.operationTime = value.toUInt();
      case recoveryTemp:
@@ -135,7 +135,7 @@ QHash<int, QByteArray> SensorModel::roleNames() const
   names[current] = "current" ;
   names[lowPassFilter] = "lowPassFilter" ;
   names[R0] = "R0" ;
-  names[RThereshould] = "RThereshould";
+  names[Rtol] = "Rtol";
   names[operationTime] = "operationTime" ;
   names[recoveryTemp] = "recoveryTemp" ;
   names[gasType] = "gasType";

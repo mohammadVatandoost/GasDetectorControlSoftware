@@ -22,7 +22,7 @@ struct Sensor {
     uint8_t current = 0;
     uint8_t lowPassFilter = 1;
     uint16_t R0 = 0; // for alghoritm
-    uint16_t RThereshould = 0 ;
+    uint16_t Rtol = 0 ;
     uint16_t operationTime = 1 ;
     uint16_t recoveryTime = 1 ;
     float operationTemp = 0;

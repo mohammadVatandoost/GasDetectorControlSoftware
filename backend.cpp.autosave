@@ -57,7 +57,12 @@ uint16_t Backend::filterRes(int sensorId)
 
 float Backend::calculateRavg(int sensorId)
 {
-//    int tRtol = mList->items()[sensorId].
+    int tRtol = mList->items()[sensorId].Rtol;
+    double sum = 0;
+    if(tRtol < mList->items()[sensorId])
+    for(int i=0; i<tRtol;i++) {
+        
+    }
     return 0;
 }
 

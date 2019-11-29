@@ -54,6 +54,7 @@ public:
     Q_INVOKABLE void startAllSensor();
     bool checkAlgohoritmFirstCondition(int sensorId);
     uint16_t filterRes(int sensorId);
+    float calculateRavg(int sensorId);
 
     Q_INVOKABLE void setPumpValue(int configValue);
     Q_INVOKABLE int getPumpValue();

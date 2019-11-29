@@ -18,7 +18,7 @@ public:
     uint8_t current = 0;
     uint8_t lowPassFilter = 1;
     uint16_t R0 = 0; // for alghoritm
-    uint16_t RThereshould = 0 ;
+    uint16_t Rtol = 0 ;
     uint16_t operationTime = 1 ;
     uint16_t recoveryTime = 1 ;
     float operationTemp = 0;
@@ -44,7 +44,7 @@ public:
         addColumn("current", "INTEGER", static_cast<string>("0") );
         addColumn("lowPassFilter", "INTEGER", static_cast<string>("1") );
         addColumn("R0", "INTEGER", static_cast<string>("0") );
-        addColumn("RThereshould", "INTEGER", static_cast<string>("0") );
+        addColumn("Rtol", "INTEGER", static_cast<string>("0") );
         addColumn("operationTime", "INTEGER", static_cast<string>("1") );
         addColumn("recoveryTime", "INTEGER", static_cast<string>("1") );
         addColumn("operationTemp", "REAL", static_cast<string>("0") );

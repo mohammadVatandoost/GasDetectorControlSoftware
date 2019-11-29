@@ -15,7 +15,7 @@ public:
     explicit SensorModel(QObject *parent = nullptr);
     enum {
       tempSetPoint, res, current, lowPassFilter, R0,
-      RThereshould, operationTime, recoveryTime, recoveryTemp,
+      Rtol, operationTime, recoveryTime, recoveryTemp,
       gasType, pressureType, equation, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive, alghoritmRunning,
       pressure
     };

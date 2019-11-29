@@ -133,7 +133,7 @@ bool DataBase::findById(string sql_command, Sensor *temp)
                 temp->current = static_cast<uint8_t>(sqlite3_column_int(stmt, 3)) ;
                 temp->lowPassFilter = static_cast<uint8_t>(sqlite3_column_int(stmt, 4)) ;
                 temp->R0 = static_cast<uint16_t>(sqlite3_column_int(stmt, 5)) ;
-                temp->RThereshould = static_cast<uint16_t>(sqlite3_column_int(stmt, 6)) ;
+                temp->Rtol = static_cast<uint16_t>(sqlite3_column_int(stmt, 6)) ;
                 temp->operationTime = static_cast<uint16_t>(sqlite3_column_int(stmt, 7)) ;
                 temp->recoveryTime = static_cast<uint16_t>(sqlite3_column_int(stmt, 8)) ;
                 temp->operationTemp = static_cast<float>(sqlite3_column_double(stmt, 9)) ;

@@ -46,7 +46,7 @@ public:
 
     Q_INVOKABLE void setFilterValue(int sensorId, int configValue);
     Q_INVOKABLE void setR0Value(int sensorId, int configValue);
-    Q_INVOKABLE void setRThValue(int sensorId, int configValue);
+    Q_INVOKABLE void setRtolValue(int sensorId, int configValue);
     Q_INVOKABLE void setTempValue(int sensorId, double configValue);
     Q_INVOKABLE void setNameValue(int sensorId, int configValue);
     Q_INVOKABLE void setRecTimeValue(int sensorId, int configValue);
@@ -63,7 +63,7 @@ public:
 
     Q_INVOKABLE int getFilterValue(int sensorId);
     Q_INVOKABLE int getR0Value(int sensorId);
-    Q_INVOKABLE int getRThValue(int sensorId);
+    Q_INVOKABLE int getRtolValue(int sensorId);
     Q_INVOKABLE double getTempValue(int sensorId);
     Q_INVOKABLE int getNameValue(int sensorId);
     Q_INVOKABLE int getRecTimeValue(int sensorId);
