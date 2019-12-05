@@ -55,9 +55,12 @@ void SensorsList::setSensorData(SensorPacketRx *data)
     sensorItems[data->sensorId].res = (float)((float)data->res/100);
     double tempDateTime = QDateTime::currentMSecsSinceEpoch();
     sensorItems[data->sensorId].addResData(tempDateTime, sensorItems[data->sensorId].res);
+//    sensorItems[data->sensorId].addResData(tempDateTime, 5);
     sensorItems[data->sensorId].addTempData(tempDateTime, sensorItems[data->sensorId].tempLastData);
-    if(sensorItems[data->sensorId].secondCondition) {
+//    sensorItems[data->sensorId].addTempData(tempDateTime, 3);
+    if(sensorItems[data->sensorId].firstCondition) {
         calculatePPM(data->sensorId);
+        emit notifyInfoDataChanged();
     } else {
       sensorItems[data->sensorId].pressure = "DC";
     }

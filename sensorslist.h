@@ -88,7 +88,7 @@ signals:
 
    void preItemRemoved(int index);
    void postItemRemoved();
-
+   void notifyInfoDataChanged();
 public slots:
     void appendItem(); //Sensor sensorItem
     void removeItem(int index);

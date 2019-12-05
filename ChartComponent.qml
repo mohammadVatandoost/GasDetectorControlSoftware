@@ -14,34 +14,37 @@ ChartView {
     DateTimeAxis {
         id: axisXTime
         format: "mm:ss"
-        tickCount: 6
+        tickCount: 10
+        Component.onCompleted: {
+           BackEnd.setAxisXTime(axisXTime);
+        }
     }
 
     ValueAxis {
-        id: axisYData
+        id: tempYData
         min: 0
-        max: 10
+        max: 500
     }
 
     ValueAxis {
-        id: axisYData2
-        min: 5
-        max: 100
-    }
-
-    LineSeries {
-        id: lineSeriesTemp
-        axisX: axisXTime
-        axisYRight: axisYData2
-        name: "Temp"
+        id: resYData
+        min: 0
+        max: 1000
     }
 
     LineSeries {
         id: lineSeriesRes
         axisX: axisXTime
-        axisY: axisYData
+        axisYRight: resYData
         name: "Res"
     }
+    LineSeries {
+        id: lineSeriesTemp
+        axisX: axisXTime
+        axisY: tempYData
+        name: "Temp"
+    }
+
 
     Timer {
         id: refreshTimer
@@ -52,14 +55,11 @@ ChartView {
 
             BackEnd.updateChart(lineSeriesTemp, root.sensorId);
             BackEnd.updateChart(lineSeriesRes, root.sensorId);
-//            axisXData.min = SensorsList.getSensorXmin();
-//            axisXData.max = SensorsList.getSensorXmax();
+//            tempYData.min = BackEnd.getSensorTempMin();
+//            tempYData.max = BackEnd.getSensorTempMax();
 
-//            axisYData.min = SensorsList.getSensorYmin();
-//            axisYData.max = SensorsList.getSensorYmax();
-
-//            axisZData.min = SensorsList.getSensorZmin();
-//            axisZData.max = SensorsList.getSensorZmax();
+//            resYData.min = BackEnd.getSensorResMin();
+//            resYData.max = BackEnd.getSensorResMax();
         }
     }
 

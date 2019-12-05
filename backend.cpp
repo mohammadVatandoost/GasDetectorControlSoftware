@@ -32,17 +32,22 @@ void Backend::setSensorsList(SensorsList *sensorsList)
 bool Backend::checkAlgohoritmFirstCondition(int sensorId)
 {
     if(generalData.flowErrorStatus && generalData.electricalErrorStatus) {
-       mList->items()[sensorId].alghoritmRunning = false;
-       mList->items()[sensorId].firstCondition = false;
+       alghoritmStop(sensorId);
     }
     Sensor sensor = mList->items()[sensorId];
     if(sensor.tempLastData == HeaterNotActive) {
-         mList->items()[sensorId].alghoritmRunning = false;
-         mList->items()[sensorId].firstCondition = false;
+         alghoritmStop(sensorId);
     }
     if( ( (sensor.tempSetPoint-sensor.tempuretureTh) < sensor.tempLastData ) &&
-            (sensor.tempLastData < (sensor.tempSetPoint+sensor.tempuretureTh) ) ) {
-
+            (sensor.tempLastData < (sensor.tempSetPoint+sensor.tempuretureTh) ) &&
+            (!sensor.firstCondition)  ) {
+        int *rMax = 0;
+        int *rMin = 0;
+        double Ravg = calculateRavg(sensorId, rMax, rMin);
+        if( (*rMax - *rMin) < (mList->items()[sensorId].R0 * Ravg ) ) {
+            mList->items()[sensorId].timeCounter = 0;
+            mList->items()[sensorId].firstCondition = true;
+        }
     }
 
     return true;
@@ -53,18 +58,40 @@ uint16_t Backend::filterRes(int sensorId)
     return 0;
 }
 
-float Backend::calculateRavg(int sensorId)
+float Backend::calculateRavg(int sensorId, int *rMax, int *rMin)
 {
     int tRtol = mList->items()[sensorId].Rtol;
     double sum = 0;
     if(tRtol < mList->items()[sensorId].resData.size()) {
         tRtol = mList->items()[sensorId].resData.size();
     }
+    *rMax = mList->items()[sensorId].resData[mList->items()[sensorId].resData.size()-1].y();
+    rMin = rMax;
     for(int i=0; i<tRtol;i++) {
-       sum =  mList->items()[sensorId].resData[i].y() + sum ;
+        double temp = mList->items()[sensorId].resData[i].y();
+        if(temp < *rMin) {
+            *rMin = temp;
+        } else if( temp > *rMax) {
+            *rMax = temp ;
+        }
+       sum = temp  + sum ;
     }
 
     return (sum/tRtol);
+}
+
+void Backend::alghoritmStop(int sensorId)
+{
+    mList->items()[sensorId].alghoritmRunning = false;
+    mList->items()[sensorId].firstCondition = false;
+    mList->items()[sensorId].secondCondition = false;
+    mList->items()[sensorId].timeCounter = 0;
+    for(int i=0; i<mList->items().size(); i++) {
+        if(mList->items()[i].alghoritmRunning) {
+            return;
+        }
+    }
+    sendPumpSpeedZero = true;
 }
 
 void Backend::setPumpValue(int configValue)
@@ -159,7 +186,13 @@ void Backend::sendSensorData(uint8_t sensorId)
 //   QVector<Sensor> sensors = mList->items();
    temp.sensorId = sensorId;
    if(mList->items()[sensorId].alghoritmRunning) {
-     temp.tempSetPoint = mList->items()[sensorId].tempSetPoint;
+       if(mList->sensorItems[sensorId].secondCondition) {
+           temp.tempSetPoint = mList->items()[sensorId].recoveryTemp;
+       } else if(mList->sensorItems[sensorId].firstCondition) {
+           temp.tempSetPoint = mList->items()[sensorId].operationTemp;
+       } else {
+           temp.tempSetPoint = mList->items()[sensorId].tempSetPoint;
+       }
      checkAlgohoritmFirstCondition(sensorId);
    } else if(mList->items()[sensorId].heaterStart) {
        temp.tempSetPoint = mList->items()[sensorId].tempSetPoint;
@@ -168,20 +201,26 @@ void Backend::sendSensorData(uint8_t sensorId)
        temp.tempSetPoint = mList->items()[sensorId].recoveryTemp;
 //        cout<<sensorId <<" recovery start " << temp.tempSetPoint  <<endl;
    } else {
-      temp.tempSetPoint = 0;
+      temp.tempSetPoint = 100;
    }
+   temp.tempSetPoint = 300;
 //   temp.tempSetPoint = 305;
    uint32_t sum= 0;
+
    char* dataBytes = static_cast<char*>(static_cast<void*>(&temp));
    for(int i=1; i<sizeof(struct SensorPacketTx); i++) {
        sum = sum + ((uint8_t)dataBytes[i]);
    }
-   dataBytes[sizeof(struct SensorPacketTx)] = (uint8_t)sum%256;
-//   cout<< "sendSensorData:" <<sensorId << " , " << unsigned(dataBytes[sizeof(struct SensorPacketTx)-2])<<" , " << unsigned(dataBytes[sizeof(struct SensorPacketTx)]) << " , "<<sum%256<<endl;
+//   dataBytes[sizeof(struct SensorPacketTx)] = (uint8_t)sum%256;
+//   cout<< "sendSensorData:" <<sensorId << " , " << temp.tempSetPoint<< " checksum:"<<unsigned(dataBytes[sizeof(struct SensorPacketTx)])<<endl;
    QString packet = "*@" ;
    QByteArray tx_data; tx_data.append(packet);
    serial->write(tx_data);
-   serial->write(dataBytes, sizeof(struct SensorPacketTx)+1);
+   serial->write(dataBytes, sizeof(struct SensorPacketTx));
+   uint8_t checkSum= (uint8_t)sum%256;//reinterpret_cast<uint8_t>(sum%256);
+   QByteArray checkSumByte;
+   checkSumByte.append(checkSum);
+   serial->write(checkSumByte);
 }
 
 void Backend::sendSensorDataHeater(int sensorId)
@@ -189,6 +228,36 @@ void Backend::sendSensorDataHeater(int sensorId)
     mList->sensorItems[sensorId].heaterActive = true;
     mList->sensorItems[sensorId].recStart = false;
 }
+
+void Backend::setAxisXTime(QDateTimeAxis *axis)
+{
+    qDebug()<< "**************set axis time" ;
+    axisXTime = axis;
+//    qDebug() << "setAxisXTime()" << axisXTime->format();
+    axisXTime->setMin(QDateTime::currentDateTime());
+    axisXTime->setMax(QDateTime::currentDateTime().addSecs(60));
+}
+
+int Backend::getSensorTempMin()
+{
+    return tempMin;
+}
+
+int Backend::getSensorTempMax()
+{
+    return tempMax;
+}
+
+int Backend::getSensorResMin()
+{
+    return resMin;
+}
+
+int Backend::getSensorResMax()
+{
+    return resMax;
+}
+
 
 void Backend::sendSensorDataRec(int sensorId)
 {
@@ -216,6 +285,7 @@ void Backend::sendGeneralData()
   QByteArray tx_data; tx_data.append(packet);
   serial->write(tx_data);
   serial->write(dataBytes, sizeof(struct BoardPacketTx)+1);
+//  delete dataBytes;
 }
 
 void Backend::sendPacket(char *data, int size)
@@ -322,15 +392,22 @@ Sensor Backend::getSeneorDataFromDB(int sId)
 
 void Backend::updateChart(QAbstractSeries *chartSeries, int sensorId)
 {
-  if(sensorId < mList->items().size() && -1 < sensorId) {
+  if(sensorId < mList->items().size() && -1 < sensorId) { 
     if (chartSeries) {
+        if(axisXTime) {
+//            qDebug()<< "set axis time" ;
+            axisXTime->setMin(QDateTime::fromMSecsSinceEpoch(QDateTime::currentDateTime().toMSecsSinceEpoch()-60000));
+            axisXTime->setMax(QDateTime::currentDateTime());
+        }
+//         QVector<Sensor> sensors = mList->items();
+        qDebug()<< "chart update sensor id:"<< sensorId << " points size:"<< mList->sensorItems[sensorId].tempData.size();
         QXYSeries *xySeries = static_cast<QXYSeries *>(chartSeries);
-        QVector<Sensor> sensors = mList->items();
+
         if(chartSeries->name() == "Temp") {
-          QVector<QPointF> points = sensors[sensorId].tempData;
+          QVector<QPointF> points = mList->sensorItems[sensorId].tempData;
           xySeries->replace(points);
         } else {
-            QVector<QPointF> points = sensors[sensorId].resData;
+            QVector<QPointF> points = mList->sensorItems[sensorId].resData;
             xySeries->replace(points);
         }
     }
@@ -399,9 +476,22 @@ void Backend::timerSlot()
             serial->close();
         }
     } else {
-        sendGeneralData();
-        for(int i=0; i<mList->sensorItems.size(); i++) {
+//        sendGeneralData();
+        if(mList->sensorItems.size()>0) {
+        for(int i=0; i<1; i++) {
+            if(mList->sensorItems[i].firstCondition) {
+                mList->sensorItems[i].timeCounter++;
+                if(mList->sensorItems[i].secondCondition) {
+                    if(mList->sensorItems[i].timeCounter >= mList->sensorItems[i].operationTime) {
+                        alghoritmStop(i);
+                    }
+                } else if(mList->sensorItems[i].timeCounter >= mList->sensorItems[i].recoveryTime) {
+                    mList->sensorItems[i].secondCondition = true;
+                    mList->sensorItems[i].timeCounter = 0;
+                }
+            }
             sendSensorData(i);
+        }
         }
     }
    } else {

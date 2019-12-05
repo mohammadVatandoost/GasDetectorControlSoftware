@@ -48,10 +48,13 @@ struct Sensor {
     QVector<QPointF> resData;
     // for alghoritm
     bool alghoritmRunning = false;
-    bool firstCondition = false; // for tempuretureTh range
-    bool secondCondition = false;
+    bool firstCondition = false; // start operation time
+    bool secondCondition = false; // start recovery time
     uint16_t timeCounter = 0;
-
+    int minTemp = 0;
+    int maxTemp = 400;
+    int minRes = 0 ;
+    int maxRes = 400;
     void addTempData(double time, double value) {
         QPointF temp(time,value);
         tempData.append(temp);

@@ -49,12 +49,19 @@ public:
     DataBase db{"dataBase"};
     uint16_t packetSize = 0;
     JsonStoring jsonStoring;
+    // for chart
+    QDateTimeAxis *axisXTime;
+    int tempMin = 0;
+    int tempMax = 100;
+    int resMin = 0;
+    int resMax = 100;
     // for alghoritm
     Q_INVOKABLE void startSensor(int sensorId);
     Q_INVOKABLE void startAllSensor();
     bool checkAlgohoritmFirstCondition(int sensorId);
     uint16_t filterRes(int sensorId);
-    float calculateRavg(int sensorId);
+    float calculateRavg(int sensorId, int *rMax, int *rMin);
+    void alghoritmStop(int sensorId);
 
     Q_INVOKABLE void setPumpValue(int configValue);
     Q_INVOKABLE int getPumpValue();
@@ -81,6 +88,11 @@ public:
     void createTable();
     Sensor getSeneorDataFromDB(int sId);
 
+    Q_INVOKABLE int getSensorTempMin();
+    Q_INVOKABLE int getSensorTempMax();
+    Q_INVOKABLE int getSensorResMin();
+    Q_INVOKABLE int getSensorResMax();
+
 private:
     SensorsList *mList;
 signals:
@@ -88,6 +100,8 @@ signals:
 
 public slots:
     void updateChart(QAbstractSeries *chartSeries, int sensorId);
+    void setAxisXTime(QDateTimeAxis *axis);
+
 private slots:
     void recieveSerialPort();
     void timerSlot();
