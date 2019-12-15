@@ -203,7 +203,7 @@ void Backend::sendSensorData(uint8_t sensorId)
    } else {
       temp.tempSetPoint = 100;
    }
-   temp.tempSetPoint = 300;
+   temp.tempSetPoint = 40;
 //   temp.tempSetPoint = 305;
    uint32_t sum= 0;
 

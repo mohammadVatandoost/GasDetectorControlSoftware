@@ -22,7 +22,9 @@ RowLayout {
     function setProgressValue(temp) { progressValue = temp;}
     function setSensorName(temp) { sensorName = temp;}
     function setSensorId(temp) {sensorId = temp;}
-    function setSensorPressure(temp) {sensorPressure = temp;}
+    function setSensorPressure(temp) {
+        sensorPressure = temp; presureValue.text = temp;
+    }
 
     Image {
         sourceSize.width: 60
@@ -70,6 +72,7 @@ RowLayout {
         }
     }
     Text {
+        id: presureValue
         text: qsTr(root.sensorPressure)
     }
     StatusIndicator {

@@ -189,6 +189,7 @@ Page {
                   }
 
                   Text {
+                      id: pressureValue
                       Layout.alignment: Qt.AlignHCenter
                       text: qsTr("0")
                   }
@@ -422,6 +423,7 @@ Page {
            onTriggered: {
                res.text = SensorsList.getRes(sensorId).toFixed(2) ;
                temp.text = SensorsList.getTemp(sensorId).toFixed(2);
+               pressureValue.text = SensorsList.getPressure(sensorId);
 //               console.log("trigerred "+sensorId);
 //               console.log(SensorsList.getTemp(sensorId) );
 //               console.log(SensorsList.getRes(sensorId) );

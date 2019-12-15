@@ -8,7 +8,7 @@ ChartView {
     height: window.height*0.9
     antialiasing: true
     id: root
-    property int sensorId: 1
+    property int sensorId: 0
     function setSensorId(temp) {sensorId = temp;}
 
     DateTimeAxis {

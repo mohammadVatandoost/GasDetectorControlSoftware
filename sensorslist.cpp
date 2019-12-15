@@ -50,6 +50,7 @@ void SensorsList::addSensor(Sensor newSensor)
 
 void SensorsList::setSensorData(SensorPacketRx *data)
 {
+//    qDebug()<< data->sensorId << ":"<<(float)((float)data->temp/100);
     sensorItems[data->sensorId].tempLastData =   (float)((float)data->temp/100);
     sensorItems[data->sensorId].current = data->current;
     sensorItems[data->sensorId].res = (float)((float)data->res/100);
@@ -58,12 +59,17 @@ void SensorsList::setSensorData(SensorPacketRx *data)
 //    sensorItems[data->sensorId].addResData(tempDateTime, 5);
     sensorItems[data->sensorId].addTempData(tempDateTime, sensorItems[data->sensorId].tempLastData);
 //    sensorItems[data->sensorId].addTempData(tempDateTime, 3);
-    if(sensorItems[data->sensorId].firstCondition) {
-        calculatePPM(data->sensorId);
-        emit notifyInfoDataChanged();
-    } else {
-      sensorItems[data->sensorId].pressure = "DC";
-    }
+    calculatePPM(data->sensorId);
+//     emit notifyInfoDataChanged();
+//    emit postItemAppended();
+//    qDebug() << "update pressure changed";
+//    if(sensorItems[data->sensorId].firstCondition) {
+////        calculatePPM(data->sensorId);
+////        emit notifyInfoDataChanged();
+//    } else {
+
+//      sensorItems[data->sensorId].pressure = "DC";
+//    }
 }
 
 void SensorsList::calculatePPM(int sensorId)
@@ -166,8 +172,8 @@ void SensorsList::setGasTypeValue(int sensorId, QString configValue)
 
 void SensorsList::setPressureTypeValue(int sensorId, QString configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
-       sensorItems[sensorId-1].pressureType =  configValue;
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
+       sensorItems[sensorId].pressureType =  configValue;
     } else {
         qDebug() << "sensorId not valid :" << sensorId ;
     }
@@ -412,6 +418,16 @@ QString SensorsList::getPressureTypeValue(int sensorId)
 {
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].pressureType;
+    } else {
+        qDebug() << "Get sensorId not valid :" << sensorId ;
+        return "not valid";
+    }
+}
+
+QString SensorsList::getPressure(int sensorId)
+{
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId].pressure;
     } else {
         qDebug() << "Get sensorId not valid :" << sensorId ;
         return "not valid";

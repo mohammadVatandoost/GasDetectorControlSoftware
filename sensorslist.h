@@ -80,6 +80,7 @@ public:
     Q_INVOKABLE QString getEquationE(int sensorId);
     Q_INVOKABLE QString getGasTypeValue(int sensorId);
     Q_INVOKABLE QString getPressureTypeValue(int sensorId);
+    Q_INVOKABLE QString getPressure(int sensorId);
 //    Q_INVOKABLE QVector<double> getEquationCoefficient(int sensorId);
 //    Q_INVOKABLE QVector<double> getEquationPowers(int sensorId);
 signals:

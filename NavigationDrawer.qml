@@ -27,7 +27,7 @@ Drawer {
             }
 
             delegate: NavigationItem {
-                Component.onCompleted: {setSensorId(index+1);}
+                Component.onCompleted: {setSensorId(index);}
                 onSensorSelected : {root.sensorSelect(sensorId);}
              }
         }

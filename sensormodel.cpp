@@ -185,6 +185,9 @@ void SensorModel::setList(SensorsList *list)
         connect(mList, &SensorsList::postItemRemoved, this, [this]() {
           endRemoveRows();
         });
+//        connect(mList, &SensorsList::notifyInfoDataChanged, this, [this](int index) {
+//          dataChanged(index, index, QVector<int>() << role);
+//        });
     }
 
     endResetModel();
