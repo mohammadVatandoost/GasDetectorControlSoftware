@@ -21,7 +21,7 @@ Grid {
     function updateConfig() {
         config1.setConfigValue(SensorsList.getFilterValue(sensorId));
         config2.setConfigValue(SensorsList.getR0Value(sensorId));
-        config3.setConfigValue(SensorsList.getRThValue(sensorId));
+//        config3.setConfigValue(SensorsList.getRThValue(sensorId));
         config4.setConfigValue(BackEnd.getPumpValue());
         config5.setConfigValue(SensorsList.getTempValue(sensorId));
         config6.setConfigValue(SensorsList.getNameValue(sensorId));

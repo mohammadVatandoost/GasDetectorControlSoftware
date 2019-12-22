@@ -38,6 +38,7 @@ class Backend : public QObject
 public:
     explicit Backend(QObject *parent = nullptr);
     Q_INVOKABLE void setSensorsList(SensorsList *sensorsList);
+    Q_INVOKABLE void setDataBase(DataBase *dataBase);
     QSerialPort *serial;
     QString come_port;
     QTimer *timer;
@@ -46,7 +47,8 @@ public:
     bool connectState = false;
     QByteArray dataBuf;
     uint16_t recieveState = 0;
-    DataBase db{"dataBase"};
+//    DataBase db{"dataBase"};
+    DataBase *db;
     uint16_t packetSize = 0;
     JsonStoring jsonStoring;
     // for chart
@@ -92,6 +94,7 @@ public:
     Q_INVOKABLE int getSensorTempMax();
     Q_INVOKABLE int getSensorResMin();
     Q_INVOKABLE int getSensorResMax();
+    Q_INVOKABLE void openKeyboard();
 
 private:
     SensorsList *mList;

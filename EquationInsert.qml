@@ -201,6 +201,7 @@ Popup {
                            onTextChangedS: {
                                popup.a = text;
                            }
+                           onActiveFocusChanged: BackEnd.openKeyboard()
                        }
                     }
                     ColumnLayout {
@@ -214,6 +215,7 @@ Popup {
                            onTextChangedS: {
                                popup.b = text;
                            }
+                           onActiveFocusChanged: BackEnd.openKeyboard()
                        }
                     }
                     ColumnLayout {
@@ -227,6 +229,7 @@ Popup {
                            onTextChangedS: {
                                popup.c = text;
                            }
+                           onActiveFocusChanged: BackEnd.openKeyboard()
                        }
                     }
                     ColumnLayout {
@@ -240,6 +243,7 @@ Popup {
                            onTextChangedS: {
                                popup.d = text;
                            }
+                           onActiveFocusChanged: BackEnd.openKeyboard()
                        }
                     }
                     ColumnLayout {
@@ -254,6 +258,7 @@ Popup {
                            onTextChangedS: {
                                popup.e = text;
                            }
+                           onActiveFocusChanged: BackEnd.openKeyboard()
                        }
                     }
                 }

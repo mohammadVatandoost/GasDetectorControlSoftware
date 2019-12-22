@@ -9,6 +9,8 @@
 #include <math.h>
 #include "sensor.h"
 #include "packet.h"
+#include "database.h"
+#include "sensorschema.h"
 //struct Sensor {
 //    float tempureture = 0;
 //    float res = 0;
@@ -35,6 +37,8 @@ class SensorsList : public QObject
 public:
     SensorsList();
     bool setSensorItem(int index,Sensor &sensor);
+    Q_INVOKABLE void setDataBase(DataBase *dataBase);
+    DataBase *db;
     bool isNewId(uint8_t id);
     QVector<Sensor> items();
     QVector<Sensor> sensorItems;

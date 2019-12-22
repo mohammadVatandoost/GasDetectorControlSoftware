@@ -21,7 +21,7 @@ Rectangle {
     Text {
         anchors.top: paddingRectangle.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        text: qsTr("Sensor "+sensorId)
+        text: qsTr("Sensor "+(sensorId+1))
         font.pointSize: 20
     }
 

@@ -69,6 +69,7 @@ public:
     string getSqlInsertCommand();
     string getSqlUpdateCommand(uint8_t sensorId);
     string getSqlFindById(uint8_t sensorId);
+    void setSensorInfo(Sensor temp);
 };
 
 #endif // SENSORSCHEMA_H

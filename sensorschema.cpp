@@ -28,9 +28,9 @@ string SensorSchema::getSqlUpdateCommand(uint8_t sensorId)
             ", recoveryTime="+u.numberToString(recoveryTime)+", operationTemp="+u.numberToString(operationTemp)+
             ", recoveryTemp="+u.numberToString(recoveryTemp)+", tempuretureTh="+u.numberToString(tempuretureTh)+
             ", gasType=\""+gasType+"\", pressureType=\""+pressureType+"\", equation="+u.numberToString(unsigned(equation))+
-            ", RtoR0OrRtoDeltaR="+u.numberToString(equationA)+", RtoR0OrRtoDeltaR="+u.numberToString(equationB)+
-            ", RtoR0OrRtoDeltaR="+u.numberToString(equationC)+", RtoR0OrRtoDeltaR="+u.numberToString(equationD)+
-            ", RtoR0OrRtoDeltaR="+u.numberToString(equationE)+
+            ", equationA="+u.numberToString(equationA)+", equationB="+u.numberToString(equationB)+
+            ", equationC="+u.numberToString(equationC)+", equationD="+u.numberToString(equationD)+
+            ", equationE="+u.numberToString(equationE)+
             ", RtoR0OrRtoDeltaR="+u.numberToString(RtoR0OrRtoDeltaR)+", tempActive="+u.numberToString(tempActive)+
             ", heaterActive="+u.numberToString(heaterActive)+", sensorActive="+u.numberToString(sensorActive)+" WHERE id = "+u.numberToString(unsigned(sensorId));
 //    cout << "getSqlUpdateCommand :"<< temp;
@@ -43,4 +43,39 @@ string SensorSchema::getSqlFindById(uint8_t sensorId)
    string temp = "SELECT * FROM Sensor WHERE id="+u.numberToString(unsigned(sensorId));
 //   cout << "getSqlFindById :"<< temp;
    return temp;
+}
+
+void SensorSchema::setSensorInfo(Sensor temp)
+{
+    cout<< "setSensorInfo" <<endl;
+    cout<< temp.pressureType.toStdString() <<endl;
+    cout<< "pressureType" <<endl;
+    cout<< pressureType <<endl;
+    cout<< "valueing" <<endl;
+    RtoR0OrRtoDeltaR = temp.RtoR0OrRtoDeltaR;
+    tempActive = temp.tempActive;
+    heaterActive = temp.heaterActive;
+    sensorActive = temp.sensorActive;
+//    cout << pressureType << ", pressureType :"<< temp.pressureType.toStdString();
+    pressureType = temp.pressureType.toUtf8().toStdString();
+    equation = temp.equation;
+    equationA = temp.equationA;
+    equationB = temp.equationB;
+    equationC = temp.equationC;
+    equationD = temp.equationD;
+    equationE = temp.equationE;
+
+    recoveryTime = temp.recoveryTime;
+    operationTemp = temp.operationTemp;
+    current = temp.current;
+    recoveryTemp = temp.recoveryTemp;
+    tempuretureTh = temp.tempuretureTh;
+    gasType = temp.gasType.toStdString();
+
+    tempSetPoint = temp.tempSetPoint;
+    res = temp.res;
+    current = temp.current;
+    R0 = temp.R0;
+    Rtol = temp.Rtol;
+    operationTime = temp.operationTime;
 }

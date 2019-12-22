@@ -7,11 +7,12 @@
 #include "sensormodel.h"
 #include "sensorslist.h"
 #include "backend.h"
+#include "database.h"
 
 
 int main(int argc, char *argv[])
 {
-    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+//    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
@@ -21,9 +22,12 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<SensorModel>("SensorModel", 1, 0, "SensorModel");
     qmlRegisterUncreatableType<SensorsList>("SensorsList",1,0,"SensorsList",
-                                         QStringLiteral("SensorsList should not be created in QML"));
+                                       QStringLiteral("SensorsList should not be created in QML"));
+    DataBase db{"dataBase"};
     SensorsList sensorsList;
+    sensorsList.setDataBase(&db);
     Backend backEnd;
+    backEnd.setDataBase(&db);
     backEnd.setSensorsList(&sensorsList);
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty(QStringLiteral("SensorsList"), &sensorsList);

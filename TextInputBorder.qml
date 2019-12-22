@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import QtQuick.VirtualKeyboard 2.2
+//import QtQuick.VirtualKeyboard 2.2
 
 Item {
     id: root
@@ -21,6 +21,7 @@ Item {
         }
         TextInput{
             id: input
+//            leftPadding: 10
             anchors {
                 fill: parent
             }
@@ -28,6 +29,7 @@ Item {
             selectByMouse: true
             layer.enabled: true
             onTextChanged: {textChangedS(text)}
+            onActiveFocusChanged: BackEnd.openKeyboard()
         }
     }
 }

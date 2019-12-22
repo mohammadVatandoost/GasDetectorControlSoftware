@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Material 2.3
 import QtQuick.Controls.Styles 1.4
-import QtQuick.VirtualKeyboard 2.2
+//import QtQuick.VirtualKeyboard 2.2
 
 Page {
     id: root
@@ -328,9 +328,10 @@ Page {
                TextEdit {
                    id: configTextEdit
                    text: qsTr(popup.configValue)
-                   height: 40
+                   onActiveFocusChanged: BackEnd.openKeyboard()
+                   height: 50
                    width: 100
-                   font.pixelSize: 18
+                   font.pixelSize: 22
                    Layout.alignment: Qt.AlignHCenter
                }
                Rectangle {
@@ -357,7 +358,9 @@ Page {
                          highlighted: true
                          Material.background: Material.Green
                          onClicked: {
-                             console.log("submited :"+configTextEdit.text);
+                             console.log("config submite");
+                             console.log(root.sensorId);
+                             console.log(configTextEdit.text);
                              if(popup.configId === 1) {
                                SensorsList.setFilterValue(root.sensorId, configTextEdit.text);
                              } else if(popup.configId === 2) {

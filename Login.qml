@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Material 2.3
 import QtQuick.Controls.Styles 1.4
-import QtQuick.VirtualKeyboard 2.1
+//import QtQuick.VirtualKeyboard 2.1
 
 Page {
     id: root
@@ -85,7 +85,7 @@ Page {
             font.pointSize: 25
             inputMethodHints: Qt.ImhDigitsOnly
             property string placeholderText: "Enter Password"
-
+            onActiveFocusChanged: BackEnd.openKeyboard()
             Text {
                 text: textEdit.placeholderText
                 color: "#aaa"

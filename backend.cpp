@@ -8,7 +8,7 @@ Q_DECLARE_METATYPE(QDateTimeAxis *)
 
 Backend::Backend(QObject *parent) : QObject(parent)
 {
-    createTable();
+//    createTable();
     serial = new QSerialPort(this);
     serial->close();
     serial->setBaudRate(QSerialPort::Baud115200);
@@ -27,6 +27,12 @@ Backend::Backend(QObject *parent) : QObject(parent)
 void Backend::setSensorsList(SensorsList *sensorsList)
 {
     mList = sensorsList;
+}
+
+void Backend::setDataBase(DataBase *dataBase)
+{
+    db = dataBase;
+    createTable();
 }
 
 bool Backend::checkAlgohoritmFirstCondition(int sensorId)
@@ -258,6 +264,10 @@ int Backend::getSensorResMax()
     return resMax;
 }
 
+void Backend::openKeyboard()
+{
+    system("onboard &");
+}
 
 void Backend::sendSensorDataRec(int sensorId)
 {
@@ -367,9 +377,9 @@ void Backend::decodePacket(QByteArray data)
 
 void Backend::createTable()
 {
-    if( db.openConnection() ) {
+    if( db->openConnection() ) {
         SensorSchema sensorSchema;
-        if(db.createTable(sensorSchema)) {
+        if(db->createTable(sensorSchema)) {
             cout<< "table created successfully" << endl;
         }
     }
@@ -377,12 +387,12 @@ void Backend::createTable()
 
 Sensor Backend::getSeneorDataFromDB(int sId)
 {
-    if(!db.isOpen) {
-       db.openConnection();
+    if(!db->isOpen) {
+       db->openConnection();
     }
     SensorSchema sensorSchema;
     Sensor temp  ;
-    if(!db.findById(sensorSchema.getSqlFindById(sId), &temp)) {
+    if(!db->findById(sensorSchema.getSqlFindById(sId), &temp)) {
         cout<<"getSeneorDataFromDB "<<sId << " not finded"<<endl;
     } else {
        cout<<"getSeneorDataFromDB "<<sId << " finded"<<endl;
@@ -400,7 +410,7 @@ void Backend::updateChart(QAbstractSeries *chartSeries, int sensorId)
             axisXTime->setMax(QDateTime::currentDateTime());
         }
 //         QVector<Sensor> sensors = mList->items();
-        qDebug()<< "chart update sensor id:"<< sensorId << " points size:"<< mList->sensorItems[sensorId].tempData.size();
+//        qDebug()<< "chart update sensor id:"<< sensorId << " points size:"<< mList->sensorItems[sensorId].tempData.size();
         QXYSeries *xySeries = static_cast<QXYSeries *>(chartSeries);
 
         if(chartSeries->name() == "Temp") {

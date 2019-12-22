@@ -65,5 +65,6 @@ struct BoardPacketRx {
     uint8_t fan2; // boolean
 };
 
+#pragma pack(pop);
 
 #endif // PACKET_H
