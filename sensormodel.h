@@ -3,7 +3,7 @@
 
 //#include <QObject>
 #include <QAbstractListModel>
-//#include "sensor.h"
+#include "sensor.h"
 
 class SensorsList;
 
@@ -13,12 +13,12 @@ class SensorModel : public QAbstractListModel
     Q_PROPERTY(SensorsList *list READ list WRITE setList )
 public:
     explicit SensorModel(QObject *parent = nullptr);
-    enum {
-      tempSetPoint, res, current, lowPassFilter, R0,
-      Rtol, operationTime, recoveryTime, recoveryTemp,
-      gasType, pressureType, equation, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive, alghoritmRunning,
-      pressure
-    };
+//    enum {
+//      operationTemp, res, current, lowPassFilter, R0,
+//      Rtol, operationTime, recoveryTime, recoveryTemp,
+//      gasType, pressureType, equation, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive, alghoritmRunning,
+//      pressure
+//    };
     // Header: int routerNumber = 123;
 //    int sensorNumber = 345;
 //    QString bordar = "x";

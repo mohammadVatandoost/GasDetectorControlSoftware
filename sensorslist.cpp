@@ -106,7 +106,7 @@ void SensorsList::setFilterValue(int sensorId, int configValue)
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
        db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setFilterValue sensorId not valid :" << sensorId ;
     }
 }
 
@@ -118,32 +118,32 @@ void SensorsList::setR0Value(int sensorId, int configValue)
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
        db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setR0Value sensorId not valid :" << sensorId ;
     }
 }
 
 void SensorsList::setRtolValue(int sensorId, int configValue)
 {
     if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
-       sensorItems[sensorId].Rtol =   static_cast<uint16_t>(configValue);
+       sensorItems[sensorId].Rtol =   static_cast<float>(configValue);
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
        db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setRtolValue sensorId not valid :" << sensorId ;
     }
 }
 
-void SensorsList::setTempValue(int sensorId, double configValue)
+void SensorsList::setOperationTempValue(int sensorId, double configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
-       sensorItems[sensorId].tempSetPoint =   static_cast<float>(configValue);
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
+       sensorItems[sensorId].operationTemp =   static_cast<float>(configValue);
        SensorSchema sensorSchema;
 //       qDebug() << sensorItems[sensorId].pressureType << " pressureType " ;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
        db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setTempValue sensorId not valid :" << sensorId ;
     }
 }
 
@@ -154,13 +154,13 @@ void SensorsList::setNameValue(int sensorId, int configValue)
 
 void SensorsList::setRecTimeValue(int sensorId, int configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].recoveryTime =   static_cast<uint16_t>(configValue);
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
        db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setRecTimeValue sensorId not valid :" << sensorId ;
     }
 }
 
@@ -172,31 +172,31 @@ void SensorsList::setRecTempValue(int sensorId, double configValue)
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
        db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setRecTempValue sensorId not valid :" << sensorId ;
     }
 }
 
 void SensorsList::setOPTimeValue(int sensorId, int configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].operationTime =   static_cast<uint16_t>(configValue);
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
        db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setOPTimeValue sensorId not valid :" << sensorId ;
     }
 }
 
 void SensorsList::setGasTypeValue(int sensorId, QString configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].gasType =   configValue;
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
        db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setGasTypeValue sensorId not valid :" << sensorId ;
     }
 }
 
@@ -208,79 +208,79 @@ void SensorsList::setPressureTypeValue(int sensorId, QString configValue)
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
        db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setPressureTypeValue sensorId not valid :" << sensorId ;
     }
 }
 
 void SensorsList::setEquationType(int sensorId, int configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].equation =  static_cast<uint8_t>(configValue) ;
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
-       db->update(sensorSchema.getSqlUpdateCommand(sensorId));
+//       db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setEquationType sensorId not valid :" << sensorId ;
     }
 }
 
 void SensorsList::setEquationA(int sensorId, QString configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].equationA =  configValue.toFloat();
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
-       db->update(sensorSchema.getSqlUpdateCommand(sensorId));
+//       db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setEquationA sensorId not valid :" << sensorId ;
     }
 }
 
 void SensorsList::setEquationB(int sensorId, QString configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].equationB =  configValue.toFloat();
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
-       db->update(sensorSchema.getSqlUpdateCommand(sensorId));
+//       db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setEquationB sensorId not valid :" << sensorId ;
     }
 }
 
 void SensorsList::setEquationC(int sensorId, QString configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].equationC =  configValue.toFloat();
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
-       db->update(sensorSchema.getSqlUpdateCommand(sensorId));
+//       db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setEquationC sensorId not valid :" << sensorId ;
     }
 }
 
 void SensorsList::setEquationD(int sensorId, QString configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].equationD =  configValue.toFloat();
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
-       db->update(sensorSchema.getSqlUpdateCommand(sensorId));
+//       db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setEquationD sensorId not valid :" << sensorId ;
     }
 }
 
 void SensorsList::setEquationE(int sensorId, QString configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].equationE =  configValue.toFloat();
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
        db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
-        qDebug() << "sensorId not valid :" << sensorId ;
+        qDebug() << "setEquationE sensorId not valid :" << sensorId ;
     }
 }
 
@@ -289,7 +289,7 @@ int SensorsList::getFilterValue(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].lowPassFilter;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getFilterValue Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -299,7 +299,7 @@ int SensorsList::getR0Value(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].R0;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getR0Value Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -309,28 +309,28 @@ int SensorsList::getRtolValue(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].Rtol;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getRtolValue Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
 
-double SensorsList::getTempValue(int sensorId)
+double SensorsList::getOperationTempValue(int sensorId)
 {
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
-        return sensorItems[sensorId].tempSetPoint;
+        return sensorItems[sensorId].operationTemp;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getTempValue Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
 
-int SensorsList::getNameValue(int sensorId)
+int SensorsList::getTRtolValue(int sensorId)
 {
     // Ask What Name is
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
-        return 0;
+        return sensorItems[sensorId].TRtol;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getNameValue Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -340,7 +340,7 @@ int SensorsList::getRecTimeValue(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].recoveryTime;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getRecTimeValue Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -350,7 +350,7 @@ double SensorsList::getRecTempValue(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].recoveryTemp;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getRecTempValue Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -360,7 +360,7 @@ int SensorsList::getOPTimeValue(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].operationTime;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getOPTimeValue Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -370,7 +370,7 @@ int SensorsList::getEquationType(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].equation;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getEquationType Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -380,7 +380,7 @@ double SensorsList::getRes(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].res;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getRes Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -390,7 +390,7 @@ double SensorsList::getTemp(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].tempLastData;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getTemp Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -400,7 +400,7 @@ QString SensorsList::getCurrent(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return QString::number(sensorItems[sensorId].current);
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getCurrent Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -410,7 +410,7 @@ QString SensorsList::getEquationA(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return QString::number(sensorItems[sensorId].equationA);
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getEquationA Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -420,7 +420,7 @@ QString SensorsList::getEquationB(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return QString::number(sensorItems[sensorId].equationB);
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getEquationB Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -430,7 +430,7 @@ QString SensorsList::getEquationC(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return QString::number(sensorItems[sensorId].equationC);
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getEquationC Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -440,17 +440,17 @@ QString SensorsList::getEquationD(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return QString::number(sensorItems[sensorId].equationD);
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getEquationD Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
 
 QString SensorsList::getEquationE(int sensorId)
 {
-    if( (sensorId < sensorItems.size()) && (0 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return QString::number(sensorItems[sensorId].equationE);
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getEquationE Get sensorId not valid :" << sensorId ;
         return 0;
     }
 }
@@ -460,7 +460,7 @@ QString SensorsList::getGasTypeValue(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].gasType;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getGasTypeValue Get sensorId not valid :" << sensorId ;
         return "not valid";
     }
 }
@@ -470,7 +470,7 @@ QString SensorsList::getPressureTypeValue(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].pressureType;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getPressureTypeValue Get sensorId not valid :" << sensorId ;
         return "not valid";
     }
 }
@@ -480,9 +480,15 @@ QString SensorsList::getPressure(int sensorId)
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].pressure;
     } else {
-        qDebug() << "Get sensorId not valid :" << sensorId ;
+        qDebug() << "getPressure Get sensorId not valid :" << sensorId ;
         return "not valid";
     }
+}
+
+void SensorsList::setHeaterValue(int sensorId, bool value)
+{
+
+//    emit setData(QModelIndex(sensorId, 2, NULL), heaterActive, value);
 }
 
 //QVector<double> SensorsList::getEquationCoefficient(int sensorId)

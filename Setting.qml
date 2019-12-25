@@ -21,7 +21,7 @@ Page {
 
         Label {
             id: pageTitle
-            text: qsTr("Sensor "+root.sensorId+"    "+date_time)
+            text: qsTr("Sensor "+(root.sensorId+1)+"    "+date_time)
             font.pixelSize: 20
             anchors.centerIn: parent
         }
@@ -39,11 +39,15 @@ Page {
         id: drawer
         onSensorSelect : {
             root.sensorId = sensorId;
-            console.log("sensor id :" + sensorId);
+            console.log("NavigationDrawer sensor id :" + sensorId);
             configs.setSensorId(sensorId);
             chartS.setSensorId(sensorId);
             configs.updateConfig();
             comboBoxGas.currentIndex = comboBoxGas.getIndex();
+            equation.setVariables(root.sensorId, SensorsList.getEquationType(root.sensorId), SensorsList.getEquationA(root.sensorId),
+                         SensorsList.getEquationB(root.sensorId),
+                         SensorsList.getEquationC(root.sensorId), SensorsList.getEquationD(root.sensorId), SensorsList.getEquationE(root.sensorId))
+            equation.refresh();
             drawer.close();
         }
     }
@@ -330,7 +334,7 @@ Page {
                    text: qsTr(popup.configValue)
                    onActiveFocusChanged: BackEnd.openKeyboard()
                    height: 50
-                   width: 100
+                   width: 200
                    font.pixelSize: 22
                    Layout.alignment: Qt.AlignHCenter
                }
@@ -366,11 +370,11 @@ Page {
                              } else if(popup.configId === 2) {
                                  SensorsList.setR0Value(root.sensorId, configTextEdit.text);
                              } else if(popup.configId === 3) {
-                                 SensorsList.setRThValue(root.sensorId, configTextEdit.text);
+                                 SensorsList.setRtolValue(root.sensorId, configTextEdit.text);
                              } else if(popup.configId === 4) {
                                  BackEnd.setPumpValue(configTextEdit.text);
                              } else if(popup.configId === 5) {
-                                 SensorsList.setTempValue(root.sensorId, configTextEdit.text);
+                                 SensorsList.setOperationTempValue(root.sensorId, configTextEdit.text);
                              } else if(popup.configId === 6) {
                                  SensorsList.setNameValue(root.sensorId, configTextEdit.text);
                              } else if(popup.configId === 7) {
@@ -424,9 +428,15 @@ Page {
    Timer {
            interval: 1000; running: true; repeat: true
            onTriggered: {
-               res.text = SensorsList.getRes(sensorId).toFixed(2) ;
+               if(SensorsList.getRes(sensorId).toFixed(2) > 160000) {
+                  res.text = "-" ;
+               } else {
+                  res.text =  SensorsList.getRes(sensorId).toFixed(2);
+               }
+
                temp.text = SensorsList.getTemp(sensorId).toFixed(2);
                pressureValue.text = SensorsList.getPressure(sensorId);
+//               configs.updateConfig();
 //               console.log("trigerred "+sensorId);
 //               console.log(SensorsList.getTemp(sensorId) );
 //               console.log(SensorsList.getRes(sensorId) );

@@ -85,6 +85,7 @@ bool DataBase::update(string sql_command)
          return false;
       } else {
          cout <<  " table update successfully" << endl;
+         cout <<  zErrMsg << endl;
          return true;
       }
 }
@@ -103,7 +104,7 @@ bool DataBase::findById(string sql_command, Sensor *temp)
     sqlite3_prepare(DB, sql_command.c_str(), sizeof q, &stmt, NULL);
 
     bool done = false;
-
+    bool successfullyFinded = false;
         while (!done) {
             printf("In select while\n");
             switch (sqlite3_step (stmt)) {
@@ -128,7 +129,7 @@ bool DataBase::findById(string sql_command, Sensor *temp)
 //                cout<< "tempActive :" << sqlite3_column_int(stmt, 16) << endl;
 //                cout<< "heaterActive :" << sqlite3_column_int(stmt, 17) << endl;
 //                cout<< "sensorActive :" << sqlite3_column_int(stmt, 18) << endl;
-                temp->tempSetPoint = static_cast<float>(sqlite3_column_double(stmt, 1)) ;
+                temp->TRtol = static_cast<uint16_t>(sqlite3_column_double(stmt, 1)) ;
                 temp->res = static_cast<float>(sqlite3_column_double(stmt, 2)) ;
                 temp->current = static_cast<uint8_t>(sqlite3_column_int(stmt, 3)) ;
                 temp->lowPassFilter = static_cast<uint8_t>(sqlite3_column_int(stmt, 4)) ;
@@ -140,13 +141,20 @@ bool DataBase::findById(string sql_command, Sensor *temp)
                 temp->recoveryTemp = static_cast<float>(sqlite3_column_double(stmt, 10)) ;
                 temp->tempuretureTh = static_cast<float>(sqlite3_column_double(stmt, 11)) ;
                 temp->gasType = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 12))  ;
-                temp->pressureType = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 13)) ;
-                temp->equation = static_cast<uint8_t>(sqlite3_column_int(stmt, 14)) ;
-                temp->RtoR0OrRtoDeltaR = static_cast<uint8_t>(sqlite3_column_int(stmt, 15)) ;
-                temp->tempActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 16)) ;
-                temp->heaterActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 17)) ;
-                temp->sensorActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 18)) ;
+                temp->pressureType = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 13)) ;  
 
+                temp->equation = static_cast<uint8_t>(sqlite3_column_int(stmt, 14)) ;
+                temp->equationA = static_cast<float>(sqlite3_column_int(stmt, 15)) ;
+                temp->equationB = static_cast<float>(sqlite3_column_int(stmt, 16)) ;
+                temp->equationC = static_cast<float>(sqlite3_column_int(stmt, 17)) ;
+                temp->equationD = static_cast<float>(sqlite3_column_int(stmt, 18)) ;
+                temp->equationE = static_cast<float>(sqlite3_column_int(stmt, 19)) ;
+
+                temp->RtoR0OrRtoDeltaR = static_cast<uint8_t>(sqlite3_column_int(stmt, 20)) ;
+                temp->tempActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 21)) ;
+                temp->heaterActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 22)) ;
+                temp->sensorActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 23)) ;
+                successfullyFinded = true;
 //                bytes = sqlite3_column_bytes(stmt, 0);
 //                text  = sqlite3_column_text(stmt, 1);
 //                printf ("count %d: %s (%d bytes)\n", row, text, bytes);
@@ -165,5 +173,5 @@ bool DataBase::findById(string sql_command, Sensor *temp)
 
         sqlite3_finalize(stmt);
 
-        return true;
+        return successfullyFinded;
 }

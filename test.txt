@@ -1,0 +1,3 @@
+orangepi one:
+user name: root
+password: raiwan1234

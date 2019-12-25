@@ -4,7 +4,7 @@ Grid {
     id: root
     columns: 3
     spacing: 10
-    property int sensorId: 1
+    property int sensorId: 0
     signal configSelected(int configId, string configName, string configValue)
     property var idMap: ({ config1: config1, config2: config2, config3: config3, config4: config4,
                             config5: config5, config6: config6, config7: config7, config8: config8, config9: config9})
@@ -16,15 +16,21 @@ Grid {
        findItemById("config"+configId).setConfigValue(configValue);
     }
 
-    function setSensorId(temp) {sensorId = temp;}
+    function setSensorId(temp) {
+        sensorId = temp;
+
+        updateConfig();
+    }
 
     function updateConfig() {
+        console.log("updateConfig");
+        console.log(sensorId);
         config1.setConfigValue(SensorsList.getFilterValue(sensorId));
         config2.setConfigValue(SensorsList.getR0Value(sensorId));
-//        config3.setConfigValue(SensorsList.getRThValue(sensorId));
+        config3.setConfigValue(SensorsList.getRtolValue(sensorId));
         config4.setConfigValue(BackEnd.getPumpValue());
-        config5.setConfigValue(SensorsList.getTempValue(sensorId));
-        config6.setConfigValue(SensorsList.getNameValue(sensorId));
+        config5.setConfigValue(SensorsList.getOperationTempValue(sensorId));
+        config6.setConfigValue(SensorsList.getTRtolValue(sensorId));
         config7.setConfigValue(SensorsList.getRecTimeValue(sensorId));
         config8.setConfigValue(SensorsList.getRecTempValue(sensorId));
         config9.setConfigValue(SensorsList.getOPTimeValue(sensorId));
@@ -50,7 +56,7 @@ Grid {
      Component.onCompleted: {
        setConfigId(2);
        setConfigName("R0");
-       setConfigValue("19.84");
+//       setConfigValue("19.84");
      }
 
      onConfigSelected: {root.configSelected(configId, configName, configValue);console.log(configId + ", " + configName + ", "+ configValue);}
@@ -60,8 +66,8 @@ Grid {
         id: config3
      Component.onCompleted: {
        setConfigId(3);
-       setConfigName("R tol");
-       setConfigValue("3");
+       setConfigName("Rtol");
+//       setConfigValue("3");
      }
 
      onConfigSelected: {root.configSelected(configId, configName, configValue);console.log(configId + ", " + configName + ", "+ configValue);}
@@ -72,7 +78,7 @@ Grid {
      Component.onCompleted: {
        setConfigId(4);
        setConfigName("PUMP");
-       setConfigValue("6");
+//       setConfigValue("6");
      }
 
      onConfigSelected: {root.configSelected(configId, configName, configValue);console.log(configId + ", " + configName + ", "+ configValue);}
@@ -82,8 +88,8 @@ Grid {
         id: config5
      Component.onCompleted: {
        setConfigId(5);
-       setConfigName("Temp");
-       setConfigValue("4");
+       setConfigName("OP Temp");
+//       setConfigValue("4");
      }
 
      onConfigSelected: {root.configSelected(configId, configName, configValue);console.log(configId + ", " + configName + ", "+ configValue);}
@@ -94,7 +100,7 @@ Grid {
      Component.onCompleted: {
        setConfigId(6);
        setConfigName("TRtol");
-       setConfigValue("0");
+//       setConfigValue("0");
      }
 
      onConfigSelected: {root.configSelected(configId, configName, configValue);console.log(configId + ", " + configName + ", "+ configValue);}
@@ -105,7 +111,7 @@ Grid {
      Component.onCompleted: {
        setConfigId(7);
        setConfigName("Rec Time");
-       setConfigValue("0");
+//       setConfigValue("0");
      }
 
      onConfigSelected: {root.configSelected(configId, configName, configValue);console.log(configId + ", " + configName + ", "+ configValue);}
@@ -116,7 +122,7 @@ Grid {
      Component.onCompleted: {
        setConfigId(8);
        setConfigName("Rec Temp");
-       setConfigValue("0");
+//       setConfigValue("0");
      }
 
      onConfigSelected: {root.configSelected(configId, configName, configValue);console.log(configId + ", " + configName + ", "+ configValue);}
@@ -127,7 +133,7 @@ Grid {
      Component.onCompleted: {
        setConfigId(9);
        setConfigName("OP Time");
-       setConfigValue("4");
+//       setConfigValue("4");
      }
 
      onConfigSelected: {root.configSelected(configId, configName, configValue);console.log(configId + ", " + configName + ", "+ configValue);}

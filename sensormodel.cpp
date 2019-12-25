@@ -31,8 +31,8 @@ QVariant SensorModel::data(const QModelIndex &index, int role) const
     // FIXME: Implement me!
     const Sensor item = mList->items().at(index.row());
     switch (role) {
-     case tempSetPoint:
-        return QVariant(item.tempSetPoint);
+     case operationTemp:
+        return QVariant(item.operationTemp);
      case res:
         return QVariant(item.res);
     case current:
@@ -79,8 +79,8 @@ bool SensorModel::setData(const QModelIndex &index, const QVariant &value, int r
 
     Sensor item = mList->items().at(index.row());
     switch (role) {
-     case tempSetPoint:
-        item.tempSetPoint = value.toFloat();
+     case operationTemp:
+        item.operationTemp = value.toFloat();
      case res:
        item.res = value.toInt();
      case current:
@@ -130,7 +130,7 @@ bool SensorModel::setData(const QModelIndex &index, const QVariant &value, int r
 QHash<int, QByteArray> SensorModel::roleNames() const
 {
   QHash<int, QByteArray> names;
-  names[tempSetPoint] = "tempSetPoint";
+  names[operationTemp] = "operationTemp";
   names[res] = "res" ;
   names[current] = "current" ;
   names[lowPassFilter] = "lowPassFilter" ;
@@ -185,9 +185,14 @@ void SensorModel::setList(SensorsList *list)
         connect(mList, &SensorsList::postItemRemoved, this, [this]() {
           endRemoveRows();
         });
-//        connect(mList, &SensorsList::notifyInfoDataChanged, this, [this](int index) {
-//          dataChanged(index, index, QVector<int>() << role);
-//        });
+        connect(mList, &SensorsList::notifyInfoDataChanged, this, [this]() {
+          beginResetModel();
+          endResetModel();
+        });
+        connect(mList, &SensorsList::setData, this, [this](const QModelIndex &index, const QVariant &value, int role) {
+          setData(index, value, role);
+        });
+
     }
 
     endResetModel();

@@ -13,7 +13,7 @@ public:
     string columnNames = "";
     string columnValues = "";
 
-    float tempSetPoint = 0;
+    uint16_t TRtol = 0;
     float res = 0;
     uint8_t current = 0;
     uint8_t lowPassFilter = 1;
@@ -39,17 +39,17 @@ public:
 
     // TEXT, NUMERIC, INTEGER, REAL, BLOBi
     SensorSchema() : Schema("Sensor") {
-        addColumn("tempSetPoint", "REAL", static_cast<string>("0") );
+        addColumn("TRtol", "INTEGER", static_cast<string>("120") );
         addColumn("res", "REAL", static_cast<string>("0") );
         addColumn("current", "INTEGER", static_cast<string>("0") );
-        addColumn("lowPassFilter", "INTEGER", static_cast<string>("1") );
+        addColumn("lowPassFilter", "INTEGER", static_cast<string>("0") );
         addColumn("R0", "INTEGER", static_cast<string>("0") );
-        addColumn("Rtol", "INTEGER", static_cast<string>("0") );
-        addColumn("operationTime", "INTEGER", static_cast<string>("1") );
-        addColumn("recoveryTime", "INTEGER", static_cast<string>("1") );
-        addColumn("operationTemp", "REAL", static_cast<string>("0") );
-        addColumn("recoveryTemp", "REAL", static_cast<string>("0") );
-        addColumn("tempuretureTh", "REAL", static_cast<string>("0") );
+        addColumn("Rtol", "INTEGER", static_cast<string>("3") );
+        addColumn("operationTime", "INTEGER", static_cast<string>("10") );
+        addColumn("recoveryTime", "INTEGER", static_cast<string>("5") );
+        addColumn("operationTemp", "REAL", static_cast<string>("250") );
+        addColumn("recoveryTemp", "REAL", static_cast<string>("300") );
+        addColumn("tempuretureTh", "REAL", static_cast<string>("5") );
         addColumn("gasType", "TEXT", static_cast<string>("NO") );
         addColumn("pressureType", "TEXT", static_cast<string>("PPM") );
         addColumn("equation", "INTEGER", static_cast<string>("1") );

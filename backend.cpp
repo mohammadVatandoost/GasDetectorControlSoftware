@@ -37,25 +37,42 @@ void Backend::setDataBase(DataBase *dataBase)
 
 bool Backend::checkAlgohoritmFirstCondition(int sensorId)
 {
-    if(generalData.flowErrorStatus && generalData.electricalErrorStatus) {
+    // pump
+    if(generalData.flowErrorStatus || generalData.electricalErrorStatus) {
+//        generalData.p = false;
+       cout<< "checkAlgohoritmFirstCondition:"<< sensorId<< ", flowErrorStatus:"<< generalData.flowErrorStatus << ", electricalErrorStatus:"<<generalData.electricalErrorStatus<<endl;
        alghoritmStop(sensorId);
+    } else {
+//        mList->sensorItems[sensorId].heaterActive = true;
     }
     Sensor sensor = mList->items()[sensorId];
     if(sensor.tempLastData == HeaterNotActive) {
+        mList->sensorItems[sensorId].heaterActive = false;
          alghoritmStop(sensorId);
+    } else {
+        mList->sensorItems[sensorId].heaterActive = true;
     }
-    if( ( (sensor.tempSetPoint-sensor.tempuretureTh) < sensor.tempLastData ) &&
-            (sensor.tempLastData < (sensor.tempSetPoint+sensor.tempuretureTh) ) &&
+    if( ( (sensor.operationTemp-sensor.tempuretureTh) < sensor.tempLastData ) &&
+            (sensor.tempLastData < (sensor.operationTemp+sensor.tempuretureTh) ) &&
             (!sensor.firstCondition)  ) {
-        int *rMax = 0;
-        int *rMin = 0;
-        double Ravg = calculateRavg(sensorId, rMax, rMin);
-        if( (*rMax - *rMin) < (mList->items()[sensorId].R0 * Ravg ) ) {
-            mList->items()[sensorId].timeCounter = 0;
-            mList->items()[sensorId].firstCondition = true;
+        double rMax = 0;
+        double rMin = 0;
+        double Ravg = calculateRavg(sensorId, &rMax, &rMin);
+        cout<< "Ravg: "<< Ravg<<", rMax:"<< rMax << ", rMin:"<< rMin<< ", Rtol * Ravg/100:"<< mList->items()[sensorId].Rtol * Ravg/100 << endl;
+        if( (rMax - rMin) < ( mList->items()[sensorId].Rtol * Ravg/100 ) ) {
+            cout<< "Ravg ok first condtion true"<< endl;
+            mList->sensorItems[sensorId].timeCounter = 0;
+            mList->sensorItems[sensorId].firstCondition = true;
+            mList->sensorItems[sensorId].tempActive = true;
+        } else {
+            mList->sensorItems[sensorId].tempActive = false;
         }
     }
-
+//    const int tempSensorId = sensorId;
+//    QABSt
+//    emit mList->setData(tempSensorId, heaterActive, mList->sensorItems[sensorId].heaterActive);
+    emit mList->notifyInfoDataChanged();
+//    emit mList->postItemRemoved();
     return true;
 }
 
@@ -64,16 +81,22 @@ uint16_t Backend::filterRes(int sensorId)
     return 0;
 }
 
-float Backend::calculateRavg(int sensorId, int *rMax, int *rMin)
+float Backend::calculateRavg(int sensorId, double *rMax, double *rMin)
 {
     int tRtol = mList->items()[sensorId].Rtol;
+    int resDataSize = mList->items()[sensorId].resData.size();
     double sum = 0;
-    if(tRtol < mList->items()[sensorId].resData.size()) {
-        tRtol = mList->items()[sensorId].resData.size();
+    if(tRtol > resDataSize) {
+        tRtol = resDataSize;
     }
-    *rMax = mList->items()[sensorId].resData[mList->items()[sensorId].resData.size()-1].y();
-    rMin = rMax;
-    for(int i=0; i<tRtol;i++) {
+    cout<< "calculateRavg tRtol:"<< tRtol<<endl;
+//    cout<< mList->sensorItems[sensorId].resData[resDataSize-1].y() << endl;
+    *rMax = mList->sensorItems[sensorId].resData[resDataSize-1].y();
+//    cout<< "bugPoint"<<endl;
+    *rMin = mList->sensorItems[sensorId].resData[resDataSize-1].y();
+    cout<< "calculateRavg tRtol:"<< tRtol<< ", rMax:"<<*rMax<<", rMin:"<<*rMin<<endl;
+    int tRtolTher = resDataSize-tRtol-1;
+    for(int i=resDataSize-1; i>tRtolTher; i--) {
         double temp = mList->items()[sensorId].resData[i].y();
         if(temp < *rMin) {
             *rMin = temp;
@@ -88,11 +111,11 @@ float Backend::calculateRavg(int sensorId, int *rMax, int *rMin)
 
 void Backend::alghoritmStop(int sensorId)
 {
-    mList->items()[sensorId].alghoritmRunning = false;
-    mList->items()[sensorId].firstCondition = false;
-    mList->items()[sensorId].secondCondition = false;
-    mList->items()[sensorId].timeCounter = 0;
-    for(int i=0; i<mList->items().size(); i++) {
+    mList->sensorItems[sensorId].alghoritmRunning = false;
+    mList->sensorItems[sensorId].firstCondition = false;
+    mList->sensorItems[sensorId].secondCondition = false;
+    mList->sensorItems[sensorId].timeCounter = 0;
+    for(int i=0; i<mList->sensorItems.size(); i++) {
         if(mList->items()[i].alghoritmRunning) {
             return;
         }
@@ -146,13 +169,15 @@ double Backend::getPresureArea()
 
 void Backend::startSensor(int sensorId)
 {
-   mList->items()[sensorId].alghoritmRunning = !mList->items()[sensorId].alghoritmRunning;
-   if(mList->items()[sensorId].alghoritmRunning) {
+   cout<<"startSensor "<<endl;
+   mList->sensorItems[sensorId].alghoritmRunning = !mList->sensorItems[sensorId].alghoritmRunning;
+   if(mList->sensorItems[sensorId].alghoritmRunning) {
       sendPumpSpeedZero = false;
+      cout<<"algorithm run:"<< sensorId << ": "<<mList->sensorItems[sensorId].alghoritmRunning<< endl;
    } else {
-       mList->items()[sensorId].firstCondition = false;
-       for(int i=0; i<mList->items().size(); i++) {
-           if(mList->items()[i].alghoritmRunning) {
+       mList->sensorItems[sensorId].firstCondition = false;
+       for(int i=0; i<mList->sensorItems.size(); i++) {
+           if(mList->sensorItems[i].alghoritmRunning) {
                return;
            }
        }
@@ -197,22 +222,23 @@ void Backend::sendSensorData(uint8_t sensorId)
        } else if(mList->sensorItems[sensorId].firstCondition) {
            temp.tempSetPoint = mList->items()[sensorId].operationTemp;
        } else {
-           temp.tempSetPoint = mList->items()[sensorId].tempSetPoint;
+           temp.tempSetPoint = mList->items()[sensorId].operationTemp;
        }
      checkAlgohoritmFirstCondition(sensorId);
    } else if(mList->items()[sensorId].heaterStart) {
-       temp.tempSetPoint = mList->items()[sensorId].tempSetPoint;
+       temp.tempSetPoint = mList->items()[sensorId].operationTemp;
 //       cout<<sensorId <<" heaterStart "<<endl;
    } else if(mList->items()[sensorId].recStart) {
        temp.tempSetPoint = mList->items()[sensorId].recoveryTemp;
 //        cout<<sensorId <<" recovery start " << temp.tempSetPoint  <<endl;
    } else {
-      temp.tempSetPoint = 100;
+      temp.tempSetPoint = 0;
    }
-   temp.tempSetPoint = 40;
+//   temp.tempSetPoint = 40;
 //   temp.tempSetPoint = 305;
+//   cout<< "sendSensorData :"<<unsigned(sensorId)<< ", "<< temp.tempSetPoint << endl;
    uint32_t sum= 0;
-
+//   cout<< "sendSensprData "<< unsigned(sensorId) << " : "<< temp.tempSetPoint  << endl;
    char* dataBytes = static_cast<char*>(static_cast<void*>(&temp));
    for(int i=1; i<sizeof(struct SensorPacketTx); i++) {
        sum = sum + ((uint8_t)dataBytes[i]);
@@ -231,8 +257,9 @@ void Backend::sendSensorData(uint8_t sensorId)
 
 void Backend::sendSensorDataHeater(int sensorId)
 {
-    mList->sensorItems[sensorId].heaterActive = true;
+    mList->sensorItems[sensorId].heaterStart = true;
     mList->sensorItems[sensorId].recStart = false;
+    cout<< "sendSensorDataHeater :" << unsigned(sensorId) << ", "<<mList->sensorItems[sensorId].heaterStart<< ", "<<mList->sensorItems[sensorId].recStart<<endl;
 }
 
 void Backend::setAxisXTime(QDateTimeAxis *axis)
@@ -271,7 +298,7 @@ void Backend::openKeyboard()
 
 void Backend::sendSensorDataRec(int sensorId)
 {
-    mList->sensorItems[sensorId].heaterActive = false;
+    mList->sensorItems[sensorId].heaterStart = false;
     mList->sensorItems[sensorId].recStart = true;
 }
 
@@ -309,7 +336,7 @@ void Backend::getSensorData(QByteArray data)
    if(data.size() == sizeof(struct SensorPacketRx)) {
     SensorPacketRx *m = reinterpret_cast<SensorPacketRx*>(data.data());
     if(mList->isNewId(m->sensorId)) {
-       Sensor temp = getSeneorDataFromDB(m->sensorId);
+       Sensor temp = getSeneorDataFromDB(m);
        temp.sensorId = m->sensorId;
        temp.current =  m->current;
        temp.tempLastData = m->temp;
@@ -333,8 +360,16 @@ void Backend::getGeneralData(QByteArray data)
     generalData.humidityArea = m->humidityArea;
     generalData.humidityOut = m->humidityOut;
     generalData.batteryCharge = m->batteryCharge;
-    generalData.electricalErrorStatus = m->electricalErrorStatus;
-    generalData.flowErrorStatus = m->flowErrorStatus;
+    if(m->electricalErrorStatus > 0) {
+        generalData.electricalErrorStatus = true;
+    } else {
+        generalData.electricalErrorStatus = false;
+    }
+    if(m->flowErrorStatus > 0) {
+        generalData.flowErrorStatus = true;
+    } else {
+        generalData.flowErrorStatus = false;
+    }
     generalData.fan1 = m->fan1;
     generalData.fan2 = m->fan2;
     generalData.chargingStatus = m->powerCharge;
@@ -342,6 +377,7 @@ void Backend::getGeneralData(QByteArray data)
     generalData.pumpSpeed = m->pumpSpeed;
     generalData.tempuretureArea = m->tempArea;
     generalData.tempuretureBoard = m->tempBoard;
+//    cout<< "getGeneralData:"<<unsigned( m->electricalErrorStatus)<<", "<<unsigned(m->flowErrorStatus)<< endl;
 //    jsonStoring.storeBoardData(generalData);
   } else {
       cout<< "getGeneralData "<< data.size() << " must be "<<sizeof(struct BoardPacketRx);
@@ -385,17 +421,23 @@ void Backend::createTable()
     }
 }
 
-Sensor Backend::getSeneorDataFromDB(int sId)
+Sensor Backend::getSeneorDataFromDB(SensorPacketRx *m)
 {
     if(!db->isOpen) {
        db->openConnection();
     }
     SensorSchema sensorSchema;
     Sensor temp  ;
-    if(!db->findById(sensorSchema.getSqlFindById(sId), &temp)) {
-        cout<<"getSeneorDataFromDB "<<sId << " not finded"<<endl;
+    if(!db->findById(sensorSchema.getSqlFindById(m->sensorId), &temp)) {
+        cout<<"getSeneorDataFromDB "<< unsigned( m->sensorId ) << " not finded"<<endl;
+        temp.sensorId = m->sensorId;
+        temp.tempLastData = m->temp;
+        temp.res = m->res;
+        temp.current = m->current;
+        sensorSchema.setSensorInfo(temp);
+        db->insert(sensorSchema.getSqlInsertCommand());
     } else {
-       cout<<"getSeneorDataFromDB "<<sId << " finded"<<endl;
+       cout<<"getSeneorDataFromDB "<< unsigned(m->sensorId) << " finded"<<endl;
     }
     return temp;
 }
@@ -487,15 +529,17 @@ void Backend::timerSlot()
         }
     } else {
 //        sendGeneralData();
-        if(mList->sensorItems.size()>0) {
-        for(int i=0; i<1; i++) {
+        if(mList->sensorItems.size()>0) { // if just for test
+        for(int i=0; i<mList->sensorItems.size(); i++) {
             if(mList->sensorItems[i].firstCondition) {
                 mList->sensorItems[i].timeCounter++;
                 if(mList->sensorItems[i].secondCondition) {
-                    if(mList->sensorItems[i].timeCounter >= mList->sensorItems[i].operationTime) {
+                    if(mList->sensorItems[i].timeCounter >= (mList->sensorItems[i].recoveryTime*60)) {
+                        cout<< i<< " recovery time finished"<<endl;
                         alghoritmStop(i);
                     }
-                } else if(mList->sensorItems[i].timeCounter >= mList->sensorItems[i].recoveryTime) {
+                } else if(mList->sensorItems[i].timeCounter >= (mList->sensorItems[i].operationTime*60)) {
+                    cout<< i<< " operation time finished"<<endl;
                     mList->sensorItems[i].secondCondition = true;
                     mList->sensorItems[i].timeCounter = 0;
                 }

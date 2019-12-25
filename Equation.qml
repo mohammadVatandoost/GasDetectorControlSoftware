@@ -22,6 +22,7 @@ Pane {
     property string d: ""
     property string e: ""
     function setVariables(sId, eType, a1, b1, c1, d1, e1) {
+//        console.log("equation setVariables:"+sId+", "+eType+", "+a1+", "+b1+", "+c1+", "+d1+", "+e1);
         root.a=a1; root.b=b1; root.c=c1; root.d=d1; root.e=e1; root.equationType=eType; root.sensorId = sId;
     }
     function setCoefficients(temp) {coefficients = temp;}
@@ -29,10 +30,10 @@ Pane {
     signal configSelected()
 
     function refresh(){
-        console.log("Equation referesh");
+//        console.log("Equation referesh");
         if(root.equationType == 0) {
-            console.log("equation 0");
-            console.log(root.a+","+root.b+","+root.c+","+root.d+","+root.e);
+//            console.log("equation 0");
+//            console.log(root.a+","+root.b+","+root.c+","+root.d+","+root.e);
             equation0.visible = true;
             equation1.visible = false;
             c0a.setCoefficient(root.a); c0b.setCoefficient("+ "+root.b);

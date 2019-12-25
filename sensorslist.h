@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <QDate>
 #include <QDir>
+#include <QAbstractListModel>
+#include <QModelIndex>
 #include <math.h>
 #include "sensor.h"
 #include "packet.h"
@@ -51,7 +53,7 @@ public:
     Q_INVOKABLE void setFilterValue(int sensorId, int configValue);
     Q_INVOKABLE void setR0Value(int sensorId, int configValue);
     Q_INVOKABLE void setRtolValue(int sensorId, int configValue);
-    Q_INVOKABLE void setTempValue(int sensorId, double configValue);
+    Q_INVOKABLE void setOperationTempValue(int sensorId, double configValue);
     Q_INVOKABLE void setNameValue(int sensorId, int configValue);
     Q_INVOKABLE void setRecTimeValue(int sensorId, int configValue);
     Q_INVOKABLE void setRecTempValue(int sensorId, double configValue);
@@ -68,8 +70,8 @@ public:
     Q_INVOKABLE int getFilterValue(int sensorId);
     Q_INVOKABLE int getR0Value(int sensorId);
     Q_INVOKABLE int getRtolValue(int sensorId);
-    Q_INVOKABLE double getTempValue(int sensorId);
-    Q_INVOKABLE int getNameValue(int sensorId);
+    Q_INVOKABLE double getOperationTempValue(int sensorId);
+    Q_INVOKABLE int getTRtolValue(int sensorId);
     Q_INVOKABLE int getRecTimeValue(int sensorId);
     Q_INVOKABLE double getRecTempValue(int sensorId);
     Q_INVOKABLE int getOPTimeValue(int sensorId);
@@ -87,9 +89,11 @@ public:
     Q_INVOKABLE QString getPressure(int sensorId);
 //    Q_INVOKABLE QVector<double> getEquationCoefficient(int sensorId);
 //    Q_INVOKABLE QVector<double> getEquationPowers(int sensorId);
+    void setHeaterValue(int sensorId, bool value);
 signals:
    void preItemAppended();
    void postItemAppended();
+   void setData(const QModelIndex &index, const QVariant &value, int role);
 
    void preItemRemoved(int index);
    void postItemRemoved();

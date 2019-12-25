@@ -64,7 +64,7 @@ Page {
                     setSensorActive(model.sensorActive);
                     setSensorName(model.gasType);
                     setProgressValue(0);
-                    setSensorId(index+1);
+                    setSensorId(index);
                     setSensorPressure(model.pressure);
                 }
             }

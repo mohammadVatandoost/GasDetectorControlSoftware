@@ -8,8 +8,8 @@ import QtQuick.Controls.Styles 1.4
 //Rectangle {
 Pane {
     id: root
-    width: 100
-    height: 100
+    width: 95
+    height: 80
     Material.elevation: 6
     scale:  mouseArea.containsMouse ? 0.8 : 1.0
     smooth: mouseArea.containsMouse
@@ -38,7 +38,7 @@ Pane {
         y: 1
         width: parent.width*0.9
         anchors.horizontalCenter: parent.horizontalCenter
-        height: 12
+        height: 4
 //        color: "red"
     }
 
@@ -56,7 +56,7 @@ Pane {
         anchors.top: valueText.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width*0.9
-        height: 12
+        height: 4
 //        color: "blue"
     }
 
