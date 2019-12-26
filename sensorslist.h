@@ -66,6 +66,7 @@ public:
     Q_INVOKABLE void setEquationC(int sensorId, QString configValue);
     Q_INVOKABLE void setEquationD(int sensorId, QString configValue);
     Q_INVOKABLE void setEquationE(int sensorId, QString configValue);
+    Q_INVOKABLE void setXType(int sensorId, int configValue);
 
     Q_INVOKABLE int getFilterValue(int sensorId);
     Q_INVOKABLE int getR0Value(int sensorId);
@@ -87,6 +88,7 @@ public:
     Q_INVOKABLE QString getGasTypeValue(int sensorId);
     Q_INVOKABLE QString getPressureTypeValue(int sensorId);
     Q_INVOKABLE QString getPressure(int sensorId);
+    Q_INVOKABLE int getXType(int sensorId);
 //    Q_INVOKABLE QVector<double> getEquationCoefficient(int sensorId);
 //    Q_INVOKABLE QVector<double> getEquationPowers(int sensorId);
     void setHeaterValue(int sensorId, bool value);

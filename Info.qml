@@ -63,7 +63,7 @@ Page {
                     setHeater(model.heaterActive);
                     setSensorActive(model.sensorActive);
                     setSensorName(model.gasType);
-                    setProgressValue(0);
+                    setProgressValue(model.progressValue);
                     setSensorId(index);
                     setSensorPressure(model.pressure);
                 }

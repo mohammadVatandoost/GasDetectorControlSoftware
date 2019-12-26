@@ -85,7 +85,7 @@ Page {
 
        Configs {
            id: configs
-           Layout.topMargin: 15
+           Layout.topMargin: 5
            onConfigSelected: {
                popup.setConfigId(configId)
                popup.setConfigName(configName)
@@ -97,7 +97,6 @@ Page {
       Pane {
            id: pane
            Layout.fillWidth: true
-
         RowLayout {
            width: parent.width
 
@@ -157,6 +156,24 @@ Page {
                model: gasTypes
                currentIndex: getIndex()
                onActivated:SensorsList.setGasTypeValue(root.sensorId, gasTypes[currentIndex])
+           }
+           ComboBox {
+               id: resTypeCombo
+               property var resTypes: [ "X=r/r0", "X=dr/r0" ]
+               function getIndex() {
+                   var xType = SensorsList.getXType(root.sensorId)
+                   for(var i=0; i< gasTypes.length; i++) {
+                       if(resTypes[i] === xType) {
+                           return i;
+                       }
+                   }
+                   return 0;
+               }
+
+               width: 200
+               model: resTypes
+               currentIndex: getIndex()
+               onActivated:SensorsList.setXType(root.sensorId, resTypes[currentIndex])
            }
        }
       }

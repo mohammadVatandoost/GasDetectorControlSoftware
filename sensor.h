@@ -18,7 +18,7 @@ enum {
   operationTemp, res, current, lowPassFilter, R0,
   Rtol, operationTime, recoveryTime, recoveryTemp,
   gasType, pressureType, equation, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive, alghoritmRunning,
-  pressure
+  pressure, progressValue
 };
 
 struct Sensor {
@@ -53,15 +53,18 @@ struct Sensor {
     int sensorId;
     QVector<QPointF> tempData;
     QVector<QPointF> resData;
+    double progressValue = 0;
     // for alghoritm
     bool alghoritmRunning = false;
     bool firstCondition = false; // start operation time
     bool secondCondition = false; // start recovery time
+    bool r0Check = false; // start recovery time
     uint16_t timeCounter = 0;
     int minTemp = 0;
     int maxTemp = 400;
     int minRes = 0 ;
     int maxRes = 400;
+    uint8_t xType = 0;
     void addTempData(double time, double value) {
         QPointF temp(time,value);
         tempData.append(temp);

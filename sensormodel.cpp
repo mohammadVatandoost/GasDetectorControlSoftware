@@ -67,6 +67,8 @@ QVariant SensorModel::data(const QModelIndex &index, int role) const
        return QVariant::fromValue(item.alghoritmRunning);
     case pressure:
        return QVariant::fromValue(item.pressure);
+    case progressValue:
+       return QVariant::fromValue(item.progressValue);
     }
 
     return QVariant();
@@ -113,6 +115,8 @@ bool SensorModel::setData(const QModelIndex &index, const QVariant &value, int r
       item.alghoritmRunning = value.toBool();
     case pressure:
       item.pressure = value.toString();
+    case progressValue:
+      item.progressValue = value.toFloat();
     }
 
     if(mList->setSensorItem(index.row(), item)) {
@@ -147,6 +151,7 @@ QHash<int, QByteArray> SensorModel::roleNames() const
   names[sensorActive] = "sensorActive" ;
   names[alghoritmRunning] = "alghoritmRunning" ;
   names[pressure] = "pressure" ;
+  names[progressValue] = "progressValue" ;
   return names;
 }
 

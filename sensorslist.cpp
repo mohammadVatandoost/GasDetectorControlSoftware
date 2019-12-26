@@ -64,14 +64,16 @@ void SensorsList::setSensorData(SensorPacketRx *data)
 //    sensorItems[data->sensorId].addResData(tempDateTime, 5);
     sensorItems[data->sensorId].addTempData(tempDateTime, sensorItems[data->sensorId].tempLastData);
 //    sensorItems[data->sensorId].addTempData(tempDateTime, 3);
-    calculatePPM(data->sensorId);
+
 //     emit notifyInfoDataChanged();
 //    emit postItemAppended();
 //    qDebug() << "update pressure changed";
-//    if(sensorItems[data->sensorId].firstCondition) {
+    if(sensorItems[data->sensorId].firstCondition && !sensorItems[data->sensorId].secondCondition) {
+        calculatePPM(data->sensorId);
 ////        calculatePPM(data->sensorId);
 ////        emit notifyInfoDataChanged();
-//    } else {
+    }
+//    else {
 
 //      sensorItems[data->sensorId].pressure = "DC";
 //    }
@@ -80,7 +82,14 @@ void SensorsList::setSensorData(SensorPacketRx *data)
 void SensorsList::calculatePPM(int sensorId)
 {
     Sensor sensor = sensorItems[sensorId];
-    float X = sensor.res;
+    float X = sensor.res /  sensor.R0;
+    if(sensorItems[sensorId].xType == 1) {
+        if(sensor.gasType == "O2") {
+           X =  (sensor.res - sensor.R0) / sensor.R0 ;
+        } else {
+           X =  abs(sensor.res - sensor.R0) / sensor.R0 ;
+        }
+    }
     if(sensor.equation == 0) {
        float sum = sensor.equationE;
        sum = sum + (sensor.equationD*X);
@@ -100,7 +109,7 @@ void SensorsList::calculatePPM(int sensorId)
 
 void SensorsList::setFilterValue(int sensorId, int configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].lowPassFilter =   static_cast<uint8_t>(configValue);
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
@@ -112,7 +121,7 @@ void SensorsList::setFilterValue(int sensorId, int configValue)
 
 void SensorsList::setR0Value(int sensorId, int configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].R0 =   static_cast<uint16_t>(configValue);
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
@@ -124,7 +133,7 @@ void SensorsList::setR0Value(int sensorId, int configValue)
 
 void SensorsList::setRtolValue(int sensorId, int configValue)
 {
-    if( (sensorId <= sensorItems.size()) && (-1 < sensorId) ) {
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
        sensorItems[sensorId].Rtol =   static_cast<float>(configValue);
        SensorSchema sensorSchema;
        sensorSchema.setSensorInfo(sensorItems[sensorId]);
@@ -281,6 +290,18 @@ void SensorsList::setEquationE(int sensorId, QString configValue)
        db->update(sensorSchema.getSqlUpdateCommand(sensorId));
     } else {
         qDebug() << "setEquationE sensorId not valid :" << sensorId ;
+    }
+}
+
+void SensorsList::setXType(int sensorId, int configValue)
+{
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
+       sensorItems[sensorId].xType =  configValue;
+       SensorSchema sensorSchema;
+       sensorSchema.setSensorInfo(sensorItems[sensorId]);
+       db->update(sensorSchema.getSqlUpdateCommand(sensorId));
+    } else {
+        qDebug() << "setXType sensorId not valid :" << sensorId ;
     }
 }
 
@@ -482,6 +503,16 @@ QString SensorsList::getPressure(int sensorId)
     } else {
         qDebug() << "getPressure Get sensorId not valid :" << sensorId ;
         return "not valid";
+    }
+}
+
+int SensorsList::getXType(int sensorId)
+{
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId].xType;
+    } else {
+        qDebug() << "getXType Get sensorId not valid :" << sensorId ;
+        return 0;
     }
 }
 
