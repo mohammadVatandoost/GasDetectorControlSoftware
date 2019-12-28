@@ -321,11 +321,13 @@ Page {
            width: 400
            height: 300
            x: Math.round((parent.width - width) / 2)
-           y: Math.round((parent.height - height) / 2)
-           modal: true
+//           y: Math.round((parent.height - height) / 2)
+           y: 100
+           z: 10
+//           modal: true
            focus: true
-           closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-
+//           closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+           closePolicy: Popup.CloseOnEscape
            property int configId
            property string configName: "test"
            property string configValue: "test"
@@ -349,7 +351,7 @@ Page {
                TextEdit {
                    id: configTextEdit
                    text: qsTr(popup.configValue)
-                   onActiveFocusChanged: BackEnd.openKeyboard()
+//                   onActiveFocusChanged: BackEnd.openKeyboard()
                    height: 50
                    width: 200
                    font.pixelSize: 22

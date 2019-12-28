@@ -13,6 +13,8 @@
 int main(int argc, char *argv[])
 {
 //    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+    // Load virtualkeyboard input context plugin
+    qputenv("QT_IM_MODULE", QByteArray("freevirtualkeyboard"));
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 

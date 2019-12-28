@@ -317,7 +317,7 @@ int Backend::getSensorResMax()
 
 void Backend::openKeyboard()
 {
-    system("onboard &");
+//    system("onboard &");
 }
 
 void Backend::sendSensorDataRec(int sensorId)

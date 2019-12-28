@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Material 2.3
 import QtQuick.Controls.Styles 1.4
+import QtQuick.FreeVirtualKeyboard 1.0
 //import QtQuick.VirtualKeyboard 2.1
 
 Page {
@@ -27,81 +28,68 @@ Page {
 
     ColumnLayout {
         anchors.horizontalCenter: parent.horizontalCenter
-        width: root.width
-        //        TextField {
-        //           id: textEdit
-        //           width: 400
-        //           leftPadding: 10
-        //           anchors.horizontalCenter: parent.horizontalCenter
-        //           property string placeholderText: "Enter Password"
+        width: 1000
 
-        //           Text {
-        //               text: textEdit.placeholderText
-        //                color: "#aaa"
-        //                visible: !textEdit.text
-        //           }
-        //        }
-//        InputPanel {
-//            Layout.topMargin: 40
-//            anchors.horizontalCenter: parent.horizontalCenter
-////            active: true
-//            width: 400
-////            inputMethodHints: Qt.ImhDigitsOnly
-//        }
+        Label {
+            id: errorMessage
 
-//        InputMethod {
-//            function inputModes(locale) {
-//                return [InputEngine.Latin];
-//            }
-
-//            function setInputMode(locale, inputMode) {
-//                return true
-//            }
-
-//            function setTextCase(textCase) {
-//                return true
-//            }
-
-//            function reset() {
-//                // TODO: reset the input method without modifying input context
-//            }
-
-//            function update() {
-//                // TODO: commit current state and update the input method
-//            }
-
-//            function keyEvent(key, text, modifiers) {
-//                var accept = false
-//                // TODO: Handle key and set accept or fallback to default processing
-//                return accept;
-//            }
-//        }
-        TextEdit {
-            id: textEdit
-            Layout.topMargin: 40
-            Layout.bottomMargin: 20
-            width: 200
-            height: 50
-            font.pointSize: 25
-            inputMethodHints: Qt.ImhDigitsOnly
-            property string placeholderText: "Enter Password"
-            onActiveFocusChanged: BackEnd.openKeyboard()
-            Text {
-                text: textEdit.placeholderText
-                color: "#aaa"
-                font.pointSize: 25
-                visible: !textEdit.text && !textEdit.activeFocus // <----------- ;-)
-            }
+            text: ""
+            font.pixelSize: 22
+            anchors.centerIn: parent
+            color: "red"
         }
+
+
+        TextFieldWithBorder {
+            id: textEdit
+            width: 1000
+            Layout.topMargin: 150
+            Layout.alignment: Qt.AlignHCenter
+            echoMode: TextInput.Password
+            placeholderText: "Password field"
+            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
+            enterKeyAction: EnterKeyAction.Next
+            onAccepted: upperCaseField.focus = true
+        }
+
 
         Button {
             Layout.alignment: Qt.AlignHCenter
             text: qsTr("Login")
             highlighted: true
             Material.background: Material.Green
-            onClicked: root.StackView.view.push("qrc:/Setting.qml")
+            Layout.topMargin: 40
+            onClicked: {
+                console.log(textEdit.text);
+                if(textEdit.text == "1234") {
+                   root.StackView.view.push("qrc:/Setting.qml");
+                } else {
+                  errorMessage.text = "Your password is wrong";
+                }
+            }
         }
     }
 
-
 }
+
+//        TextField {
+//            id: textEdit
+//            anchors.top: errorMessage.bottom
+//            Layout.topMargin: 30
+//            Layout.bottomMargin: 20
+//            Layout.leftMargin: 20
+//            width: 200
+//            height: 50
+//            font.pointSize: 25
+//            inputMethodHints: Qt.ImhHiddenText
+//            echoMode: TextInput.Password
+////            property string placeholderText: "Enter Password"
+////            onActiveFocusChanged: BackEnd.openKeyboard()
+//            Text {
+//                width: parent.width
+//                text: "Enter Password"
+//                color: "#aaa"
+//                font.pointSize: 25
+//                visible: !textEdit.text && !textEdit.activeFocus
+//            }
+//        }
