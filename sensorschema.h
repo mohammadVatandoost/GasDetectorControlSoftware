@@ -14,7 +14,7 @@ public:
     string columnValues = "";
 
     uint16_t TRtol = 0;
-    float res = 0;
+//    float res = 0;
     uint8_t current = 0;
     uint8_t lowPassFilter = 1;
     uint16_t R0 = 0; // for alghoritm
@@ -36,11 +36,13 @@ public:
     bool tempActive = false;
     bool heaterActive = false;
     bool sensorActive = false;
+    uint8_t xType = 0;
 
     // TEXT, NUMERIC, INTEGER, REAL, BLOBi
     SensorSchema() : Schema("Sensor") {
         addColumn("TRtol", "INTEGER", static_cast<string>("120") );
-        addColumn("res", "REAL", static_cast<string>("0") );
+//        addColumn("res", "REAL", static_cast<string>("0") );
+        addColumn("xType", "INTEGER", static_cast<string>("0") );
         addColumn("current", "INTEGER", static_cast<string>("0") );
         addColumn("lowPassFilter", "INTEGER", static_cast<string>("0") );
         addColumn("R0", "INTEGER", static_cast<string>("0") );
