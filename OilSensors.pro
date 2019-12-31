@@ -37,7 +37,7 @@ SOURCES += \
     sensorschema.cpp \
     jsonstoring.cpp
 
-LIBS += /usr/lib/libgtest.a
+#LIBS += /usr/lib/libgtest.a
 
 RESOURCES += qml.qrc \
     images.qrc
