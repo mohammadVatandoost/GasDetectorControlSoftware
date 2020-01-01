@@ -8,12 +8,12 @@ import QtQuick.Controls.Styles 1.4
 
 Popup {
         id: popup
-        padding: 10
+        padding: 0
         width: parent.width
-        height: parent.height
+        height: 250
 //            x: Math.round((parent.width - width) / 2)
 //            y: Math.round((parent.height - height) / 2)
-        modal: true
+//        modal: true
         focus: true
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
         signal updated()
@@ -88,17 +88,30 @@ Popup {
 //                }
 //            }
             ButtonGroup { id: radioGroup }
-            Pane {
-                 implicitHeight: 100
-                 implicitWidth: parent.width*0.8
-                 anchors.horizontalCenter: parent.horizontalCenter
-                 Material.elevation: 6
+//       Pane {
+//           implicitHeight: 90
+//           implicitWidth: parent.width*0.9
+            RowLayout {
+//                columns: 2
+                width: parent.width *0.9
+                anchors.horizontalCenter: parent.horizontalCenter
+//                spacing: 2
+//             width: 600
+//             height: 100
+//             implicitHeight: 90
+
+//            Pane {
+//                 implicitHeight: 60
+//                 implicitWidth: parent.width*0.55
+////                 anchors.horizontalCenter: parent.horizontalCenter
+//                 Material.elevation: 6
 
                  RowLayout {
                      RadioButton {
                          id: equation0RadioBtn
                          text: qsTr("");
                          checked: true
+                         spacing: 0
                          ButtonGroup.group: radioGroup
                          onClicked: {
                              console.log("equation 1")
@@ -142,13 +155,13 @@ Popup {
                          }
                      }
                  }
-             }
+//             }
 
-            Pane {
-                 implicitHeight: 100
-                 implicitWidth: parent.width*0.8
-                 anchors.horizontalCenter: parent.horizontalCenter
-                 Material.elevation: 6
+//            Pane {
+//                 implicitHeight: 60
+//                 implicitWidth: parent.width*0.35
+////                 anchors.horizontalCenter: parent.horizontalCenter
+//                 Material.elevation: 6
 
                  RowLayout {
                      RadioButton {
@@ -177,19 +190,20 @@ Popup {
                          }
                      }
                  }
-             }
+//             }
 
 
-
+         }
+//       }
             Pane {
-                implicitHeight: 100
+                implicitHeight: 90
                 implicitWidth: parent.width*0.8
                 anchors.horizontalCenter: parent.horizontalCenter
                 Material.elevation: 6
 
                 RowLayout {
                     width: parent.width
-                    height: 100
+                    height: 70
                     ColumnLayout {
                         Label {
                             text: "A"

@@ -13,13 +13,13 @@ Pane {
     function setCoefficient(temp) {coefficient = temp;}
     function setPower(temp) {power = temp;}
     function setVariable(temp) {variable = temp;}
-    implicitWidth: 65
+    implicitWidth: 58
     Layout.alignment: Qt.AlignLeft
     ColumnLayout {
         Layout.alignment: Qt.AlignLeft
         Text {
             text: qsTr(root.power)
-            font.pixelSize: 16
+            font.pixelSize: 14
             Layout.leftMargin: coefficientText.width
             Layout.topMargin: 0
             Layout.bottomMargin: 0
@@ -28,7 +28,7 @@ Pane {
         Text {
             id: coefficientText
             text: qsTr(coefficient + " "+ variable)
-            font.pixelSize: 20
+            font.pixelSize: 18
             Layout.topMargin: -10
             Layout.bottomMargin: 0
         }

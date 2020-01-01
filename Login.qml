@@ -61,6 +61,7 @@ Page {
             Layout.topMargin: 40
             onClicked: {
                 console.log(textEdit.text);
+                root.StackView.view.push("qrc:/Setting.qml");
                 if(textEdit.text == "1234") {
                    root.StackView.view.push("qrc:/Setting.qml");
                 } else {

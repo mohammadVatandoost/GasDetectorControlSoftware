@@ -317,12 +317,12 @@ Page {
 
    Popup {
            id: popup
-           padding: 10
+           padding: 0
            width: 400
-           height: 300
+           height: 150
            x: Math.round((parent.width - width) / 2)
 //           y: Math.round((parent.height - height) / 2)
-           y: 100
+           y: 40
            z: 10
 //           modal: true
            focus: true
@@ -344,7 +344,7 @@ Page {
                    text: qsTr(popup.configName)
                    font.pixelSize: 20
                    font.bold: true
-                   Layout.topMargin: 40
+//                   Layout.topMargin: 40
                    Layout.bottomMargin: 20
                    Layout.alignment: Qt.AlignHCenter
                }
@@ -357,11 +357,11 @@ Page {
                    font.pixelSize: 22
                    Layout.alignment: Qt.AlignHCenter
                }
-               Rectangle {
-                   anchors.top: configTextEdit.bottom
-                   width: parent.width
-                   height: 60
-               }
+//               Rectangle {
+//                   anchors.top: configTextEdit.bottom
+//                   width: parent.width
+//                   height: 60
+//               }
 
                Pane {
                    Layout.fillWidth: true
