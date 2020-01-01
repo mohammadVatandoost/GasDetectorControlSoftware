@@ -29,7 +29,7 @@ RowLayout {
     Image {
         sourceSize.width: 60
         sourceSize.height: 60
-        source: tempActive ?  "images/greenTemp.png" : "images/blackTemp.jpeg"
+        source: root.tempActive ?  "images/greenTemp.png" : "images/blackTemp.jpeg"
     }
     Text {
         id: temp1
@@ -38,7 +38,7 @@ RowLayout {
     Image {
         sourceSize.width: 60
         sourceSize.height: 60
-        source: heaterActive ?  "images/heaterRed.png" : "images/heaterBlack.png"
+        source: root.heaterActive ?  "images/heaterRed.png" : "images/heaterBlack.png"
     }
     Text {
         id: h1
@@ -49,7 +49,7 @@ RowLayout {
     }
     ProgressBar {
         id: control
-        value: progressValue
+        value: root.progressValue
         padding: 2
 
         background: Rectangle {
@@ -77,12 +77,32 @@ RowLayout {
     }
     StatusIndicator {
             color: "green"
-            active: sensorActive
+            active: root.sensorActive
     }
     Button {
-        text: alghoritmRunning ? qsTr("Stop") : qsTr("Start")
+        text: root.alghoritmRunning ? qsTr("Stop") : qsTr("Start")
         highlighted: true
-        Material.background: alghoritmRunning ? Material.Light : Material.Teal
+        Material.background: root.alghoritmRunning ? Material.Light : Material.Teal
         onClicked: BackEnd.startSensor(sensorId)
     }
+
+    Timer {
+            interval: 1000; running: true; repeat: true
+            onTriggered: {
+                if(SensorsList.getTempActiveValue(root.sensorId) === 1) {
+                    root.tempActive = true ;
+                } else { root.tempActive = false ; }
+                if(SensorsList.getHeaterActiveValue(root.sensorId) === 1) {
+                    root.heaterActive = true ;
+                } else { root.heaterActive = false ; }
+                if(SensorsList.getSensorActiveValue(root.sensorId) === 1) {
+                    root.sensorActive = true ;
+                } else { root.sensorActive = false ; }
+                if(SensorsList.getAlgorithmRunnigValue(root.sensorId) === 1) {
+                    root.alghoritmRunning = true ;
+                } else { root.alghoritmRunning = false ; }
+
+                root.sensorPressure = SensorsList.getSensorPressureValue(root.sensorId);
+            }
+     }
 }

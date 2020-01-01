@@ -89,6 +89,13 @@ public:
     Q_INVOKABLE QString getPressureTypeValue(int sensorId);
     Q_INVOKABLE QString getPressure(int sensorId);
     Q_INVOKABLE int getXType(int sensorId);
+
+    Q_INVOKABLE int getProgressValue(int sensorId);
+    Q_INVOKABLE int getTempActiveValue(int sensorId);
+    Q_INVOKABLE int getHeaterActiveValue(int sensorId);
+    Q_INVOKABLE int getSensorActiveValue(int sensorId);
+    Q_INVOKABLE int getAlgorithmRunnigValue(int sensorId);
+
 //    Q_INVOKABLE QVector<double> getEquationCoefficient(int sensorId);
 //    Q_INVOKABLE QVector<double> getEquationPowers(int sensorId);
     void setHeaterValue(int sensorId, bool value);

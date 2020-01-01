@@ -516,6 +516,72 @@ int SensorsList::getXType(int sensorId)
     }
 }
 
+int SensorsList::getProgressValue(int sensorId)
+{
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId].progressValue;
+    } else {
+        qDebug() << "getXType Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+int SensorsList::getTempActiveValue(int sensorId)
+{
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
+        if(sensorItems[sensorId].tempActive) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } else {
+        qDebug() << "getXType Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+int SensorsList::getHeaterActiveValue(int sensorId)
+{
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
+        if(sensorItems[sensorId].heaterActive) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } else {
+        qDebug() << "getXType Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+int SensorsList::getSensorActiveValue(int sensorId)
+{
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
+        if(sensorItems[sensorId].sensorActive) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } else {
+        qDebug() << "getXType Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
+int SensorsList::getAlgorithmRunnigValue(int sensorId)
+{
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
+        if(sensorItems[sensorId].alghoritmRunning) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } else {
+        qDebug() << "getXType Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
 void SensorsList::setHeaterValue(int sensorId, bool value)
 {
 

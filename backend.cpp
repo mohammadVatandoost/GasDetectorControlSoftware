@@ -574,11 +574,15 @@ void Backend::timerSlot()
             }
             sendSensorData(i);
          }
-         emit mList->notifyInfoDataChanged();
+//         emit mList->notifyInfoDataChanged();
         }
     }
    } else {
        serial->close();
+//       mList->sensorItems[0].tempActive = !mList->sensorItems[0].tempActive;
+//       mList->sensorItems[0].sensorActive = !mList->sensorItems[0].sensorActive;
+//       mList->sensorItems[0].heaterActive = !mList->sensorItems[0].heaterActive;
+//       mList->sensorItems[0].alghoritmRunning = !mList->sensorItems[0].alghoritmRunning;
 //       connectState = false;qDebug() << "Disconndected : ";
    }
 
