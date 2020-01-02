@@ -53,8 +53,9 @@ Page {
     }
 
 
+// ScrollView {
 
-   Grid {
+     Grid {
        columns: window.width > 767 ? 2 : 1
        width: parent.width
        spacing: 2
@@ -67,8 +68,12 @@ Page {
            width: window.width > 1023 ? parent.width*2/3 : parent.width/2
        }
 
+       ScrollView {
+           width: window.width > 1023 ? parent.width*1/3 : parent.width/2
+           height: 500
+           clip: true
      ColumnLayout {
-       width: window.width > 1023 ? parent.width/3 : parent.width/2
+       width: parent.width
        Equation {
          id: equation
          Component.onCompleted: {
@@ -162,7 +167,7 @@ Page {
                property var resTypes: [ "X=r/r0", "X=dr/r0" ]
                function getIndex() {
                    var xType = SensorsList.getXType(root.sensorId)
-                   for(var i=0; i< gasTypes.length; i++) {
+                   for(var i=0; i< resTypes.length; i++) {
                        if(resTypes[i] === xType) {
                            return i;
                        }
@@ -312,9 +317,10 @@ Page {
       }
 
      }
-
+       }
    }
 
+// }
    Popup {
            id: popup
            padding: 0

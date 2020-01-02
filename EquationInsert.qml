@@ -10,7 +10,7 @@ Popup {
         id: popup
         padding: 0
         width: parent.width
-        height: 250
+        height: 230
 //            x: Math.round((parent.width - width) / 2)
 //            y: Math.round((parent.height - height) / 2)
 //        modal: true

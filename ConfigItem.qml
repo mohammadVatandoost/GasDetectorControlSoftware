@@ -11,11 +11,9 @@ Pane {
     width: 95
     height: 80
     Material.elevation: 6
-    scale:  mouseArea.containsMouse ? 0.8 : 1.0
-    smooth: mouseArea.containsMouse
-//    color: "red"
-//    radius: 10
-//    border.width: 1
+//    scale:  mouseArea.containsMouse ? 0.8 : 1.0
+//    smooth: mouseArea.containsMouse
+
 
     property int configId
     property string configName: ""

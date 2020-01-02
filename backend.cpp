@@ -211,7 +211,9 @@ void Backend::startSensor(int sensorId)
 
 void Backend::startAllSensor()
 {
-
+    for(int i=0; i<mList->sensorItems.size(); i++) {
+       startSensor(i);
+    }
 }
 
 bool Backend::getFlowErrorStatus()
