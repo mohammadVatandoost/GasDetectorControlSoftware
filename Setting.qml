@@ -72,6 +72,7 @@ Page {
            width: window.width > 1023 ? parent.width*1/3 : parent.width/2
            height: 500
            clip: true
+
      ColumnLayout {
        width: parent.width
        Equation {
@@ -316,6 +317,11 @@ Page {
            }
       }
 
+      Rectangle {
+          width: parent.width
+          height: 50
+//          color: "red"
+      }
      }
        }
    }

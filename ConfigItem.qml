@@ -62,7 +62,7 @@ Pane {
         anchors.top: paddingRectangle2.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         text: qsTr(configName)
-        font.pointSize: 15
+        font.pointSize: 12
     }
 
     MouseArea {

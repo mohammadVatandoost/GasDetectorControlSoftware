@@ -15,7 +15,8 @@ Popup {
 //            y: Math.round((parent.height - height) / 2)
 //        modal: true
         focus: true
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+//        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        closePolicy: Popup.CloseOnEscape
         signal updated()
         property int sensorId: 0
         property int configId
@@ -93,7 +94,7 @@ Popup {
 //           implicitWidth: parent.width*0.9
             RowLayout {
 //                columns: 2
-                width: parent.width *0.9
+                width: parent.width *0.95
                 anchors.horizontalCenter: parent.horizontalCenter
 //                spacing: 2
 //             width: 600
