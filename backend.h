@@ -81,6 +81,7 @@ public:
     void sendSensorData(uint8_t sensorId);
     Q_INVOKABLE void sendSensorDataHeater(int sensorId);
     Q_INVOKABLE void sendSensorDataRec(int sensorId);
+    Q_INVOKABLE void turnOffHeater(int sensorId);
     void sendGeneralData();
     void sendPacket(char* data, int size);
 

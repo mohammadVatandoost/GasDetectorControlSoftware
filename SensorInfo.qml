@@ -11,6 +11,7 @@ RowLayout {
     property bool tempActive: false
     property bool heaterActive: false
     property bool sensorActive: false
+    property bool alghoritmRunning: false
     property string sensorName: ""
     property string sensorPressure: "DC"
     property double progressValue: 0
@@ -102,7 +103,7 @@ RowLayout {
                     root.alghoritmRunning = true ;
                 } else { root.alghoritmRunning = false ; }
 
-                root.sensorPressure = SensorsList.getSensorPressureValue(root.sensorId);
+                root.sensorPressure = SensorsList.getPressure(root.sensorId);
             }
      }
 }

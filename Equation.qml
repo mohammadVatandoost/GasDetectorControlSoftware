@@ -8,7 +8,7 @@ import QtQuick.Controls.Styles 1.4
 Pane {
     id: root
     implicitHeight: 80
-    implicitWidth: parent.width*0.9
+    implicitWidth: parent.width*0.94
     Material.elevation: 6
 
     property int configId
@@ -30,16 +30,18 @@ Pane {
     signal configSelected()
 
     function refresh(){
-//        console.log("Equation referesh");
+        console.log("Equation referesh");
         if(root.equationType == 0) {
-//            console.log("equation 0");
-//            console.log(root.a+","+root.b+","+root.c+","+root.d+","+root.e);
+            console.log("equation 0");
+            console.log(root.a+","+root.b+","+root.c+","+root.d+","+root.e);
             equation0.visible = true;
             equation1.visible = false;
             c0a.setCoefficient(root.a); c0b.setCoefficient("+ "+root.b);
             c0c.setCoefficient("+ "+root.c); c0d.setCoefficient("+ "+root.d);
             c0e.setCoefficient("+ "+root.e);
         } else if(root.equationType == 1) {
+            console.log("equation 1");
+            console.log(root.a+","+root.b+","+root.c+","+root.d+","+root.e);
             equation1.visible = true;
             equation0.visible = false;
             c1ab.setCoefficient(root.a); c1ab.setPower(root.b);
@@ -79,6 +81,7 @@ Pane {
                 setPower("4");
                 setVariable("X");
             }
+            implicitWidth: 60
         }
         EquationCoefficient {
             id: c0b

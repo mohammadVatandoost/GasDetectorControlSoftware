@@ -36,22 +36,25 @@ Popup {
         function setConfigName(temp) {configName = temp;}
         function setConfigValue(temp) {configValue = temp;}
         function setVariables(sId, eType, a1, b1, c1, d1, e1) {
-            a=a1; b=b1; c=c1; d=d1; e=e1; equationType=eType; sensorId = sId;
+            popup.a=a1; popup.b=b1; popup.c=c1; popup.d=d1; popup.e=e1; popup.equationType=eType; popup.sensorId = sId;
+            refresh();
         }
         signal configSet(int configId, string configName, string configValue)
 
         function refresh(){
-            atextinput.text = a;
-            btextinput.text = b;
-            ctextinput.text = c;
-            dtextinput.text = d;
-            etextinput.text = e;
+//            console.log("Equation Insert refresh");
+//            console.log(popup.a+", "+ popup.b+", "+popup.c+", "+popup.d+", "+popup.e);
+            atextinput.setText(popup.a);
+            btextinput.setText(popup.b);
+            ctextinput.setText(popup.c);
+            dtextinput.setText(popup.d);
+            etextinput.setText(popup.e);
             if(equationType == 0) {
                 equation0RadioBtn.checked = true;
             } else if(equationType == 1) {
                 equation1RadioBtn.checked = true;
             }
-
+//            console.log(atextinput.text+", "+ btextinput.text+", "+ctextinput.text+", "+dtextinput.text+", "+etextinput.text);
 //              for(var i=0; i<coefficients.length; i++) {
 //                   console.log("equetion for");console.log(coefficients[i]);console.log(powers[i])
 //                   var component = Qt.createComponent("EquationCoefficient.qml");
@@ -214,9 +217,9 @@ Popup {
                        TextInputBorder {
                            id: atextinput
                            onTextChangedS: {
-                               popup.a = text;
+                               popup.b = text;
                            }
-                           onActiveFocusChanged: BackEnd.openKeyboard()
+//                           onActiveFocusChanged: BackEnd.openKeyboard()
                        }
                     }
                     ColumnLayout {
@@ -230,7 +233,7 @@ Popup {
                            onTextChangedS: {
                                popup.b = text;
                            }
-                           onActiveFocusChanged: BackEnd.openKeyboard()
+//                           onActiveFocusChanged: BackEnd.openKeyboard()
                        }
                     }
                     ColumnLayout {
@@ -244,7 +247,7 @@ Popup {
                            onTextChangedS: {
                                popup.c = text;
                            }
-                           onActiveFocusChanged: BackEnd.openKeyboard()
+//                           onActiveFocusChanged: BackEnd.openKeyboard()
                        }
                     }
                     ColumnLayout {
@@ -258,7 +261,7 @@ Popup {
                            onTextChangedS: {
                                popup.d = text;
                            }
-                           onActiveFocusChanged: BackEnd.openKeyboard()
+//                           onActiveFocusChanged: BackEnd.openKeyboard()
                        }
                     }
                     ColumnLayout {
@@ -273,7 +276,7 @@ Popup {
                            onTextChangedS: {
                                popup.e = text;
                            }
-                           onActiveFocusChanged: BackEnd.openKeyboard()
+//                           onActiveFocusChanged: BackEnd.openKeyboard()
                        }
                     }
                 }

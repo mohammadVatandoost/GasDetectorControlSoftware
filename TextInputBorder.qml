@@ -9,6 +9,9 @@ Item {
     function getText() {
         return input.text
     }
+    function setText(temp) {
+        input.text = temp;
+    }
 
     implicitHeight: input.font.pixelSize*1.5
     implicitWidth: 60

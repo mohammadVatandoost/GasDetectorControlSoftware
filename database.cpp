@@ -144,11 +144,11 @@ bool DataBase::findById(string sql_command, Sensor *temp)
                 temp->pressureType = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 13)) ;  
 
                 temp->equation = static_cast<uint8_t>(sqlite3_column_int(stmt, 14)) ;
-                temp->equationA = static_cast<float>(sqlite3_column_int(stmt, 15)) ;
-                temp->equationB = static_cast<float>(sqlite3_column_int(stmt, 16)) ;
-                temp->equationC = static_cast<float>(sqlite3_column_int(stmt, 17)) ;
-                temp->equationD = static_cast<float>(sqlite3_column_int(stmt, 18)) ;
-                temp->equationE = static_cast<float>(sqlite3_column_int(stmt, 19)) ;
+                temp->equationA = static_cast<float>(sqlite3_column_double(stmt, 15)) ;
+                temp->equationB = static_cast<float>(sqlite3_column_double(stmt, 16)) ;
+                temp->equationC = static_cast<float>(sqlite3_column_double(stmt, 17)) ;
+                temp->equationD = static_cast<float>(sqlite3_column_double(stmt, 18)) ;
+                temp->equationE = static_cast<float>(sqlite3_column_double(stmt, 19)) ;
 
                 temp->RtoR0OrRtoDeltaR = static_cast<uint8_t>(sqlite3_column_int(stmt, 20)) ;
                 temp->tempActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 21)) ;

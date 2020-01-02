@@ -40,14 +40,16 @@ Page {
         onSensorSelect : {
             root.sensorId = sensorId;
             console.log("NavigationDrawer sensor id :" + sensorId);
-            configs.setSensorId(sensorId);
-            chartS.setSensorId(sensorId);
+            configs.setSensorId(root.sensorId);
+            chartS.setSensorId(root.sensorId);
             configs.updateConfig();
             comboBoxGas.currentIndex = comboBoxGas.getIndex();
             equation.setVariables(root.sensorId, SensorsList.getEquationType(root.sensorId), SensorsList.getEquationA(root.sensorId),
                          SensorsList.getEquationB(root.sensorId),
                          SensorsList.getEquationC(root.sensorId), SensorsList.getEquationD(root.sensorId), SensorsList.getEquationE(root.sensorId))
             equation.refresh();
+            equationPopup.setVariables(root.sensorId, SensorsList.getEquationType(root.sensorId), SensorsList.getEquationA(root.sensorId), SensorsList.getEquationB(root.sensorId),
+                                       SensorsList.getEquationC(root.sensorId), SensorsList.getEquationD(root.sensorId), SensorsList.getEquationE(root.sensorId));
             drawer.close();
         }
     }
@@ -85,6 +87,8 @@ Page {
              refresh();
          }
          onConfigSelected: {
+             equationPopup.setVariables(root.sensorId, SensorsList.getEquationType(root.sensorId), SensorsList.getEquationA(root.sensorId), SensorsList.getEquationB(root.sensorId),
+                          SensorsList.getEquationC(root.sensorId), SensorsList.getEquationD(root.sensorId), SensorsList.getEquationE(root.sensorId));
              equationPopup.open();
          }
        }
@@ -266,10 +270,10 @@ Page {
                    onClicked: {
                        if(onOff) {
                            onOff = false;
-                           pump.Material.background =  Material.red
+                           pump.Material.background =  Material.red;
                        } else {
                            onOff = true;
-                           pump.Material.background =  Material.Green
+                           pump.Material.background =  Material.Green;
                        }
                    }
                }
@@ -283,7 +287,8 @@ Page {
                    onClicked: {
                        if(onOff) {
                            onOff = false;
-                           rec.Material.background =  Material.red
+                           rec.Material.background =  Material.red;
+                           BackEnd.turnOffHeater(root.sensorId);
                        } else {
                            onOff = true;
                            heaterStart.onOff = false;
@@ -303,7 +308,8 @@ Page {
                    onClicked: {
                        if(onOff) {
                            onOff = false;
-                           heaterStart.Material.background =  Material.red
+                           heaterStart.Material.background =  Material.red;
+                           BackEnd.turnOffHeater(root.sensorId);
                        } else {
                            onOff = true;
                            rec.onOff = false;

@@ -36,24 +36,25 @@ Page {
             font.pixelSize: 22
             anchors.centerIn: parent
             color: "red"
+            anchors.top: parent.bottom
         }
         Rectangle {
             id: paddingTEmp
-//            top: errorMessage.bottom
+            anchors.top: errorMessage.bottom
             height: 20
             width: parent.width
         }
 
         TextFieldWithBorder {
             id: textEdit
-//            top: paddingTEmp.bottom
+            anchors.top: paddingTEmp.bottom
             width: 1000
-            Layout.topMargin: 90
+            Layout.topMargin: 0
             Layout.alignment: Qt.AlignHCenter
             echoMode: TextInput.Password
             placeholderText: "Password field"
             inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
-            enterKeyAction: EnterKeyAction.Next
+//            enterKeyAction: EnterKeyAction.Next
             onAccepted: upperCaseField.focus = true
         }
 
@@ -62,11 +63,12 @@ Page {
             Layout.alignment: Qt.AlignHCenter
             text: qsTr("Login")
             highlighted: true
+            anchors.top: textEdit.bottom
             Material.background: Material.Green
-            Layout.topMargin: 10
+            Layout.topMargin: 20
             onClicked: {
                 console.log(textEdit.text);
-//                root.StackView.view.push("qrc:/Setting.qml");
+                root.StackView.view.push("qrc:/Setting.qml");
                 if(textEdit.text == "1234") {
                    root.StackView.view.push("qrc:/Setting.qml");
                 } else {

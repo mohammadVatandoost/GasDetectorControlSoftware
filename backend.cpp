@@ -328,6 +328,12 @@ void Backend::sendSensorDataRec(int sensorId)
     mList->sensorItems[sensorId].recStart = true;
 }
 
+void Backend::turnOffHeater(int sensorId)
+{
+    mList->sensorItems[sensorId].heaterStart = false;
+    mList->sensorItems[sensorId].recStart = false;
+}
+
 void Backend::sendGeneralData()
 {
   cout<<"sendGeneralData :"<<endl;
