@@ -13,7 +13,7 @@ Pane {
     function setCoefficient(temp) {coefficient = temp;}
     function setPower(temp) {power = temp;}
     function setVariable(temp) {variable = temp;}
-    implicitWidth: 60
+    implicitWidth: 80
     Layout.alignment: Qt.AlignLeft
     ColumnLayout {
         Layout.alignment: Qt.AlignLeft

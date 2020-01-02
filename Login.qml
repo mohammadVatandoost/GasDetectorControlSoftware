@@ -32,18 +32,23 @@ Page {
 
         Label {
             id: errorMessage
-
             text: ""
             font.pixelSize: 22
             anchors.centerIn: parent
             color: "red"
         }
-
+        Rectangle {
+            id: paddingTEmp
+//            top: errorMessage.bottom
+            height: 20
+            width: parent.width
+        }
 
         TextFieldWithBorder {
             id: textEdit
+//            top: paddingTEmp.bottom
             width: 1000
-            Layout.topMargin: 150
+            Layout.topMargin: 90
             Layout.alignment: Qt.AlignHCenter
             echoMode: TextInput.Password
             placeholderText: "Password field"
@@ -58,10 +63,10 @@ Page {
             text: qsTr("Login")
             highlighted: true
             Material.background: Material.Green
-            Layout.topMargin: 40
+            Layout.topMargin: 10
             onClicked: {
                 console.log(textEdit.text);
-                root.StackView.view.push("qrc:/Setting.qml");
+//                root.StackView.view.push("qrc:/Setting.qml");
                 if(textEdit.text == "1234") {
                    root.StackView.view.push("qrc:/Setting.qml");
                 } else {
