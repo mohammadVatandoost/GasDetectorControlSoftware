@@ -62,14 +62,14 @@ bool Backend::checkAlgohoritmFirstCondition(int sensorId)
     }
 
     // check Res
-    if(!sensor.secondCondition) {
+    if(!sensor.secondCondition && (mList->sensorItems[sensorId].tempActive || mList->sensorItems[sensorId].firstCondition)) {
         double rMax = 0;
         double rMin = 0;
         double Ravg = calculateRavg(sensorId, &rMax, &rMin);
         cout<< "Ravg: "<< Ravg<<", rMax:"<< rMax << ", rMin:"<< rMin<< ", Rtol * Ravg/100:"<< mList->items()[sensorId].Rtol * Ravg/100 << endl;
 //        if(!mList->sensorItems[sensorId].firstCondition) {
-           if( (rMax - rMin) < ( mList->items()[sensorId].Rtol * Ravg/100 ) ) {
-              cout<< "Ravg ok first condtion true"<< endl;
+           if( ((rMax - rMin)/2) < ( mList->items()[sensorId].Rtol * Ravg/100 ) ) {
+              cout<< "*************** Ravg ok first condtion true ***************"<< endl;
               if(!mList->sensorItems[sensorId].firstCondition) {
                   mList->sensorItems[sensorId].timeCounter = 0;
                   mList->sensorItems[sensorId].R0 = static_cast<uint16_t>(Ravg)  ;
@@ -110,7 +110,7 @@ uint16_t Backend::filterRes(int sensorId)
 
 float Backend::calculateRavg(int sensorId, double *rMax, double *rMin)
 {
-    int tRtol = mList->items()[sensorId].Rtol;
+    int tRtol = mList->items()[sensorId].TRtol;
     int resDataSize = mList->items()[sensorId].resData.size();
     double sum = 0;
     if(tRtol > resDataSize) {
@@ -118,16 +118,17 @@ float Backend::calculateRavg(int sensorId, double *rMax, double *rMin)
     }
     cout<< "calculateRavg tRtol:"<< tRtol<<endl;
 //    cout<< mList->sensorItems[sensorId].resData[resDataSize-1].y() << endl;
-    *rMax = mList->sensorItems[sensorId].resData[resDataSize-1].y();
+    *rMax = 0 ; // mList->sensorItems[sensorId].resData[resDataSize-1].y();
 //    cout<< "bugPoint"<<endl;
-    *rMin = mList->sensorItems[sensorId].resData[resDataSize-1].y();
-    cout<< "calculateRavg tRtol:"<< tRtol<< ", rMax:"<<*rMax<<", rMin:"<<*rMin<<endl;
+    *rMin = 1000000; // mList->sensorItems[sensorId].resData[resDataSize-1].y();
+//    cout<< "calculateRavg tRtol:"<< tRtol<< ", rMax:"<<*rMax<<", rMin:"<<*rMin<<endl;
     int tRtolTher = resDataSize-tRtol-1;
     for(int i=resDataSize-1; i>tRtolTher; i--) {
         double temp = mList->items()[sensorId].resData[i].y();
         if(temp < *rMin) {
             *rMin = temp;
-        } else if( temp > *rMax) {
+        }
+        if( temp > *rMax) {
             *rMax = temp ;
         }
        sum = temp  + sum ;
@@ -144,6 +145,9 @@ void Backend::alghoritmStop(int sensorId)
     mList->sensorItems[sensorId].timeCounter = 0;
     mList->sensorItems[sensorId].progressValue = 0;
     mList->sensorItems[sensorId].r0Check = false;
+    mList->sensorItems[sensorId].heaterActive = false ;
+    mList->sensorItems[sensorId].sensorActive = false ;
+    mList->sensorItems[sensorId].tempActive = false ;
 //    emit mList->notifyInfoDataChanged();
     for(int i=0; i<mList->sensorItems.size(); i++) {
         if(mList->items()[i].alghoritmRunning) {
@@ -200,7 +204,7 @@ double Backend::getPresureArea()
 
 void Backend::startSensor(int sensorId)
 {
-   cout<<"startSensor "<<endl;
+   cout<<"startSensor :"<<sensorId<<endl;
    mList->sensorItems[sensorId].alghoritmRunning = !mList->sensorItems[sensorId].alghoritmRunning;
    if(mList->sensorItems[sensorId].alghoritmRunning) {
       sendPumpSpeedZero = false;
@@ -568,17 +572,18 @@ void Backend::timerSlot()
                 mList->sensorItems[i].timeCounter++;
                 if(mList->sensorItems[i].secondCondition) {
                     if(mList->sensorItems[i].timeCounter >= (mList->sensorItems[i].recoveryTime*60)) {
-                        cout<< i<< " recovery time finished"<<endl;
+                        cout<< i<< "*********** recovery time finished *************"<<endl;
                         alghoritmStop(i);
                     }
                 } else if(mList->sensorItems[i].timeCounter >= (mList->sensorItems[i].operationTime*60)) {
-                    cout<< i<< " operation time finished"<<endl;
+                    cout<< i<< "************** operation time finished *****************"<<endl;
                     mList->sensorItems[i].secondCondition = true;
+                    mList->sensorItems[i].sensorActive = false;
                     mList->sensorItems[i].timeCounter = 0;
                     mList->sensorItems[i].progressValue = 1;
                 } else {
                     mList->sensorItems[i].progressValue = (float)((float)mList->sensorItems[i].timeCounter / (float)(mList->sensorItems[i].operationTime*60));
-                    cout<< i<< " progressValue :"<< mList->sensorItems[i].progressValue <<endl;
+//                    cout<< i<< "********** progressValue **********:"<< mList->sensorItems[i].progressValue <<endl;
                 }
             }
             sendSensorData(i);

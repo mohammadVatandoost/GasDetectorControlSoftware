@@ -151,9 +151,9 @@ bool DataBase::findById(string sql_command, Sensor *temp)
                 temp->equationE = static_cast<float>(sqlite3_column_double(stmt, 19)) ;
 
                 temp->RtoR0OrRtoDeltaR = static_cast<uint8_t>(sqlite3_column_int(stmt, 20)) ;
-                temp->tempActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 21)) ;
-                temp->heaterActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 22)) ;
-                temp->sensorActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 23)) ;
+//                temp->tempActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 21)) ;
+//                temp->heaterActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 22)) ;
+//                temp->sensorActive = static_cast<uint8_t>(sqlite3_column_int(stmt, 23)) ;
                 successfullyFinded = true;
 //                bytes = sqlite3_column_bytes(stmt, 0);
 //                text  = sqlite3_column_text(stmt, 1);

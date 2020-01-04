@@ -58,9 +58,9 @@ void SensorsList::setSensorData(SensorPacketRx *data)
 //    qDebug()<< data->sensorId << ":"<<(float)((float)data->temp/100);
     sensorItems[data->sensorId].tempLastData =   (float)((float)data->temp/100);
     sensorItems[data->sensorId].current = data->current;
-    sensorItems[data->sensorId].res = (float)((float)data->res/100);
+//    sensorItems[data->sensorId].res = (float)((float)data->res/100);
     double tempDateTime = QDateTime::currentMSecsSinceEpoch();
-    sensorItems[data->sensorId].addResData(tempDateTime, sensorItems[data->sensorId].res);
+    sensorItems[data->sensorId].addResData(tempDateTime, (float)((float)data->res/100));
 //    sensorItems[data->sensorId].addResData(tempDateTime, 5);
     sensorItems[data->sensorId].addTempData(tempDateTime, sensorItems[data->sensorId].tempLastData);
 //    sensorItems[data->sensorId].addTempData(tempDateTime, 3);
@@ -81,8 +81,10 @@ void SensorsList::setSensorData(SensorPacketRx *data)
 
 void SensorsList::calculatePPM(int sensorId)
 {
+
     Sensor sensor = sensorItems[sensorId];
     float X = sensor.res /  sensor.R0;
+    cout<< "calculatePPM sensorId:"<< sensorId << ", xType:"<< unsigned(sensorItems[sensorId].xType)<< ", equation:"<< unsigned(sensor.equation)<<endl;
     if(sensorItems[sensorId].xType == 1) {
         if(sensor.gasType == "O2") {
            X =  (sensor.res - sensor.R0) / sensor.R0 ;
@@ -100,10 +102,12 @@ void SensorsList::calculatePPM(int sensorId)
        X = X*sensor.res;
        sum = sum + (sensor.equationA*X);
       sensorItems[sensorId].pressure = QString::number(sum);
+      cout<< "sum :" << sum<< ", "<< sensorItems[sensorId].pressure.toStdString() << ", "<< QString::number(sum).toStdString() <<endl;
     } else {
         float sum =  exp(sensor.equationD)*sensor.equationC;
         sum = sum + (exp(sensor.equationB)*sensor.equationA);
         sensorItems[sensorId].pressure = QString::number(sum);
+        cout<< "sum :" << sum << ", "<< sensorItems[sensorId].pressure.toStdString() << ", "<< QString::number(sum).toStdString() <<endl;
     }
 }
 
@@ -524,7 +528,7 @@ int SensorsList::getXType(int sensorId)
     }
 }
 
-int SensorsList::getProgressValue(int sensorId)
+double SensorsList::getProgressValue(int sensorId)
 {
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
         return sensorItems[sensorId].progressValue;

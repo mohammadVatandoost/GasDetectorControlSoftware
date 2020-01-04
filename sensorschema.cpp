@@ -9,12 +9,12 @@
 string SensorSchema::getSqlInsertCommand()
 {
     MyUtitlity u;
-    string temp = "INSERT INTO Sensor(TRtol, xType, current, lowPassFilter, R0, Rtol, operationTime, recoveryTime, operationTemp, recoveryTemp, tempuretureTh, gasType, pressureType, equation, equationA, equationB, equationC, equationD, equationE, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive) VALUES("+u.numberToString(TRtol)+","+u.numberToString(unsigned(xType))+","+u.numberToString(unsigned(current))
+    string temp = "INSERT INTO Sensor(TRtol, xType, current, lowPassFilter, R0, Rtol, operationTime, recoveryTime, operationTemp, recoveryTemp, tempuretureTh, gasType, pressureType, equation, equationA, equationB, equationC, equationD, equationE, RtoR0OrRtoDeltaR) VALUES("+u.numberToString(TRtol)+","+u.numberToString(unsigned(xType))+","+u.numberToString(unsigned(current))
             +","+u.numberToString(unsigned(lowPassFilter))+","+u.numberToString(R0)+","+u.numberToString(Rtol)+","+u.numberToString(operationTime)
             +","+u.numberToString(recoveryTime)+","+u.numberToString(operationTemp)+","+u.numberToString(recoveryTemp)+","+u.numberToString(tempuretureTh)
             +", \""+gasType+"\", \""+pressureType+"\","+u.numberToString(unsigned(equation))+","+u.numberToString(equationA)+","+u.numberToString(equationB)
             +","+u.numberToString(equationC)+","+u.numberToString(equationD)+","+u.numberToString(equationE)+","+u.numberToString(RtoR0OrRtoDeltaR)
-            +","+u.numberToString(tempActive)+","+u.numberToString(heaterActive)+","+u.numberToString(sensorActive)+ ")";
+            + ")";
     return temp;
 }
 
@@ -32,8 +32,7 @@ string SensorSchema::getSqlUpdateCommand(uint8_t sensorId)
             ", equationA="+u.numberToString(equationA)+", equationB="+u.numberToString(equationB)+
             ", equationC="+u.numberToString(equationC)+", equationD="+u.numberToString(equationD)+
             ", equationE="+u.numberToString(equationE)+
-            ", RtoR0OrRtoDeltaR="+u.numberToString(RtoR0OrRtoDeltaR)+", tempActive="+u.numberToString(tempActive)+
-            ", heaterActive="+u.numberToString(heaterActive)+", sensorActive="+u.numberToString(sensorActive)+" WHERE id = "+u.numberToString(unsigned(sensorId));
+            ", RtoR0OrRtoDeltaR="+u.numberToString(RtoR0OrRtoDeltaR)+" WHERE id = "+u.numberToString(unsigned(sensorId));
     cout << "getSqlUpdateCommand :"<< temp;
     return temp;
 }
@@ -50,9 +49,9 @@ string SensorSchema::getSqlFindById(uint8_t sensorId)
 void SensorSchema::setSensorInfo(Sensor temp)
 {
     RtoR0OrRtoDeltaR = temp.RtoR0OrRtoDeltaR;
-    tempActive = temp.tempActive;
-    heaterActive = temp.heaterActive;
-    sensorActive = temp.sensorActive;
+//    tempActive = temp.tempActive;
+//    heaterActive = temp.heaterActive;
+//    sensorActive = temp.sensorActive;
 //    cout << pressureType << ", pressureType :"<< temp.pressureType.toStdString();
     pressureType = temp.pressureType.toUtf8().toStdString();
     equation = temp.equation;
@@ -68,7 +67,7 @@ void SensorSchema::setSensorInfo(Sensor temp)
     recoveryTemp = temp.recoveryTemp;
     tempuretureTh = temp.tempuretureTh;
     gasType = temp.gasType.toStdString();
-
+    lowPassFilter = temp.lowPassFilter;
     TRtol = temp.TRtol;
     xType = temp.xType;
     current = temp.current;

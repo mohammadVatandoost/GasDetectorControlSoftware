@@ -61,9 +61,9 @@ public:
         addColumn("equationD", "REAL", static_cast<string>("1") );
         addColumn("equationE", "REAL", static_cast<string>("1") );
         addColumn("RtoR0OrRtoDeltaR", "INTEGER", static_cast<string>("0") ); // boolean zero and one
-        addColumn("tempActive", "INTEGER", static_cast<string>("0") ); // boolean zero and one
-        addColumn("heaterActive", "INTEGER", static_cast<string>("0") ); // boolean zero and one
-        addColumn("sensorActive", "INTEGER", static_cast<string>("0") ); // boolean zero and one
+//        addColumn("tempActive", "INTEGER", static_cast<string>("0") ); // boolean zero and one
+//        addColumn("heaterActive", "INTEGER", static_cast<string>("0") ); // boolean zero and one
+//        addColumn("sensorActive", "INTEGER", static_cast<string>("0") ); // boolean zero and one
 
 //        cout << "Schema command :" << sqlCommand <<endl;
     }

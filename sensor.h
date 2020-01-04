@@ -75,8 +75,10 @@ struct Sensor {
     }
 
     void addResData(double time, double value) {
+        value = (1-(lowPassFilter/10))*value +  ((lowPassFilter/10)*res) ;
         QPointF temp(time,value);
         resData.append(temp);
+        res = value;
         if(resData.size() > saveToFile*2) {
             cout<< "store to csv file"<<endl;
             saveSensorDataToCSVFile(&resData, sensorId, "res", saveToFile);
