@@ -37,14 +37,12 @@ ChartView {
         axisX: axisXTime
         axisYRight: resYData
         name: "Res"
-        useOpenGL: true
     }
     LineSeries {
         id: lineSeriesTemp
         axisX: axisXTime
         axisY: tempYData
         name: "Temp"
-        useOpenGL: true
     }
 
 

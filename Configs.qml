@@ -23,8 +23,8 @@ Grid {
     }
 
     function updateConfig() {
-        console.log("updateConfig");
-        console.log(sensorId);
+//        console.log("updateConfig");
+//        console.log(sensorId);
         config1.setConfigValue(SensorsList.getFilterValue(sensorId));
         config2.setConfigValue(SensorsList.getR0Value(sensorId));
         config3.setConfigValue(SensorsList.getRtolValue(sensorId));

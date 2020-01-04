@@ -118,7 +118,7 @@ Popup {
                          spacing: 0
                          ButtonGroup.group: radioGroup
                          onClicked: {
-                             console.log("equation 1")
+//                             console.log("equation 1")
                              econtainer.visible = true;
                              popup.equationType = 0;
                          }
@@ -174,7 +174,7 @@ Popup {
                          checked: false
                          ButtonGroup.group: radioGroup
                          onClicked: {
-                             console.log("equation 2")
+//                             console.log("equation 2")
                              econtainer.visible = false;
                              popup.equationType = 1;
                          }
@@ -305,13 +305,13 @@ Popup {
                           popup.c = ctextinput.getText();
                           popup.d = dtextinput.getText();
                           popup.e = etextinput.getText();
-                          console.log("pop up id:"+popup.sensorId)
-                          console.log(popup.a+","+popup.b+","+popup.c+","+popup.d+","+popup.e)
+//                          console.log("pop up id:"+popup.sensorId)
+//                          console.log(popup.a+","+popup.b+","+popup.c+","+popup.d+","+popup.e)
                           if(equation0RadioBtn.checked) {
-                              console.log("equation type 0")
+//                              console.log("equation type 0")
                               popup.equationType = 0;
                           } else if(equation1RadioBtn.checked) {
-                              console.log("equation type 1")
+//                              console.log("equation type 1")
                               popup.equationType = 1;
                           }
 

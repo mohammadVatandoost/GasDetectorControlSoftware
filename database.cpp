@@ -141,7 +141,7 @@ bool DataBase::findById(string sql_command, Sensor *temp)
                 temp->recoveryTemp = static_cast<float>(sqlite3_column_double(stmt, 10)) ;
                 temp->tempuretureTh = static_cast<float>(sqlite3_column_double(stmt, 11)) ;
                 temp->gasType = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 12))  ;
-                temp->pressureType = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 13)) ;  
+                temp->pressureType = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 13)) ;
 
                 temp->equation = static_cast<uint8_t>(sqlite3_column_int(stmt, 14)) ;
                 temp->equationA = static_cast<float>(sqlite3_column_double(stmt, 15)) ;

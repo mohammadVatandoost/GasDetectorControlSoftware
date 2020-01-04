@@ -14,7 +14,7 @@ using namespace std;
 enum FormulType{ first, second, third };
 enum ValueType{ PPM, PDB };
 //enum GasKind{ NO, CO, SO2, O2, BTEX, VOC};
-enum {
+enum SensorProperty{
   operationTemp, res, current, lowPassFilter, R0,
   Rtol, operationTime, recoveryTime, recoveryTemp,
   gasType, pressureType, equation, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive, alghoritmRunning,

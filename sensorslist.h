@@ -54,7 +54,7 @@ public:
     Q_INVOKABLE void setR0Value(int sensorId, int configValue);
     Q_INVOKABLE void setRtolValue(int sensorId, int configValue);
     Q_INVOKABLE void setOperationTempValue(int sensorId, double configValue);
-    Q_INVOKABLE void setNameValue(int sensorId, int configValue);
+    Q_INVOKABLE void setTRtolValue(int sensorId, int configValue);
     Q_INVOKABLE void setRecTimeValue(int sensorId, int configValue);
     Q_INVOKABLE void setRecTempValue(int sensorId, double configValue);
     Q_INVOKABLE void setOPTimeValue(int sensorId, int configValue);

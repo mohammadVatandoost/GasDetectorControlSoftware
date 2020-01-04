@@ -80,7 +80,7 @@ Page {
        Equation {
          id: equation
          Component.onCompleted: {
-             console.log("Equation :")
+//             console.log("Equation :")
              setVariables(root.sensorId, SensorsList.getEquationType(root.sensorId), SensorsList.getEquationA(root.sensorId),
                           SensorsList.getEquationB(root.sensorId),
                           SensorsList.getEquationC(root.sensorId), SensorsList.getEquationD(root.sensorId), SensorsList.getEquationE(root.sensorId))
@@ -399,9 +399,9 @@ Page {
                          highlighted: true
                          Material.background: Material.Green
                          onClicked: {
-                             console.log("config submite");
-                             console.log(root.sensorId);
-                             console.log(configTextEdit.text);
+//                             console.log("config submite");
+//                             console.log(root.sensorId);
+//                             console.log(configTextEdit.text);
                              if(popup.configId === 1) {
                                SensorsList.setFilterValue(root.sensorId, configTextEdit.text);
                              } else if(popup.configId === 2) {
@@ -413,7 +413,7 @@ Page {
                              } else if(popup.configId === 5) {
                                  SensorsList.setOperationTempValue(root.sensorId, configTextEdit.text);
                              } else if(popup.configId === 6) {
-                                 SensorsList.setNameValue(root.sensorId, configTextEdit.text);
+                                 SensorsList.setTRtolValue(root.sensorId, configTextEdit.text);
                              } else if(popup.configId === 7) {
                                  SensorsList.setRecTimeValue(root.sensorId, configTextEdit.text);
                              } else if(popup.configId === 8) {

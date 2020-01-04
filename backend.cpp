@@ -156,6 +156,7 @@ void Backend::alghoritmStop(int sensorId)
 void Backend::setPumpValue(int configValue)
 {
    generalData.pumpSpeed = static_cast<uint16_t>(configValue);
+//   jsonStoring.storeBoardData(generalData);
 }
 
 int Backend::getPumpValue()
@@ -476,26 +477,26 @@ Sensor Backend::getSeneorDataFromDB(SensorPacketRx *m)
 
 void Backend::updateChart(QAbstractSeries *chartSeries, int sensorId)
 {
-  if(sensorId < mList->items().size() && -1 < sensorId) { 
-    if (chartSeries) {
-        if(axisXTime) {
-//            qDebug()<< "set axis time" ;
-            axisXTime->setMin(QDateTime::fromMSecsSinceEpoch(QDateTime::currentDateTime().toMSecsSinceEpoch()-60000));
-            axisXTime->setMax(QDateTime::currentDateTime());
-        }
-//         QVector<Sensor> sensors = mList->items();
-//        qDebug()<< "chart update sensor id:"<< sensorId << " points size:"<< mList->sensorItems[sensorId].tempData.size();
-        QXYSeries *xySeries = static_cast<QXYSeries *>(chartSeries);
+    if(sensorId < mList->items().size() && -1 < sensorId) {
+      if (chartSeries) {
+          if(axisXTime) {
+  //            qDebug()<< "set axis time" ;
+              axisXTime->setMin(QDateTime::fromMSecsSinceEpoch(QDateTime::currentDateTime().toMSecsSinceEpoch()-60000));
+              axisXTime->setMax(QDateTime::currentDateTime());
+          }
+  //         QVector<Sensor> sensors = mList->items();
+  //        qDebug()<< "chart update sensor id:"<< sensorId << " points size:"<< mList->sensorItems[sensorId].tempData.size();
+          QXYSeries *xySeries = static_cast<QXYSeries *>(chartSeries);
 
-        if(chartSeries->name() == "Temp") {
-          QVector<QPointF> points = mList->sensorItems[sensorId].tempData;
-          xySeries->replace(points);
-        } else {
-            QVector<QPointF> points = mList->sensorItems[sensorId].resData;
+          if(chartSeries->name() == "Temp") {
+            QVector<QPointF> points = mList->sensorItems[sensorId].tempData;
             xySeries->replace(points);
-        }
+          } else {
+              QVector<QPointF> points = mList->sensorItems[sensorId].resData;
+              xySeries->replace(points);
+          }
+      }
     }
-  }
 }
 
 void Backend::recieveSerialPort()

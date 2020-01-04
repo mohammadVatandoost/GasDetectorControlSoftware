@@ -16,11 +16,6 @@ Window {
         id: stackView
         anchors.fill: parent
         initialItem: SplashScreen {}
-//        transitions: []
-         popExit: Transition {}
-         pushEnter: Transition {}
-         popEnter: Transition {}
-         pushExit: Transition {}
     }
 
     InputPanel {

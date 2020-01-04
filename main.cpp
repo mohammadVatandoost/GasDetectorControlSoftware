@@ -39,9 +39,10 @@ int main(int argc, char *argv[])
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
 
+//    window->showFullScreen();
     // connect our QML signal to our C++ slot
-    QObject::connect(&backEnd, SIGNAL(notifyInfoDataChanged()),
-                            window, SLOT(refreshData()));
+//    QObject::connect(&backEnd, SIGNAL(notifyInfoDataChanged()),
+//                            window, SLOT(refreshData()));
     if (engine.rootObjects().isEmpty())
         return -1;
 

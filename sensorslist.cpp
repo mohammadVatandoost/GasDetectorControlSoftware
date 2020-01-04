@@ -156,9 +156,17 @@ void SensorsList::setOperationTempValue(int sensorId, double configValue)
     }
 }
 
-void SensorsList::setNameValue(int sensorId, int configValue)
+void SensorsList::setTRtolValue(int sensorId, int configValue)
 {
-   // Ask what is It
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
+       sensorItems[sensorId].TRtol =   static_cast<uint16_t>(configValue);
+       SensorSchema sensorSchema;
+//       qDebug() << sensorItems[sensorId].pressureType << " pressureType " ;
+       sensorSchema.setSensorInfo(sensorItems[sensorId]);
+       db->update(sensorSchema.getSqlUpdateCommand(sensorId));
+    } else {
+        qDebug() << "setTempValue sensorId not valid :" << sensorId ;
+    }
 }
 
 void SensorsList::setRecTimeValue(int sensorId, int configValue)

@@ -97,6 +97,8 @@ public:
     Q_INVOKABLE int getSensorResMax();
     Q_INVOKABLE void openKeyboard();
 
+    QVector<QPointF> testChart;
+
 private:
     SensorsList *mList;
 signals:
