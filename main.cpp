@@ -8,6 +8,7 @@
 #include "sensorslist.h"
 #include "backend.h"
 #include "database.h"
+#include <cstdio>
 
 
 int main(int argc, char *argv[])
@@ -17,7 +18,7 @@ int main(int argc, char *argv[])
     qputenv("QT_IM_MODULE", QByteArray("freevirtualkeyboard"));
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
+//    freopen("output.txt","w",stdout);
 //    QGuiApplication app(argc, argv);
     QApplication app(argc, argv);
     QQuickStyle::setStyle("Material");

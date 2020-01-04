@@ -295,9 +295,8 @@ void Backend::sendSensorDataHeater(int sensorId)
 
 void Backend::setAxisXTime(QDateTimeAxis *axis)
 {
-    qDebug()<< "**************set axis time" ;
+    cout<< "**************set axis time" ;
     axisXTime = axis;
-//    qDebug() << "setAxisXTime()" << axisXTime->format();
     axisXTime->setMin(QDateTime::currentDateTime());
     axisXTime->setMax(QDateTime::currentDateTime().addSecs(60));
 }
@@ -484,12 +483,12 @@ void Backend::updateChart(QAbstractSeries *chartSeries, int sensorId)
     if(sensorId < mList->items().size() && -1 < sensorId) {
       if (chartSeries) {
           if(axisXTime) {
-  //            qDebug()<< "set axis time" ;
+  //            cout<< "set axis time" ;
               axisXTime->setMin(QDateTime::fromMSecsSinceEpoch(QDateTime::currentDateTime().toMSecsSinceEpoch()-60000));
               axisXTime->setMax(QDateTime::currentDateTime());
           }
   //         QVector<Sensor> sensors = mList->items();
-  //        qDebug()<< "chart update sensor id:"<< sensorId << " points size:"<< mList->sensorItems[sensorId].tempData.size();
+  //        cout<< "chart update sensor id:"<< sensorId << " points size:"<< mList->sensorItems[sensorId].tempData.size();
           QXYSeries *xySeries = static_cast<QXYSeries *>(chartSeries);
 
           if(chartSeries->name() == "Temp") {
@@ -555,13 +554,13 @@ void Backend::timerSlot()
     if(!serial->isOpen()) {
         Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
                    serial->setPortName(port.portName());
-                   qDebug() << " portName : " << port.portName();
+                   cout << " portName : " << port.portName().toStdString();
         }
         if(serial->open(QIODevice::ReadWrite)) {
-          connectState = true; qDebug() << " conndected : ";
+          connectState = true; cout << " conndected : ";
           connect(serial, SIGNAL(readyRead()), this, SLOT(recieveSerialPort()));
         } else {
-            connectState = false; qDebug() << "Not conndected : ";
+            connectState = false; cout << "Not conndected : ";
             serial->close();
         }
     } else {
@@ -583,7 +582,7 @@ void Backend::timerSlot()
                     mList->sensorItems[i].progressValue = 1;
                 } else {
                     mList->sensorItems[i].progressValue = (float)((float)mList->sensorItems[i].timeCounter / (float)(mList->sensorItems[i].operationTime*60));
-//                    cout<< i<< "********** progressValue **********:"<< mList->sensorItems[i].progressValue <<endl;
+                    cout<< i<< "********** progressValue **********:"<< mList->sensorItems[i].progressValue <<endl;
                 }
             }
             sendSensorData(i);
@@ -597,7 +596,7 @@ void Backend::timerSlot()
 //       mList->sensorItems[0].sensorActive = !mList->sensorItems[0].sensorActive;
 //       mList->sensorItems[0].heaterActive = !mList->sensorItems[0].heaterActive;
 //       mList->sensorItems[0].alghoritmRunning = !mList->sensorItems[0].alghoritmRunning;
-//       connectState = false;qDebug() << "Disconndected : ";
+//       connectState = false;cout << "Disconndected : ";
    }
 
 //   emit notifyInfoDataChanged();

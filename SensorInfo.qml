@@ -103,8 +103,8 @@ RowLayout {
                     root.alghoritmRunning = true ;
                 } else { root.alghoritmRunning = false ; }
 
-                root.sensorPressure = SensorsList.getPressure(root.sensorId);
-//                root.progressValue = SensorsList.getProgressValue(root.sensorId);
+//                root.sensorPressure = SensorsList.getPressure(root.sensorId);
+                root.progressValue = SensorsList.getProgressValue(root.sensorId);
                 presureValue.text = SensorsList.getProgressValue(root.sensorId).toFixed(2);
             }
      }
