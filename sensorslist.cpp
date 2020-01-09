@@ -112,12 +112,12 @@ void SensorsList::calculatePPM(int sensorId)
        sum = sum + (sensor.equationB*X);
        X = X*sensor.res;
        sum = sum + (sensor.equationA*X);
-      sensorItems[sensorId].pressure = QString::number(sum);
+      sensorItems[sensorId].pressure = QString::number(sum, 'G', 3);
       cout<< "sum :" << sum<< ", "<< sensorItems[sensorId].pressure.toStdString() << ", "<< QString::number(sum).toStdString() <<endl;
     } else {
         float sum =  exp(sensor.equationD)*sensor.equationC;
         sum = sum + (exp(sensor.equationB)*sensor.equationA);
-        sensorItems[sensorId].pressure = QString::number(sum);
+        sensorItems[sensorId].pressure = QString::number(sum, 'G', 3);
         cout<< "sum :" << sum << ", "<< sensorItems[sensorId].pressure.toStdString() << ", "<< QString::number(sum).toStdString() <<endl;
     }
 }
@@ -522,7 +522,8 @@ QString SensorsList::getPressureTypeValue(int sensorId)
 QString SensorsList::getPressure(int sensorId)
 {
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
-         return sensorItems[sensorId].pressure + " "+pressureType;
+//         cout<<sensorId << " getPressure:"<< sensorItems[sensorId].pressure.toStdString() << " "<<sensorItems[sensorId].pressureType.toStdString();
+         return (sensorItems[sensorId].pressure + " "+sensorItems[sensorId].pressureType);
     } else {
         cout << "getPressure Get sensorId not valid :" << sensorId ;
         return "not valid";

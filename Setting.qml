@@ -115,7 +115,7 @@ Page {
            id: pane
            Layout.fillWidth: true
         RowLayout {
-           width: parent.width
+           width: 400
 
            ColumnLayout {
 
@@ -161,7 +161,8 @@ Page {
            id: pane5
            Layout.fillWidth: true
            RowLayout {
-              width: parent.width
+//              width: parent.width
+              width: 400
               ComboBox {
                   id: comboBoxGas
                   property var gasTypes: [ "NO", "CO", "SO2", "O2", "BTEX", "VOC" ]

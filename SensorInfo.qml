@@ -102,8 +102,8 @@ RowLayout {
                 if(SensorsList.getAlgorithmRunnigValue(root.sensorId) === 1) {
                     root.alghoritmRunning = true ;
                 } else { root.alghoritmRunning = false ; }
-
-                root.sensorPressure = SensorsList.getPressure(root.sensorId);
+                root.progressValue = SensorsList.getProgressValue(root.sensorId);
+                presureValue.text = SensorsList.getPressure(root.sensorId);
             }
      }
 }
