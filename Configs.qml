@@ -99,7 +99,7 @@ Grid {
         id: config6
      Component.onCompleted: {
        setConfigId(6);
-       setConfigName("TRtol");
+       setConfigName("tRtol");
 //       setConfigValue("0");
      }
 
@@ -138,5 +138,12 @@ Grid {
 
      onConfigSelected: {root.configSelected(configId, configName, configValue);console.log(configId + ", " + configName + ", "+ configValue);}
     }
+
+    Timer {
+            interval: 1500; running: true; repeat: true
+            onTriggered: {
+                config2.setConfigValue(SensorsList.getR0Value(sensorId));
+            }
+     }
 }
 

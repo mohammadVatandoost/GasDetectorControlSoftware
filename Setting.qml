@@ -10,6 +10,13 @@ Page {
     id: root
     property int sensorId: 0
     property string date_time: new Date().toLocaleString(locale, Locale.ShortFormat)
+    property bool sensorActive: false
+    property bool flowError: false
+    property bool electricalError: false
+    property bool charging: false
+    property string humidityIn: "DC"
+    property string humidityOut: "DC"
+    property string humidityArea: "DC"
     header: ToolBar {
         ToolButton {
             text: qsTr("Back")
@@ -119,7 +126,7 @@ Page {
 
                Text {
                    Layout.alignment: Qt.AlignHCenter
-                   text: qsTr("DC")
+                   text: qsTr(root.humidityArea)
                }
            }
 
@@ -132,7 +139,7 @@ Page {
 
                Text {
                    Layout.alignment: Qt.AlignHCenter
-                   text: qsTr("DC")
+                   text: qsTr(root.humidityIn)
                }
            }
 
@@ -145,61 +152,64 @@ Page {
 
                Text {
                    Layout.alignment: Qt.AlignHCenter
-                   text: qsTr("DC")
+                   text: qsTr(root.humidityOut)
                }
-           }
-
-           ComboBox {
-               id: comboBoxGas
-               property var gasTypes: [ "NO", "CO", "SO2", "O2", "BTEX", "VOC" ]
-               function getIndex() {
-                   var gasType = SensorsList.getGasTypeValue(root.sensorId)
-                   for(var i=0; i< gasTypes.length; i++) {
-                       if(gasTypes[i] === gasType) {
-                           return i;
-                       }
-                   }
-                   return 0;
-               }
-
-               width: 200
-               model: gasTypes
-               currentIndex: getIndex()
-               onActivated:SensorsList.setGasTypeValue(root.sensorId, gasTypes[currentIndex])
-           }
-           ComboBox {
-               id: resTypeCombo
-               property var resTypes: [ "X=r/r0", "X=dr/r0" ]
-               function getIndex() {
-                   var xType = SensorsList.getXType(root.sensorId)
-                   for(var i=0; i< resTypes.length; i++) {
-                       if(resTypes[i] === xType) {
-                           return i;
-                       }
-                   }
-                   return 0;
-               }
-
-               width: 200
-               model: resTypes
-               currentIndex: getIndex()
-               onActivated:SensorsList.setXType(root.sensorId, resTypes[currentIndex])
            }
        }
+      }
+      Pane {
+           id: pane5
+           Layout.fillWidth: true
+           RowLayout {
+              width: parent.width
+              ComboBox {
+                  id: comboBoxGas
+                  property var gasTypes: [ "NO", "CO", "SO2", "O2", "BTEX", "VOC" ]
+                  function getIndex() {
+                      var gasType = SensorsList.getGasTypeValue(root.sensorId)
+                      for(var i=0; i< gasTypes.length; i++) {
+                          if(gasTypes[i] === gasType) {
+                              return i;
+                          }
+                      }
+                      return 0;
+                  }
+
+                  width: 200
+                  model: gasTypes
+                  currentIndex: getIndex()
+                  onActivated:SensorsList.setGasTypeValue(root.sensorId, gasTypes[currentIndex])
+              }
+
+              ComboBox {
+                  id: resTypeCombo
+                  property var resTypes: [ "X=r/r0", "X=dr/r0" ]
+                  function getIndex() {
+                      var xType = SensorsList.getXType(root.sensorId)
+                      for(var i=0; i< resTypes.length; i++) {
+                          if(resTypes[i] === xType) {
+                              return i;
+                          }
+                      }
+                      return 0;
+                  }
+
+                  width: 200
+                  model: resTypes
+                  currentIndex: getIndex()
+                  onActivated:SensorsList.setXType(root.sensorId, resTypes[currentIndex])
+              }
+           }
       }
       Pane {
            id: pane3
            Layout.fillWidth: true
 
            RowLayout {
-              width: parent.width
-
+              width: 300
+              spacing: 5
               ColumnLayout {
 
-//                  Label {
-//                      text: "PPM"
-//                      font.pixelSize: 22
-//                  }
                   ComboBox {
                       id: comboBoxPressure
                       property var pressureTypes: [ "PPM", "%", "PPB"]
@@ -223,38 +233,106 @@ Page {
                       id: pressureValue
                       Layout.alignment: Qt.AlignHCenter
                       text: qsTr("0")
+
                   }
               }
 
+
+// Res
               ColumnLayout {
 
-                  Label {
-                      text: "RES"
-                      font.pixelSize: 22
+//                  Label {
+//                      text: "RES"
+//                      font.pixelSize: 22
+//                  }
+                  Text {
+                      id: xValue
+                      font.pixelSize: 20
+                      Layout.alignment: Qt.AlignHCenter
+                      text: qsTr("X : "+SensorsList.getX(sensorId))
                   }
 
                   Text {
                       id: res
+                      font.pixelSize: 20
                       Layout.alignment: Qt.AlignHCenter
-                      text: qsTr(SensorsList.getRes(sensorId) + "")
+                      text: qsTr("R : "+SensorsList.getRes(sensorId))
                   }
               }
-
+// Temperature
               ColumnLayout {
 
-                  Label {
-                      text: "TEMP"
-                      font.pixelSize: 22
-                  }
+//                  Label {
+//                      text: "TEMP"
+//                      font.pixelSize: 22
+//                  }
 
                   Text {
                       id: temp
+                      font.pixelSize: 20
                       Layout.alignment: Qt.AlignHCenter
-                      text: qsTr(SensorsList.getCurrent(sensorId))
+                      text: qsTr("T: "+SensorsList.getTemp(sensorId))
                   }
               }
 
           }
+      }
+
+      Pane {
+           id: pane4
+           Layout.fillWidth: true
+           RowLayout {
+               spacing: 5
+               ColumnLayout {
+                   Label {
+                      Layout.alignment: Qt.AlignHCenter
+                      text: "Flow Er"
+                      font.pixelSize: 20
+                   }
+                   StatusIndicator {
+                       Layout.alignment: Qt.AlignHCenter
+                       color: "red"
+                       active: root.flowError
+                   }
+               }
+               ColumnLayout {
+                   Label {
+                      Layout.alignment: Qt.AlignHCenter
+                      text: "Electrical Er"
+                      font.pixelSize: 20
+                   }
+                   StatusIndicator {
+                       Layout.alignment: Qt.AlignHCenter
+                       color: "red"
+                       active: root.electricalError
+                   }
+               }
+               ColumnLayout {
+                   Label {
+                      Layout.alignment: Qt.AlignHCenter
+                      text: "Charging"
+                      font.pixelSize: 20
+                   }
+                   StatusIndicator {
+                       Layout.alignment: Qt.AlignHCenter
+                       color: "green"
+                       active: root.charging
+                   }
+               }
+               ColumnLayout {
+                   Label {
+                      Layout.alignment: Qt.AlignHCenter
+                      text: "Active"
+                      font.pixelSize: 20
+                   }
+                   StatusIndicator {
+                           color: "green"
+                           active: root.sensorActive
+                   }
+               }
+
+
+           }
       }
 
       Pane {
@@ -323,6 +401,8 @@ Page {
            }
       }
 
+
+
       Rectangle {
           width: parent.width
           height: 70
@@ -366,14 +446,17 @@ Page {
                    Layout.bottomMargin: 20
                    Layout.alignment: Qt.AlignHCenter
                }
-               TextEdit {
+               TextFieldWithBorder {
                    id: configTextEdit
                    text: qsTr(popup.configValue)
 //                   onActiveFocusChanged: BackEnd.openKeyboard()
+//                   Layout.fillWidth: true
+                   implicitWidth: 100
                    height: 50
-                   width: 200
+//                   width: 250
                    font.pixelSize: 22
                    Layout.alignment: Qt.AlignHCenter
+                   horizontalAlignment: TextInput.AlignHCenter
                }
 //               Rectangle {
 //                   anchors.top: configTextEdit.bottom
@@ -466,14 +549,29 @@ Page {
            interval: 1000; running: true; repeat: true
            onTriggered: {
                if(SensorsList.getRes(sensorId).toFixed(2) > 160000) {
-                  res.text = "-" ;
+                  res.text = "R: -" ;
                } else {
-                  res.text =  SensorsList.getRes(sensorId).toFixed(2);
+                  res.text =  "R: "+SensorsList.getRes(sensorId).toFixed(2);
                }
 
-               temp.text = SensorsList.getTemp(sensorId).toFixed(2);
+               temp.text = "T: "+SensorsList.getTemp(sensorId).toFixed(2);
                pressureValue.text = SensorsList.getPressure(sensorId);
-//               configs.updateConfig();
+               if(SensorsList.getX(sensorId).toFixed(2) > 160000) {
+                   xValue.text = "X : -";
+               } else {
+                   xValue.text = "X : "+SensorsList.getX(sensorId).toFixed(2);
+               }
+
+               if(SensorsList.getSensorActiveValue(root.sensorId) === 1) {
+                   root.sensorActive = true ;
+               } else { root.sensorActive = false ; }
+               root.flowError = BackEnd.getFlowErrorStatus();
+               root.electricalError = BackEnd.getElectricalErrorStatus();
+               root.charging = BackEnd.getChargingStatus();
+               root.humidityIn = BackEnd.getHumidityIn();
+               root.humidityOut = BackEnd.getHumidityOut();
+               root.humidityArea = BackEnd.getHumidityArea();
+               //               configs.updateConfig();
 //               console.log("trigerred "+sensorId);
 //               console.log(SensorsList.getTemp(sensorId) );
 //               console.log(SensorsList.getRes(sensorId) );

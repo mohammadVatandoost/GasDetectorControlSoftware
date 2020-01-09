@@ -12,7 +12,6 @@
 
 using namespace std;
 
-#pragma pack(push, 1)
 
 struct BoardData {
     uint8_t humidityIn = 0;
@@ -30,6 +29,10 @@ struct BoardData {
     bool fan2 = false;
     string time ;
 };
+
+#pragma pack(push, 1)
+
+
 
 struct SensorPacketTx {
     uint8_t packetCode = SensorSetPointPacketCodeTx;

@@ -19,9 +19,10 @@ Page {
     property bool flowError: false
     property bool electricalError: false
     property bool charging: false
+    property bool startAll: false
 
     function refreshData() {
-        console.log("refreshData");
+//        console.log("refreshData");
         root.pumpActive = BackEnd.getPumpStatus();
         root.humidityIn = BackEnd.getHumidityIn();
         root.humidityOut = BackEnd.getHumidityOut();
@@ -217,10 +218,13 @@ Page {
             }
 
             Button {
-                text: qsTr("Start")
+                text: root.startAll ? qsTr("Stop") : qsTr("Start")
                 highlighted: true
-                Material.background: Material.Teal
-                onClicked: BackEnd.startAllSensor()
+                Material.background: root.startAll ? Material.Light : Material.Teal
+                onClicked: {
+                    root.startAll = !root.startAll;
+                    BackEnd.startAllSensor(root.startAll);
+                }
             }
 
             Button {
@@ -240,6 +244,12 @@ Page {
             interval: 45000; running: true; repeat: true
             onTriggered: {
                 root.date_time = new Date().toLocaleString(locale, Locale.ShortFormat)
+            }
+     }
+    Timer {
+            interval: 1000; running: true; repeat: true
+            onTriggered: {
+                root.refreshData();
             }
      }
 }

@@ -11,7 +11,7 @@ Controls.TextField {
 //    width: 1000
     property int enterKeyAction: EnterKeyAction.None
     readonly property bool enterKeyEnabled: enterKeyAction === EnterKeyAction.None || text.length > 0 || inputMethodComposing
-
+    inputMethodHints: Qt.ImhDigitsOnly
     background: Rectangle {
         color: "#FFFFFF"
         border.width: 1

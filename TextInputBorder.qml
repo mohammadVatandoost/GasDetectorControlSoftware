@@ -28,6 +28,7 @@ Item {
             anchors {
                 fill: parent
             }
+            inputMethodHints: Qt.ImhDigitsOnly
             font.pointSize: fontSize
             selectByMouse: true
             layer.enabled: true

@@ -10,13 +10,17 @@ Pane {
     property string coefficient: "+5"
     property string power: "5"
     property string variable: "X"
-    function setCoefficient(temp) {coefficient = temp;}
+    function setCoefficient(temp) {
+        coefficient = temp;
+    }
     function setPower(temp) {power = temp;}
     function setVariable(temp) {variable = temp;}
     implicitWidth: 80
     Layout.alignment: Qt.AlignLeft
+    visible: (coefficient === "+ 0" || coefficient === "0") ? false : true
     ColumnLayout {
         Layout.alignment: Qt.AlignLeft
+
         Text {
             text: qsTr(root.power)
             font.pixelSize: 14

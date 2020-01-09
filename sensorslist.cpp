@@ -55,19 +55,29 @@ void SensorsList::addSensor(Sensor newSensor)
 
 void SensorsList::setSensorData(SensorPacketRx *data)
 {
-//    cout<< data->sensorId << ":"<<(float)((float)data->temp/100);
+//    qDebug()<< data->sensorId << ":"<<(float)((float)data->temp/100);
     sensorItems[data->sensorId].tempLastData =   (float)((float)data->temp/100);
     sensorItems[data->sensorId].current = data->current;
-//    sensorItems[data->sensorId].res = (float)((float)data->res/100);
+    sensorItems[data->sensorId].res = (float)((float)data->res/100);
+    // calculate X
+    sensorItems[data->sensorId].x = sensorItems[data->sensorId].res /  sensorItems[data->sensorId].R0;
+    if(sensorItems[data->sensorId].xType == 1) {
+        if(sensorItems[data->sensorId].gasType == "O2") {
+           sensorItems[data->sensorId].x =  (sensorItems[data->sensorId].res - sensorItems[data->sensorId].R0) / sensorItems[data->sensorId].R0 ;
+        } else {
+           sensorItems[data->sensorId].x =  abs(sensorItems[data->sensorId].res - sensorItems[data->sensorId].R0) / sensorItems[data->sensorId].R0 ;
+        }
+    }
+
     double tempDateTime = QDateTime::currentMSecsSinceEpoch();
-    sensorItems[data->sensorId].addResData(tempDateTime, (float)((float)data->res/100));
+    sensorItems[data->sensorId].addResData(tempDateTime, sensorItems[data->sensorId].res);
 //    sensorItems[data->sensorId].addResData(tempDateTime, 5);
     sensorItems[data->sensorId].addTempData(tempDateTime, sensorItems[data->sensorId].tempLastData);
 //    sensorItems[data->sensorId].addTempData(tempDateTime, 3);
 
 //     emit notifyInfoDataChanged();
 //    emit postItemAppended();
-//    cout << "update pressure changed";
+//    qDebug() << "update pressure changed";
     if(sensorItems[data->sensorId].firstCondition && !sensorItems[data->sensorId].secondCondition) {
         calculatePPM(data->sensorId);
 ////        calculatePPM(data->sensorId);
@@ -78,6 +88,7 @@ void SensorsList::setSensorData(SensorPacketRx *data)
 //      sensorItems[data->sensorId].pressure = "DC";
 //    }
 }
+
 
 void SensorsList::calculatePPM(int sensorId)
 {
@@ -511,7 +522,7 @@ QString SensorsList::getPressureTypeValue(int sensorId)
 QString SensorsList::getPressure(int sensorId)
 {
     if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
-        return sensorItems[sensorId].pressure;
+         return sensorItems[sensorId].pressure + " "+pressureType;
     } else {
         cout << "getPressure Get sensorId not valid :" << sensorId ;
         return "not valid";
@@ -593,6 +604,17 @@ int SensorsList::getAlgorithmRunnigValue(int sensorId)
         return 0;
     }
 }
+
+double SensorsList::getX(int sensorId)
+{
+    if( (sensorId < sensorItems.size()) && (-1 < sensorId) ) {
+        return sensorItems[sensorId].x;
+    } else {
+        qDebug() << "getXType Get sensorId not valid :" << sensorId ;
+        return 0;
+    }
+}
+
 
 void SensorsList::setHeaterValue(int sensorId, bool value)
 {

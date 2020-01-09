@@ -89,6 +89,7 @@ public:
     Q_INVOKABLE QString getPressureTypeValue(int sensorId);
     Q_INVOKABLE QString getPressure(int sensorId);
     Q_INVOKABLE int getXType(int sensorId);
+    Q_INVOKABLE double getX(int sensorId);
 
     Q_INVOKABLE double getProgressValue(int sensorId);
     Q_INVOKABLE int getTempActiveValue(int sensorId);

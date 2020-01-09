@@ -53,7 +53,8 @@ Page {
             Layout.alignment: Qt.AlignHCenter
             echoMode: TextInput.Password
             placeholderText: "Password field"
-            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
+            inputMethodHints: Qt.ImhDigitsOnly
+//            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
 //            enterKeyAction: EnterKeyAction.Next
             onAccepted: upperCaseField.focus = true
         }
