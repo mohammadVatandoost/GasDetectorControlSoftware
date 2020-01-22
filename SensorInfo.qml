@@ -23,9 +23,7 @@ RowLayout {
     function setProgressValue(temp) { progressValue = temp;}
     function setSensorName(temp) { sensorName = temp;}
     function setSensorId(temp) {sensorId = temp;}
-    function setSensorPressure(temp) {
-        sensorPressure = temp; presureValue.text = temp;
-    }
+    function setSensorPressure(temp) {sensorPressure = temp; presureValue.text = temp;}
 
     Image {
         sourceSize.width: 60
@@ -92,7 +90,9 @@ RowLayout {
             onTriggered: {
                 if(SensorsList.getTempActiveValue(root.sensorId) === 1) {
                     root.tempActive = true ;
-                } else { root.tempActive = false ; }
+                } else {
+                    root.tempActive = false ;
+                }
                 if(SensorsList.getHeaterActiveValue(root.sensorId) === 1) {
                     root.heaterActive = true ;
                 } else { root.heaterActive = false ; }
@@ -102,8 +102,11 @@ RowLayout {
                 if(SensorsList.getAlgorithmRunnigValue(root.sensorId) === 1) {
                     root.alghoritmRunning = true ;
                 } else { root.alghoritmRunning = false ; }
+
+//                root.sensorPressure = SensorsList.getPressure(root.sensorId);
                 root.progressValue = SensorsList.getProgressValue(root.sensorId);
+            //    presureValue.text = SensorsList.getProgressValue(root.sensorId).toFixed(2);
                 presureValue.text = SensorsList.getPressure(root.sensorId);
-            }
+             }
      }
 }

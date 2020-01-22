@@ -99,7 +99,7 @@ Grid {
         id: config6
      Component.onCompleted: {
        setConfigId(6);
-       setConfigName("tRtol");
+       setConfigName("TRtol");
 //       setConfigValue("0");
      }
 

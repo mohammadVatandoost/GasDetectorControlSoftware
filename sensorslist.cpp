@@ -661,3 +661,4 @@ void SensorsList::removeItem(int index)
     emit postItemRemoved();
 }
 
+
