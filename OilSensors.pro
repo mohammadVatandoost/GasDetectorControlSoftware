@@ -35,7 +35,10 @@ SOURCES += \
     database.cpp \
     schema.cpp \
     sensorschema.cpp \
-    jsonstoring.cpp
+    jsonstoring.cpp \
+    serialport.cpp \
+    brookschannel.cpp \
+    brooks0254.cpp
 
 #LIBS += /usr/lib/libgtest.a
 
@@ -66,7 +69,10 @@ HEADERS += \
     sensorschema.h \
     jsonstoring.h \
     packet.h \
-    myutitlity.h
+    myutitlity.h \
+    serialport.h \
+    brookschannel.h \
+    brooks0254.h
 
 DISTFILES += \
     images/greenTemp.png \

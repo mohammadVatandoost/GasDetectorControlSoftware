@@ -109,7 +109,7 @@ public slots:
     void setAxisXTime(QDateTimeAxis *axis);
 
 private slots:
-    virtual void recieveSerialPort() = 0;
+    void recieveSerialPort();
     void timerSlot();
 
 };
