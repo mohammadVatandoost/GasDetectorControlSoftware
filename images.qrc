@@ -12,5 +12,7 @@
         <file>TextInputBorder.qml</file>
         <file>images/oilCompany.png</file>
         <file>TextFieldWithBorder.qml</file>
+        <file>SelectSetting.qml</file>
+        <file>Brooks.qml</file>
     </qresource>
 </RCC>

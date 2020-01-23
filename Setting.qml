@@ -77,12 +77,12 @@ Page {
            width: window.width > 1023 ? parent.width*2/3 : parent.width/2
        }
 
-       ScrollView {
-           width: window.width > 1023 ? parent.width*1/3 : parent.width/2
-           height: 500
-           clip: true
+//       ScrollView {
+//           width: window.width > 1023 ? parent.width*1/3 : parent.width/2
+//           height: 500
+//           clip: true
 
-     ColumnLayout {
+           ColumnLayout {
        width: parent.width
        Equation {
          id: equation
@@ -410,7 +410,7 @@ Page {
 //          color: "red"
       }
      }
-       }
+//       }
    }
 
 // }

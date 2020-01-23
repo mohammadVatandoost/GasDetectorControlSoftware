@@ -68,9 +68,9 @@ Page {
             Layout.topMargin: 20
             onClicked: {
 //                console.log(textEdit.text);
-                root.StackView.view.push("qrc:/Setting.qml");
+                root.StackView.view.push("qrc:/SelectSetting.qml");
                 if(textEdit.text == "1234") {
-                   root.StackView.view.push("qrc:/Setting.qml");
+                   root.StackView.view.push("qrc:/SelectSetting.qml");
                 } else {
                   errorMessage.text = "Your password is wrong";
                 }

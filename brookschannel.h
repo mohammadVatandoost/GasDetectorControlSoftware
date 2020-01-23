@@ -1,4 +1,4 @@
-#ifndef BROOKSCHANNEL_H
+﻿#ifndef BROOKSCHANNEL_H
 #define BROOKSCHANNEL_H
 
 #include <iostream>
@@ -20,7 +20,8 @@ public:
     double rateReaded;
 
     void setSpRate(double spR);
-    void setVOR(double vor);
+    void setVOR(int vor);
+    void setName(string name);
 };
 
 #endif // BROOKSCHANNEL_H

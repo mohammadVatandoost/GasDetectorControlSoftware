@@ -63,3 +63,8 @@ bool SerialPort::connectSerialPort(QString comePort)
         return false;
     }
 }
+
+void SerialPort::disconnectSerialPort()
+{
+    serial->close();
+}
