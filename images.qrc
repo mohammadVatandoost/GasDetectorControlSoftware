@@ -14,5 +14,6 @@
         <file>TextFieldWithBorder.qml</file>
         <file>SelectSetting.qml</file>
         <file>Brooks.qml</file>
+        <file>ChannelItem.qml</file>
     </qresource>
 </RCC>

@@ -38,7 +38,9 @@ SOURCES += \
     jsonstoring.cpp \
     serialport.cpp \
     brookschannel.cpp \
-    brooks0254.cpp
+    brooks0254.cpp \
+    channelslist.cpp \
+    brookschannelmodel.cpp
 
 #LIBS += /usr/lib/libgtest.a
 
@@ -72,7 +74,9 @@ HEADERS += \
     myutitlity.h \
     serialport.h \
     brookschannel.h \
-    brooks0254.h
+    brooks0254.h \
+    channelslist.h \
+    brookschannelmodel.h
 
 DISTFILES += \
     images/greenTemp.png \
