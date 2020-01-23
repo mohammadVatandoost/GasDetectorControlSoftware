@@ -3,17 +3,20 @@
 
 #include <QObject>
 #include <QVector>
-#include <QDebug>
+//#include <QDebug>
 #include <QAbstractListModel>
+#include "brookschannel.h"
+//#include "channelslist.h"
 
 class ChannelsList;
 
 class BrooksChannelModel : public QAbstractListModel
 {
+    Q_OBJECT
+    Q_PROPERTY(ChannelsList *list READ list WRITE setList )
 public:
     explicit BrooksChannelModel(QObject *parent = nullptr);
-    Q_PROPERTY(ChannelsList *list READ list WRITE setList )
-
+//    virtual ~BrooksChannelModel() {}
     enum {
         spRate, VOR, name, rateReaded
     };

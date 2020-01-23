@@ -13,16 +13,6 @@ class SensorModel : public QAbstractListModel
     Q_PROPERTY(SensorsList *list READ list WRITE setList )
 public:
     explicit SensorModel(QObject *parent = nullptr);
-//    enum {
-//      operationTemp, res, current, lowPassFilter, R0,
-//      Rtol, operationTime, recoveryTime, recoveryTemp,
-//      gasType, pressureType, equation, RtoR0OrRtoDeltaR, tempActive, heaterActive, sensorActive, alghoritmRunning,
-//      pressure
-//    };
-    // Header: int routerNumber = 123;
-//    int sensorNumber = 345;
-//    QString bordar = "x";
-//    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

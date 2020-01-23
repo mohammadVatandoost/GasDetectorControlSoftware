@@ -1,10 +1,11 @@
 #include "brookschannelmodel.h"
+#include "channelslist.h"
 
 BrooksChannelModel::BrooksChannelModel(QObject *parent)
     : QAbstractListModel(parent)
     , mList(nullptr)
 {
-
+   mList = new ChannelsList();
 }
 
 int BrooksChannelModel::rowCount(const QModelIndex &parent) const
@@ -56,7 +57,7 @@ bool BrooksChannelModel::setData(const QModelIndex &index, const QVariant &value
        item.rateReaded = value.toDouble();
     }
 
-    if(mList->set(index.row(), item)) {
+    if(mList->setChannelItem(index.row(), item)) {
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
@@ -66,20 +67,34 @@ bool BrooksChannelModel::setData(const QModelIndex &index, const QVariant &value
 
 QHash<int, QByteArray> BrooksChannelModel::roleNames() const
 {
-
+    QHash<int, QByteArray> names;
+    names[spRate] = "spRate";
+    names[VOR] = "VOR" ;
+    names[name] = "name" ;
+    names[rateReaded] = "rateReaded" ;
+    return names;
 }
 
 Qt::ItemFlags BrooksChannelModel::flags(const QModelIndex &index) const
 {
+    if (!index.isValid())
+        return Qt::NoItemFlags;
 
+    return Qt::ItemIsEditable;
 }
 
 ChannelsList *BrooksChannelModel::list() const
 {
-
+      return mList;
 }
 
 void BrooksChannelModel::setList(ChannelsList *list)
 {
+    beginResetModel();
+    if(mList)
+        mList->disconnect(this);
 
+    mList = list;
+
+    endResetModel();
 }

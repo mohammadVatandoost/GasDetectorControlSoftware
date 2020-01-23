@@ -25,33 +25,51 @@ Page {
             anchors.centerIn: parent
         }
     }
+    ColumnLayout {
+        anchors.fill: parent
+    ListView {
+        Layout.fillWidth: true
+//        width: 800
+        Layout.fillHeight: true
+        Layout.topMargin: 5
+        anchors.horizontalCenter: parent.horizontalCenter
+        clip: true
+        id: listView
+        spacing: 10
+//      columns: 2
+//      width: parent.width
 
-    Grid {
-      columns: 2
-      width: parent.width
-      spacing: 2
-
-        ChannelItem {
-           onChannelSelected: {
-               popup.setChannelId(channelId);
-               popup.setSpRateValue(spRate);
-               popup.open();
-           }
-        }
-        ChannelItem {
-            onChannelSelected: {
-                popup.setChannelId(channelId);
-                popup.setSpRateValue(spRate);
-                popup.open();
-            }
-        }
-        ChannelItem {
-            onChannelSelected: {
-                popup.setChannelId(channelId);
-                popup.setSpRateValue(spRate);
-                popup.open();
-            }
-        }
+//      spacing: 2
+      model: BrooksChannelModel
+      delegate: ChannelItem {
+          onChannelSelected: {
+              popup.setChannelId(channelId);
+              popup.setSpRateValue(spRate);
+              popup.open();
+          }
+       }
+//        ChannelItem {
+//           onChannelSelected: {
+//               popup.setChannelId(channelId);
+//               popup.setSpRateValue(spRate);
+//               popup.open();
+//           }
+//        }
+//        ChannelItem {
+//            onChannelSelected: {
+//                popup.setChannelId(channelId);
+//                popup.setSpRateValue(spRate);
+//                popup.open();
+//            }
+//        }
+//        ChannelItem {
+//            onChannelSelected: {
+//                popup.setChannelId(channelId);
+//                popup.setSpRateValue(spRate);
+//                popup.open();
+//            }
+//        }
+       }
     }
 
 
@@ -88,7 +106,7 @@ Page {
 
                 TextFieldWithBorder {
                     id: configTextEdit
-                    text: qsTr(popup.spRateValue)
+                    text: qsTr(popup.spRateValue+"")
                     implicitWidth: 100
                     height: 50
                     font.pixelSize: 22

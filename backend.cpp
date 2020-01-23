@@ -323,7 +323,17 @@ int Backend::getSensorResMax()
 
 void Backend::openKeyboard()
 {
-//    system("onboard &");
+    //    system("onboard &");
+}
+
+void Backend::setBrookChannelModel(BrooksChannelModel *bcModel)
+{
+    brChannelModel = bcModel;
+}
+
+void Backend::setChannelVOR(int channelId, int value)
+{
+
 }
 
 void Backend::sendSensorDataRec(int sensorId)

@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-#define Normal 0
-#define Closed 1
-#define Opened 2
+#define VORNormal 0
+#define VORClosed 1
+#define VOROpened 2
 
 
 using namespace std;

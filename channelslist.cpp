@@ -2,7 +2,10 @@
 
 ChannelsList::ChannelsList()
 {
-
+   BrooksChannel temp;
+   addChannelItem(temp);
+   addChannelItem(temp);
+   addChannelItem(temp);
 }
 
 QVector<BrooksChannel> ChannelsList::items()
