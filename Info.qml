@@ -234,6 +234,13 @@ Page {
                 onClicked: root.StackView.view.push("qrc:/Login.qml")
             }
 
+            Button {
+                text: qsTr("Connect")
+                highlighted: true
+                Material.background: Material.Green
+                onClicked: root.StackView.view.push("qrc:/SerialPortComePort.qml")
+            }
+
           }
 
         }

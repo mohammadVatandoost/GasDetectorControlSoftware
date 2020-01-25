@@ -6,16 +6,16 @@ Q_DECLARE_METATYPE(QAbstractSeries *)
 Q_DECLARE_METATYPE(QAbstractAxis *)
 Q_DECLARE_METATYPE(QDateTimeAxis *)
 
-Backend::Backend(QObject *parent) : QObject(parent)
+Backend::Backend(QObject *parent) //: QObject(parent)
 {
 //    createTable();
-    serial = new QSerialPort(this);
-    serial->close();
-    serial->setBaudRate(QSerialPort::Baud115200);
-    serial->setDataBits(QSerialPort::Data8);
-    serial->setParity(QSerialPort::NoParity);
-    serial->setStopBits(QSerialPort::OneStop);
-    serial->setFlowControl(QSerialPort::NoFlowControl);
+//    serial = new QSerialPort(this);
+//    serial->close();
+//    serial->setBaudRate(QSerialPort::Baud115200);
+//    serial->setDataBits(QSerialPort::Data8);
+//    serial->setParity(QSerialPort::NoParity);
+//    serial->setStopBits(QSerialPort::OneStop);
+//    serial->setFlowControl(QSerialPort::NoFlowControl);
     // timer for connection check
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timerSlot()));
@@ -348,6 +348,44 @@ void Backend::setChannelName(int channelId, QString value)
     brChannelModel->setData(brChannelModel->index(channelId, 0), value, BrooksChannelModel::name);
 }
 
+void Backend::setComePorts(QString gas, QString brooks1, QString brooks2)
+{
+    cout<< "setComePorts:"<<gas.toStdString()<<", "<<brooks1.toStdString()<<", "<<brooks2.toStdString()<<endl;
+    if(gas != "") {
+        serial->setBaudRate(QSerialPort::Baud115200);
+        if(connectSerialPort(gas)) {
+           cout<<"gas sensor connected"<<endl;
+        } else {
+            cout<<"gas sensor not connected"<<endl;
+        }
+    }
+    if(brooks1 != "") {
+       brooksChannel1 = new Brooks0254();
+       if(brooksChannel1->connectSerialPort(brooks1)) {
+          cout<<"brooksChannel1 connected"<<endl;
+       } else {
+           cout<<"brooksChannel1 not connected"<<endl;
+       }
+    }
+    if(brooks2 != "") {
+       brooksChannel2 = new Brooks0254();
+       if(brooksChannel2->connectSerialPort(brooks2)) {
+          cout<<"brooksChannel2 connected"<<endl;
+       } else {
+           cout<<"brooksChannel2 not connected"<<endl;
+       }
+    }
+}
+
+QStringList Backend::getComePorts()
+{
+    QStringList temp;
+    Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
+        temp.append(port.portName());
+    }
+    return temp;
+}
+
 void Backend::sendSensorDataRec(int sensorId)
 {
     mList->sensorItems[sensorId].heaterStart = false;
@@ -528,7 +566,7 @@ void Backend::recieveSerialPort()
 {
     QByteArray data;
     data = serial->readAll();
-//    cout<< "recieveSerialPort:";
+    cout<< "recieveSerialPort:";
     for(int i=0; i< data.size(); i++) {
 //        cout<< data[i] << "|"<< ((uint16_t)data[i]) << ",";
         if(data[i] == '*' && recieveState == 0) {
@@ -572,21 +610,16 @@ void Backend::recieveSerialPort()
 
 void Backend::timerSlot()
 {
-   if(QSerialPortInfo::availablePorts().size()>0) {
     if(!serial->isOpen()) {
-        Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
-                   serial->setPortName(port.portName());
-                   cout << " portName : " << port.portName().toStdString();
-        }
-        if(serial->open(QIODevice::ReadWrite)) {
-          connectState = true; cout << " conndected : ";
-          connect(serial, SIGNAL(readyRead()), this, SLOT(recieveSerialPort()));
-        } else {
-            connectState = false; cout << "Not conndected : ";
-            serial->close();
-        }
+//        serial->setBaudRate(QSerialPort::Baud115200);
+
+//        if(connectSerialPort(serialPortCounter)) {
+//          brooksChannel1 = new Brooks0254();
+//          brooksChannel2 = new Brooks0254();
+//          brooksChannel1->connectSerialPort();
+//          brooksChannel2->connectSerialPort();
+//        }
     } else {
-//        sendGeneralData();
         if(mList->sensorItems.size()>0) { // if just for test
         for(int i=0; i<mList->sensorItems.size(); i++) {
             if(mList->sensorItems[i].firstCondition) {
@@ -612,14 +645,54 @@ void Backend::timerSlot()
 //         emit mList->notifyInfoDataChanged();
         }
     }
-   } else {
-       serial->close();
-//       mList->sensorItems[0].tempActive = !mList->sensorItems[0].tempActive;
-//       mList->sensorItems[0].sensorActive = !mList->sensorItems[0].sensorActive;
-//       mList->sensorItems[0].heaterActive = !mList->sensorItems[0].heaterActive;
-//       mList->sensorItems[0].alghoritmRunning = !mList->sensorItems[0].alghoritmRunning;
-//       connectState = false;cout << "Disconndected : ";
-   }
+//   if(QSerialPortInfo::availablePorts().size()>0) {
+//    if(!serial->isOpen()) {
+//        Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
+//                   serial->setPortName(port.portName());
+//                   cout << " portName : " << port.portName().toStdString();
+//        }
+//        if(serial->open(QIODevice::ReadWrite)) {
+//          connectState = true; cout << " conndected : ";
+//          connect(serial, SIGNAL(readyRead()), this, SLOT(recieveSerialPort()));
+//        } else {
+//            connectState = false; cout << "Not conndected : ";
+//            serial->close();
+//        }
+//    } else {
+////        sendGeneralData();
+//        if(mList->sensorItems.size()>0) { // if just for test
+//        for(int i=0; i<mList->sensorItems.size(); i++) {
+//            if(mList->sensorItems[i].firstCondition) {
+//                mList->sensorItems[i].timeCounter++;
+//                if(mList->sensorItems[i].secondCondition) {
+//                    if(mList->sensorItems[i].timeCounter >= (mList->sensorItems[i].recoveryTime*60)) {
+//                        cout<< i<< "*********** recovery time finished *************"<<endl;
+//                        alghoritmStop(i);
+//                    }
+//                } else if(mList->sensorItems[i].timeCounter >= (mList->sensorItems[i].operationTime*60)) {
+//                    cout<< i<< "************** operation time finished *****************"<<endl;
+//                    mList->sensorItems[i].secondCondition = true;
+//                    mList->sensorItems[i].sensorActive = false;
+//                    mList->sensorItems[i].timeCounter = 0;
+//                    mList->sensorItems[i].progressValue = 1;
+//                } else {
+//                    mList->sensorItems[i].progressValue = (float)((float)mList->sensorItems[i].timeCounter / (float)(mList->sensorItems[i].operationTime*60));
+//                    cout<< i<< "********** progressValue **********:"<< mList->sensorItems[i].progressValue <<endl;
+//                }
+//            }
+//            sendSensorData(i);
+//         }
+////         emit mList->notifyInfoDataChanged();
+//        }
+//    }
+//   } else {
+//       serial->close();
+////       mList->sensorItems[0].tempActive = !mList->sensorItems[0].tempActive;
+////       mList->sensorItems[0].sensorActive = !mList->sensorItems[0].sensorActive;
+////       mList->sensorItems[0].heaterActive = !mList->sensorItems[0].heaterActive;
+////       mList->sensorItems[0].alghoritmRunning = !mList->sensorItems[0].alghoritmRunning;
+////       connectState = false;cout << "Disconndected : ";
+//   }
 
 //   emit notifyInfoDataChanged();
 }

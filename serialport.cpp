@@ -64,6 +64,35 @@ bool SerialPort::connectSerialPort(QString comePort)
     }
 }
 
+// index from zero
+bool SerialPort::connectSerialPort(int i)
+{
+    if(QSerialPortInfo::availablePorts().size()>i) {
+         if(!serial->isOpen()) {
+                  QSerialPortInfo port = QSerialPortInfo::availablePorts()[i];
+                  serial->setPortName(port.portName());
+                  cout<< " portName : " << port.portName().toStdString()<<endl;
+                  if(serial->open(QIODevice::ReadWrite)) {
+                         cout << " conndected : "<<endl;
+                         connect(serial, SIGNAL(readyRead()), this, SLOT(recieveSerialPort()));
+                         return true;
+                   } else {
+                         cout<< "Not conndected : ";
+                         serial->close();
+                   }
+             cout<< "serial can not connect"<<endl;
+             return false;
+         } else {
+             cout<< "serial port connected before, please disconnect then connet"<< endl;
+             return false;
+         }
+        } else {
+            cout<< "there is not "<<i<<" serial port info: "<< QSerialPortInfo::availablePorts().size()<< endl;
+            serial->close();
+            return false;
+        }
+}
+
 void SerialPort::disconnectSerialPort()
 {
     serial->close();

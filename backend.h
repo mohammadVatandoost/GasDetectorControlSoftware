@@ -11,15 +11,16 @@
 #include <QTime>
 #include <QtCharts/QDateTimeAxis>
 #include <thread>
+
 #include "channelslist.h"
-//#include
+#include "serialport.h"
 #include "sensorslist.h"
 #include "database.h"
 #include "sensorschema.h"
 #include "packet.h"
 #include "jsonstoring.h"
 #include "brookschannelmodel.h"
-
+#include "brooks0254.h"
 
 
 #define tempNotValid 4000
@@ -33,14 +34,16 @@ using namespace std;
 QT_CHARTS_USE_NAMESPACE
 
 
-class Backend : public QObject
+class Backend : public SerialPort
 {
     Q_OBJECT
 public:
     explicit Backend(QObject *parent = nullptr);
     Q_INVOKABLE void setSensorsList(SensorsList *sensorsList);
     Q_INVOKABLE void setDataBase(DataBase *dataBase);
-    QSerialPort *serial;
+//    QSerialPort *serial;
+    int serialPortCounter = 0;
+    bool verifySerialPort = false;
     QString come_port;
     QTimer *timer;
     BoardData generalData;
@@ -52,6 +55,7 @@ public:
     DataBase *db;
     uint16_t packetSize = 0;
     JsonStoring jsonStoring;
+
     // for chart
     QDateTimeAxis *axisXTime;
     int tempMin = 0;
@@ -105,6 +109,9 @@ public:
     Q_INVOKABLE void setChannelVOR(int channelId, int value);
     Q_INVOKABLE void setChannelSPRate(int channelId, double value);
     Q_INVOKABLE void setChannelName(int channelId, QString value);
+    Q_INVOKABLE void setComePorts(QString gas, QString brooks1, QString brooks2);
+    Q_INVOKABLE QStringList getComePorts();
+    Brooks0254 *brooksChannel1, *brooksChannel2;
 private:
     SensorsList *mList;
     BrooksChannelModel *brChannelModel;

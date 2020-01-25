@@ -16,6 +16,7 @@ public:
     QSerialPort *serial;
     bool connectSerialPort();
     bool connectSerialPort(QString comePort);
+    bool connectSerialPort(int i);
     void disconnectSerialPort();
 signals:
 

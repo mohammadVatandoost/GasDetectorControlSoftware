@@ -21,7 +21,7 @@ void Brooks0254::recieveSerialPort()
 
 void Brooks0254::timerSlot()
 {
-    if(!serial->isOpen()) {
-        connectSerialPort();
-    }
+//    if(!serial->isOpen()) {
+//        connectSerialPort();
+//    }
 }

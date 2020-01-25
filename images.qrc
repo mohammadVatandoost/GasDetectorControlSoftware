@@ -15,5 +15,6 @@
         <file>SelectSetting.qml</file>
         <file>Brooks.qml</file>
         <file>ChannelItem.qml</file>
+        <file>SerialPortComePort.qml</file>
     </qresource>
 </RCC>
