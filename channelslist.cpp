@@ -23,6 +23,8 @@ bool ChannelsList::setChannelItem(int index, BrooksChannel brooksChannel)
     if(index <0 || index >= channelItems.size())
         return false;
 
+
     channelItems[index] = brooksChannel;
+    cout<< "setChannelItem index:"<<index<<", rateReaded:"<<channelItems[index] .rateReaded<<endl;
     return true;
 }

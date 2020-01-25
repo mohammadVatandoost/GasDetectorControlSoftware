@@ -14,10 +14,10 @@ class BrooksChannel
 {
 public:
     BrooksChannel();
-    double spRate;
+    double spRate = 25.00;
     int VOR = 0;
-    string name;
-    double rateReaded;
+    string name = "NO";
+    double rateReaded = 25.00;
 
     void setSpRate(double spR);
     void setVOR(int vor);

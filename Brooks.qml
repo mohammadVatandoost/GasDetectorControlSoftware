@@ -42,12 +42,20 @@ Page {
 //      spacing: 2
       model: BrooksChannelModel
       delegate: ChannelItem {
+            gasType: model.name
+            spRateReaded: model.rateReaded
+            spRate: model.spRate
+            channelId: index
+          Component.onCompleted: {
+
+          }
           onChannelSelected: {
               popup.setChannelId(channelId);
               popup.setSpRateValue(spRate);
               popup.open();
           }
-       }
+
+      }
 //        ChannelItem {
 //           onChannelSelected: {
 //               popup.setChannelId(channelId);

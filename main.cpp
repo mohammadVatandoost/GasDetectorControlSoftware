@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     backEnd.setSensorsList(&sensorsList);
 
     BrooksChannelModel brooksChannelModel;
-
+    backEnd.setBrookChannelModel(&brooksChannelModel);
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty(QStringLiteral("SensorsList"), &sensorsList);
     engine.rootContext()->setContextProperty(QStringLiteral("BackEnd"), &backEnd);

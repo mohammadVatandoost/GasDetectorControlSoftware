@@ -8,22 +8,28 @@ RowLayout {
     id: root
     width: parent.width*0.8
     spacing: 10
-    property string vor: "Closed"
-    property double spRateReaded: 25.02
-    property double spRate: 25.02
-    property int channelId: 1
     anchors.horizontalCenter: parent.horizontalCenter
+
+    property string gasType: "NO"
+    property double spRateReaded: 21.02
+    property double spRate: 20.02
+    property int channelId: 1
+    property int vor: 2
+
     function setSpRate(temp) { spRate = temp;}
     function setChannelId(temp) {channelId = temp;}
+    function setGasType(temp) {gasType = temp;}
+    function setSpRateReaded(temp) { spRateReaded = temp;}
+
     signal channelSelected(int channelId, double spRate);
 
     ComboBox {
         id: comboBoxGas
         property var gasTypes: [ "NO", "CO", "SO2", "O2", "BTEX", "VOC" ]
         function getIndex() {
-            var gasType = 0; //SensorsList.getGasTypeValue(root.sensorId)
+//            var gasType = 0; //SensorsList.getGasTypeValue(root.sensorId)
             for(var i=0; i< gasTypes.length; i++) {
-                if(gasTypes[i] === gasType) {
+                if(gasTypes[i] === root.gasType) {
                     return i;
                 }
             }
@@ -55,6 +61,8 @@ RowLayout {
             openBtn.Material.background =  Material.Green;
             closeBtn.Material.background =  Material.red;
             normalBtn.Material.background =  Material.red;
+            root.vor = 2;
+            BackEnd.setChannelVOR(root.channelId, root.vor);
         }
     }
 
@@ -67,6 +75,8 @@ RowLayout {
             normalBtn.Material.background =  Material.Green;
             openBtn.Material.background =  Material.red;
             closeBtn.Material.background =  Material.red;
+            root.vor = 0;
+            BackEnd.setChannelVOR(root.channelId, root.vor);
         }
     }
 
@@ -79,6 +89,8 @@ RowLayout {
             closeBtn.Material.background =  Material.Green;
             normalBtn.Material.background =  Material.red;
             openBtn.Material.background =  Material.red;
+            root.vor = 2;
+            BackEnd.setChannelVOR(root.channelId, root.vor);
         }
     }
 

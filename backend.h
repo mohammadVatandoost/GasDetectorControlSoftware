@@ -11,13 +11,14 @@
 #include <QTime>
 #include <QtCharts/QDateTimeAxis>
 #include <thread>
-
+#include "channelslist.h"
 //#include
 #include "sensorslist.h"
 #include "database.h"
 #include "sensorschema.h"
 #include "packet.h"
 #include "jsonstoring.h"
+#include "brookschannelmodel.h"
 
 
 
@@ -100,9 +101,11 @@ public:
     QVector<QPointF> testChart;
 
     // for brooks0254
-
+    void setBrookChannelModel(BrooksChannelModel *bcModel);
+    Q_INVOKABLE void setChannelVOR(int channelId, int value);
 private:
     SensorsList *mList;
+    BrooksChannelModel *brChannelModel;
 signals:
     void notifyInfoDataChanged();
 
