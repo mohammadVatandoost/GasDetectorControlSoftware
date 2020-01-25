@@ -103,6 +103,8 @@ public:
     // for brooks0254
     void setBrookChannelModel(BrooksChannelModel *bcModel);
     Q_INVOKABLE void setChannelVOR(int channelId, int value);
+    Q_INVOKABLE void setChannelSPRate(int channelId, double value);
+    Q_INVOKABLE void setChannelName(int channelId, QString value);
 private:
     SensorsList *mList;
     BrooksChannelModel *brChannelModel;

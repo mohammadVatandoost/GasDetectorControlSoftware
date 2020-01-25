@@ -39,7 +39,7 @@ RowLayout {
         width: 200
         model: gasTypes
         currentIndex: getIndex()
-//        onActivated:SensorsList.setGasTypeValue(root.sensorId, gasTypes[currentIndex])
+        onActivated: BackEnd.setChannelName(root.channelId, gasTypes[currentIndex])
     }
     Text {
         id: temp1
@@ -56,12 +56,9 @@ RowLayout {
         id: openBtn
         text: qsTr("Open")
         highlighted: true
-        Material.background: Material.red
+        Material.background: (root.vor === 1) ? Material.Green : Material.red
         onClicked: {
-            openBtn.Material.background =  Material.Green;
-            closeBtn.Material.background =  Material.red;
-            normalBtn.Material.background =  Material.red;
-            root.vor = 2;
+            root.vor = 1;
             BackEnd.setChannelVOR(root.channelId, root.vor);
         }
     }
@@ -70,11 +67,8 @@ RowLayout {
         id: normalBtn
         text: qsTr("Normal")
         highlighted: true
-        Material.background: Material.red
+        Material.background: (root.vor === 0) ? Material.Green : Material.red
         onClicked: {
-            normalBtn.Material.background =  Material.Green;
-            openBtn.Material.background =  Material.red;
-            closeBtn.Material.background =  Material.red;
             root.vor = 0;
             BackEnd.setChannelVOR(root.channelId, root.vor);
         }
@@ -84,11 +78,8 @@ RowLayout {
         id: closeBtn
         text: qsTr("Close")
         highlighted: true
-        Material.background: Material.Green
+        Material.background: (root.vor === 2) ? Material.Green : Material.red
         onClicked: {
-            closeBtn.Material.background =  Material.Green;
-            normalBtn.Material.background =  Material.red;
-            openBtn.Material.background =  Material.red;
             root.vor = 2;
             BackEnd.setChannelVOR(root.channelId, root.vor);
         }

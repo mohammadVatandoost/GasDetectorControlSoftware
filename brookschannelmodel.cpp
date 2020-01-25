@@ -51,15 +51,19 @@ bool BrooksChannelModel::setData(const QModelIndex &index, const QVariant &value
      case spRate:
         cout<<"spRate role "<<value.toDouble()<<endl;
         item.spRate = value.toDouble();
+        break;
      case VOR:
         cout<<"VOR role "<<value.toInt()<<endl;
        item.VOR = value.toInt();
+       break;
      case name:
         cout<<"name role "<<value.toString().toStdString()<<endl;
        item.name = value.toString().toStdString();
+       break;
      case rateReaded:
         cout<<"rateReaded role :"<<value.toDouble()<<endl;
        item.rateReaded = value.toDouble();
+       break;
     }
 
     if(mList->setChannelItem(index.row(), item)) {

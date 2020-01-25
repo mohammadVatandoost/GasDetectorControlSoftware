@@ -46,6 +46,7 @@ Page {
             spRateReaded: model.rateReaded
             spRate: model.spRate
             channelId: index
+            vor: model.VOR
           Component.onCompleted: {
 
           }
@@ -142,6 +143,7 @@ Page {
                           highlighted: true
                           Material.background: Material.Green
                           onClicked: {
+                              BackEnd.setChannelSPRate(popup.channelId, parseFloat(configTextEdit.text));
                               popup.close();
                           }
                           Layout.alignment: Qt.AlignHCenter

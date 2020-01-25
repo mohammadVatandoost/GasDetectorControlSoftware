@@ -333,10 +333,19 @@ void Backend::setBrookChannelModel(BrooksChannelModel *bcModel)
 
 void Backend::setChannelVOR(int channelId, int value)
 {
-   cout<< "setChannelVOR :"<< channelId << ", "<< value << endl;
+//   cout<< "setChannelVOR :"<< channelId << ", "<< value << endl;
    brChannelModel->setData(brChannelModel->index(channelId, 0), value, BrooksChannelModel::VOR);
-   brChannelModel->setData(brChannelModel->index(channelId, 0), 23.45, BrooksChannelModel::rateReaded);
-//   cout<< "setChannelVOR :"<<endl;
+   //   cout<< "setChannelVOR :"<<endl;
+}
+
+void Backend::setChannelSPRate(int channelId, double value)
+{
+    brChannelModel->setData(brChannelModel->index(channelId, 0), value, BrooksChannelModel::spRate);
+}
+
+void Backend::setChannelName(int channelId, QString value)
+{
+    brChannelModel->setData(brChannelModel->index(channelId, 0), value, BrooksChannelModel::name);
 }
 
 void Backend::sendSensorDataRec(int sensorId)
