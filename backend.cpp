@@ -361,8 +361,14 @@ void Backend::setComePorts(QString gas, QString brooks1, QString brooks2)
     }
     if(brooks1 != "") {
        brooksChannel1 = new Brooks0254();
+       brooksChannel1->brChannelModel = brChannelModel;
        if(brooksChannel1->connectSerialPort(brooks1)) {
           cout<<"brooksChannel1 connected"<<endl;
+          BrooksChannel item;
+          brChannelModel->addElement(item);
+          brChannelModel->addElement(item);
+          brChannelModel->addElement(item);
+          brChannelModel->addElement(item);
        } else {
            cout<<"brooksChannel1 not connected"<<endl;
        }
@@ -379,7 +385,7 @@ void Backend::setComePorts(QString gas, QString brooks1, QString brooks2)
 
 QStringList Backend::getComePorts()
 {
-    QStringList temp;
+    QStringList temp;temp.append("");
     Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
         temp.append(port.portName());
     }
@@ -611,14 +617,7 @@ void Backend::recieveSerialPort()
 void Backend::timerSlot()
 {
     if(!serial->isOpen()) {
-//        serial->setBaudRate(QSerialPort::Baud115200);
 
-//        if(connectSerialPort(serialPortCounter)) {
-//          brooksChannel1 = new Brooks0254();
-//          brooksChannel2 = new Brooks0254();
-//          brooksChannel1->connectSerialPort();
-//          brooksChannel2->connectSerialPort();
-//        }
     } else {
         if(mList->sensorItems.size()>0) { // if just for test
         for(int i=0; i<mList->sensorItems.size(); i++) {
@@ -642,57 +641,7 @@ void Backend::timerSlot()
             }
             sendSensorData(i);
          }
-//         emit mList->notifyInfoDataChanged();
         }
     }
-//   if(QSerialPortInfo::availablePorts().size()>0) {
-//    if(!serial->isOpen()) {
-//        Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
-//                   serial->setPortName(port.portName());
-//                   cout << " portName : " << port.portName().toStdString();
-//        }
-//        if(serial->open(QIODevice::ReadWrite)) {
-//          connectState = true; cout << " conndected : ";
-//          connect(serial, SIGNAL(readyRead()), this, SLOT(recieveSerialPort()));
-//        } else {
-//            connectState = false; cout << "Not conndected : ";
-//            serial->close();
-//        }
-//    } else {
-////        sendGeneralData();
-//        if(mList->sensorItems.size()>0) { // if just for test
-//        for(int i=0; i<mList->sensorItems.size(); i++) {
-//            if(mList->sensorItems[i].firstCondition) {
-//                mList->sensorItems[i].timeCounter++;
-//                if(mList->sensorItems[i].secondCondition) {
-//                    if(mList->sensorItems[i].timeCounter >= (mList->sensorItems[i].recoveryTime*60)) {
-//                        cout<< i<< "*********** recovery time finished *************"<<endl;
-//                        alghoritmStop(i);
-//                    }
-//                } else if(mList->sensorItems[i].timeCounter >= (mList->sensorItems[i].operationTime*60)) {
-//                    cout<< i<< "************** operation time finished *****************"<<endl;
-//                    mList->sensorItems[i].secondCondition = true;
-//                    mList->sensorItems[i].sensorActive = false;
-//                    mList->sensorItems[i].timeCounter = 0;
-//                    mList->sensorItems[i].progressValue = 1;
-//                } else {
-//                    mList->sensorItems[i].progressValue = (float)((float)mList->sensorItems[i].timeCounter / (float)(mList->sensorItems[i].operationTime*60));
-//                    cout<< i<< "********** progressValue **********:"<< mList->sensorItems[i].progressValue <<endl;
-//                }
-//            }
-//            sendSensorData(i);
-//         }
-////         emit mList->notifyInfoDataChanged();
-//        }
-//    }
-//   } else {
-//       serial->close();
-////       mList->sensorItems[0].tempActive = !mList->sensorItems[0].tempActive;
-////       mList->sensorItems[0].sensorActive = !mList->sensorItems[0].sensorActive;
-////       mList->sensorItems[0].heaterActive = !mList->sensorItems[0].heaterActive;
-////       mList->sensorItems[0].alghoritmRunning = !mList->sensorItems[0].alghoritmRunning;
-////       connectState = false;cout << "Disconndected : ";
-//   }
 
-//   emit notifyInfoDataChanged();
 }

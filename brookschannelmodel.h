@@ -34,9 +34,9 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-    // for sensorList Q_PROPERTY
     ChannelsList *list() const;
     void setList(ChannelsList *list);
+    void addElement(BrooksChannel item);
 private:
     ChannelsList *mList;
 };

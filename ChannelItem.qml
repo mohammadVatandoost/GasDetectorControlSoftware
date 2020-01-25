@@ -48,7 +48,7 @@ RowLayout {
     }
     Text {
         id: spRateText
-        text: qsTr(root.spRateReaded+" mA")
+        text: qsTr(root.spRateReaded.toFixed(2)+" mA")
         font.pixelSize: 22
     }
 

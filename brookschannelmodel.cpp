@@ -108,3 +108,10 @@ void BrooksChannelModel::setList(ChannelsList *list)
 
     endResetModel();
 }
+
+void BrooksChannelModel::addElement(BrooksChannel item)
+{
+    beginResetModel();
+    mList->channelItems.append(item);
+    endResetModel();
+}
