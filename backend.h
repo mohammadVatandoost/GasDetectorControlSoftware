@@ -21,6 +21,7 @@
 #include "jsonstoring.h"
 #include "brookschannelmodel.h"
 #include "brooks0254.h"
+#include "brooksthread.h"
 
 
 #define tempNotValid 4000
@@ -112,6 +113,7 @@ public:
     Q_INVOKABLE void setComePorts(QString gas, QString brooks1, QString brooks2);
     Q_INVOKABLE QStringList getComePorts();
     Brooks0254 *brooksChannel1, *brooksChannel2;
+    BrooksThread *brooksThread1;
 private:
     SensorsList *mList;
     BrooksChannelModel *brChannelModel;

@@ -40,6 +40,8 @@ signals:
 public slots:
     void recieveSerialPort();
     void timerSlot();
+protected:
+   virtual void run();
 
 };
 

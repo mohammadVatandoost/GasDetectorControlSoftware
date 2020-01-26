@@ -14,7 +14,7 @@ RowLayout {
     property double spRateReaded: 21.02
     property double spRate: 20.02
     property int channelId: 1
-    property int vor: 2
+    property int vor: 1
 
     function setSpRate(temp) { spRate = temp;}
     function setChannelId(temp) {channelId = temp;}
@@ -22,6 +22,10 @@ RowLayout {
     function setSpRateReaded(temp) { spRateReaded = temp;}
 
     signal channelSelected(int channelId, double spRate);
+
+    Component.onCompleted: {
+//        BackEnd.setChannelVOR(root.channelId, root.vor);
+    }
 
     ComboBox {
         id: comboBoxGas
@@ -56,9 +60,9 @@ RowLayout {
         id: openBtn
         text: qsTr("Open")
         highlighted: true
-        Material.background: (root.vor === 1) ? Material.Green : Material.red
+        Material.background: (root.vor === 2) ? Material.Green : Material.red
         onClicked: {
-            root.vor = 1;
+            root.vor = 2;
             BackEnd.setChannelVOR(root.channelId, root.vor);
         }
     }
@@ -78,9 +82,9 @@ RowLayout {
         id: closeBtn
         text: qsTr("Close")
         highlighted: true
-        Material.background: (root.vor === 2) ? Material.Green : Material.red
+        Material.background: (root.vor === 1) ? Material.Green : Material.red
         onClicked: {
-            root.vor = 2;
+            root.vor = 1;
             BackEnd.setChannelVOR(root.channelId, root.vor);
         }
     }
@@ -95,6 +99,12 @@ RowLayout {
         }
     }
 
-
+//    Timer {
+//            interval: 2000; running: true; repeat: false
+//            onTriggered: {
+//                console.log("============= Timer Channed =============")
+//                BackEnd.setChannelVOR(root.channelId, root.vor);
+//            }
+//     }
 
 }

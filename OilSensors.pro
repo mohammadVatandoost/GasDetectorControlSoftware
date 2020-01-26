@@ -40,7 +40,8 @@ SOURCES += \
     brookschannel.cpp \
     brooks0254.cpp \
     channelslist.cpp \
-    brookschannelmodel.cpp
+    brookschannelmodel.cpp \
+    brooksthread.cpp
 
 #LIBS += /usr/lib/libgtest.a
 
@@ -76,7 +77,8 @@ HEADERS += \
     brookschannel.h \
     brooks0254.h \
     channelslist.h \
-    brookschannelmodel.h
+    brookschannelmodel.h \
+    brooksthread.h
 
 DISTFILES += \
     images/greenTemp.png \

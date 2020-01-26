@@ -3,9 +3,9 @@
 Brooks0254::Brooks0254()
 {
     // timer for connection check
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(timerSlot()));
-    timer->start(300);
+//    timer = new QTimer(this);
+//    connect(timer, SIGNAL(timeout()), this, SLOT(timerSlot()));
+//    timer->start(300);
 }
 
 void Brooks0254::getSPRateData()
@@ -123,5 +123,30 @@ void Brooks0254::timerSlot()
 //         std::thread readThread(Brooks0254::getSPRateDataThread, serial);
 //         readThread.detach();
         }
+    }
+}
+
+void Brooks0254::run()
+{
+    while(true) {
+        if(serial->isOpen()) {
+            cout<< "readState :"<<readState<<endl;
+            if(readState == Free_State) {
+                readState = Read_SpRate;
+                decodeReadSpRate(recievedData);
+                recievedData.clear();
+                counterRead = 1 ;
+                sendReadSpRateCommand();
+            } else if( readState == Read_SpRate ) {
+                decodeReadSpRate(recievedData);
+                recievedData.clear();
+                counterRead = counterRead + 2;
+                sendReadSpRateCommand();
+                if( counterRead == 7) {
+                   readState = Free_State;
+                }
+            }
+        }
+        QThread::msleep(400);
     }
 }

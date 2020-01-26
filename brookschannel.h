@@ -15,7 +15,7 @@ class BrooksChannel
 public:
     BrooksChannel();
     double spRate = 25.00;
-    int VOR = 0;
+    int VOR = 1;
     string name = "NO";
     double rateReaded = 25.00;
 

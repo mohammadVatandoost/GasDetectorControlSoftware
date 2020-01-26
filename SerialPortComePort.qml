@@ -91,6 +91,7 @@ Page {
             onClicked: {
                  console.log()
                  BackEnd.setComePorts( root.comePorts[comboBoxGasSensors.currentIndex], root.comePorts[comboBoxBrooks1.currentIndex], root.comePorts[comboBoxBrooks2.currentIndex]);
+                root.StackView.view.pop();
             }
         }
 

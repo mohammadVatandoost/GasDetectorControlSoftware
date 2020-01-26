@@ -45,29 +45,32 @@ bool BrooksChannelModel::setData(const QModelIndex &index, const QVariant &value
     if(!mList)
         return false;
 
-    cout<< "setData index.row():"<< index.row()<<", role:"<< role << endl;
+    if(index.row() >= mList->items().size()) {
+        cout<< "setData index.row():"<< index.row()<<", role:"<< role << endl;
+        return false;
+    }
     BrooksChannel item = mList->items().at(index.row());
     switch (role) {
      case spRate:
-        cout<<"spRate role "<<value.toDouble()<<endl;
+        cout<<index.row()<<" setData spRate role "<<value.toDouble()<<endl;
         item.spRate = value.toDouble();
         break;
      case VOR:
-        cout<<"VOR role "<<value.toInt()<<endl;
+        cout<<index.row()<<" setData VOR role "<<value.toInt()<<endl;
        item.VOR = value.toInt();
        break;
      case name:
-        cout<<"name role "<<value.toString().toStdString()<<endl;
+        cout<<index.row()<<" setData name role "<<value.toString().toStdString()<<endl;
        item.name = value.toString().toStdString();
        break;
      case rateReaded:
-        cout<<"rateReaded role :"<<value.toDouble()<<endl;
+        cout<<index.row()<<" setData rateReaded role :"<<value.toDouble()<<endl;
        item.rateReaded = value.toDouble();
        break;
     }
 
     if(mList->setChannelItem(index.row(), item)) {
-        cout<< "emit data changed:"<< index.row()<< ", role:"<<role<<endl;
+//        cout<< "emit data changed:"<< index.row()<< ", role:"<<role<<endl;
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }

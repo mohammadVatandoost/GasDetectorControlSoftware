@@ -335,12 +335,22 @@ void Backend::setChannelVOR(int channelId, int value)
 {
 //   cout<< "setChannelVOR :"<< channelId << ", "<< value << endl;
    brChannelModel->setData(brChannelModel->index(channelId, 0), value, BrooksChannelModel::VOR);
+   if(channelId<4) {
+       brooksThread1->goWrittingVORState(channelId, value);
+   } else {
+//       brooksThread2
+   }
    //   cout<< "setChannelVOR :"<<endl;
 }
 
 void Backend::setChannelSPRate(int channelId, double value)
 {
     brChannelModel->setData(brChannelModel->index(channelId, 0), value, BrooksChannelModel::spRate);
+    if(channelId<4) {
+        brooksThread1->goWrittingSPRate(channelId, value);
+    } else {
+ //       brooksThread2
+    }
 }
 
 void Backend::setChannelName(int channelId, QString value)
@@ -360,15 +370,19 @@ void Backend::setComePorts(QString gas, QString brooks1, QString brooks2)
         }
     }
     if(brooks1 != "") {
-       brooksChannel1 = new Brooks0254();
-       brooksChannel1->brChannelModel = brChannelModel;
-       if(brooksChannel1->connectSerialPort(brooks1)) {
+        brooksThread1 = new BrooksThread();
+        brooksThread1->brChannelModel = brChannelModel;
+//       brooksChannel1 = new Brooks0254();
+//       brooksChannel1->brChannelModel = brChannelModel;
+       if(brooksThread1->connectSerialPort(brooks1)) {
           cout<<"brooksChannel1 connected"<<endl;
           BrooksChannel item;
           brChannelModel->addElement(item);
           brChannelModel->addElement(item);
           brChannelModel->addElement(item);
           brChannelModel->addElement(item);
+          brooksThread1->start();
+//          brooksChannel1->start();
        } else {
            cout<<"brooksChannel1 not connected"<<endl;
        }

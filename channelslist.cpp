@@ -25,6 +25,6 @@ bool ChannelsList::setChannelItem(int index, BrooksChannel brooksChannel)
 
 
     channelItems[index] = brooksChannel;
-    cout<< "setChannelItem index:"<<index<<", rateReaded:"<<channelItems[index] .rateReaded<<endl;
+//    cout<< "setChannelItem index:"<<index<<", rateReaded:"<<channelItems[index] .rateReaded<<endl;
     return true;
 }
